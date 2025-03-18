@@ -1,0 +1,27 @@
+name: Build Solution
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Framework
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+
+    - name: Restore NuGet packages
+      run: nuget restore Solutions/Portals/Portals.sln
+
+    - name: Build solution
+      run: msbuild Solutions/Portals/Portals.sln /p:Configuration=Release
+
