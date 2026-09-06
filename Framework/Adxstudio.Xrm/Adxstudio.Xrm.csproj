@@ -45,12 +45,10 @@
     <DefineConstants>DEBUG;TRACE;SELFHOSTED</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\..\Build\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>
     </DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
     <NoWarn>1591,1573</NoWarn>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
     <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -60,9 +58,7 @@
     <DefineConstants>TRACE;SELFHOSTED</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\..\Build\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
     <DocumentationFile>bin\Release\Adxstudio.Xrm.XML</DocumentationFile>
     <LangVersion>default</LangVersion>
   </PropertyGroup>
@@ -481,7 +477,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Build\BuildAssemblyInfo.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <Link>BuildAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Account\OrganizationServiceContextExtensions.cs" />
@@ -2121,10 +2116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Liquid\faceted_search.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.0-beta004\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.0-beta004\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(AdxstudioFrameworkPath)\Adxstudio.Xrm.Build\SetStrongName.targets" />
   <Import Project="..\..\packages\SafeNuGet.1.0.10\build\SafeNuGet.targets" Condition="Exists('..\..\packages\SafeNuGet.1.0.10\build\SafeNuGet.targets')" />
