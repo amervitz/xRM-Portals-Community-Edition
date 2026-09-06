@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Added GitHub Actions Debug and Release build validation for pull requests and pushes to `dev`, with manual runs available for other branches.
+
 ### Changed
 
 - Retargeted all projects to .NET Framework 4.8.1 and updated build and runtime documentation.

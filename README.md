@@ -1,5 +1,7 @@
 # xRM Portals Community Edition
 
+[![Build](https://github.com/amervitz/xRM-Portals-Community-Edition/actions/workflows/build.yml/badge.svg?branch=dev&event=push)](https://github.com/amervitz/xRM-Portals-Community-Edition/actions/workflows/build.yml)
+
 Work on this project has resumed on an informal basis after a six-year hiatus, out of personal interest.
 
 The code in this repo requires substantial updates to be considered up to date and secure, and should only be used for hobby and research purposes for the foreseeable future.
