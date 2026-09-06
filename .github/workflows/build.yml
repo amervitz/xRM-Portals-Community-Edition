@@ -1,0 +1,52 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.configuration }} / Any CPU
+    runs-on: windows-2022
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration:
+          - Debug
+          - Release
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v3
+        with:
+          msbuild-architecture: x64
+
+      - name: Add NuGet to PATH
+        uses: NuGet/setup-nuget@v3
+
+      - name: Restore NuGet packages
+        run: >-
+          nuget restore Solutions\Portals\Portals.sln
+          -NonInteractive
+          -ConfigFile Solutions\Portals\.nuget\NuGet.Config
+
+      - name: Build solution
+        run: >-
+          msbuild Solutions\Portals\Portals.sln
+          /m
+          /nologo
+          /verbosity:minimal
+          /property:Configuration=${{ matrix.configuration }}
+          /property:Platform="Any CPU"

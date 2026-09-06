@@ -1,5 +1,7 @@
 # xRM Portals Community Edition
 
+[![Build](https://github.com/amervitz/xRM-Portals-Community-Edition/actions/workflows/build.yml/badge.svg?branch=dev&event=push)](https://github.com/amervitz/xRM-Portals-Community-Edition/actions/workflows/build.yml)
+
 Work on this project has resumed on an informal basis after a six-year hiatus, out of personal interest.
 
 The code in this repo requires substantial updates to be considered up to date and secure, and should only be used for hobby and research purposes for the foreseeable future.
@@ -20,15 +22,21 @@ xRM Portals Community Edition enables portal deployments for Dynamics 365 online
 
 ## Objectives
 
-xRM Portals Community Edition provides a way of upgrading from [Adxstudio Portals 7](https://community.adxstudio.com/products/adxstudio-portals/releases/adxstudio-portals-7/) to this open source version of portals, and that provides a migration path to Microsoft's hosted offering of [Portal Capabilities for Microsoft Dynamics 365](https://docs.microsoft.com/en-us/dynamics365/customer-engagement/portals/administer-manage-portal-dynamics-365).
+xRM Portals Community Edition provides a way of upgrading from [Adxstudio Portals 7](https://community.adxstudio.com/products/adxstudio-portals/releases/adxstudio-portals-7/) to this open source version of portals, which provides a migration path to [Microsoft Power Pages](https://learn.microsoft.com/en-us/power-pages/).
 
 This version is locked to the features as of the 8.3 version of code that Microsoft released. Maintaining feature parity with Microsoft's version is not an objective for this project, and new features that Microsoft adds to the online version are not going to be implemented in this project. At present, changes are focused on bug fixes and general supportability.
  
-**New portal implementations should use Microsoft's software as a service version. This project has historically been intended for those who were already using Adxstudio Portals and wanted to perform the relatively smaller efforts needed to use this supported project while taking more time to migrate their existing applications to [Portal Capabilities for Microsoft Dynamics 365](https://docs.microsoft.com/en-us/dynamics365/customer-engagement/portals/administer-manage-portal-dynamics-365).**
+**New portal implementations should use Microsoft's software as a service version. This project has historically been intended for those who were already using Adxstudio Portals and wanted to perform the relatively smaller efforts needed to use this supported project while taking more time to migrate their existing applications to [Microsoft Power Pages](https://learn.microsoft.com/en-us/power-pages/).**
 
 **Multiple  upcoming incompatibilities affecting online installations (Dynamics 365/PowerApps/SharePoint) are becoming prominently advertized and are listed in [this issue](https://github.com/amervitz/xRM-Portals-Community-Edition/issues/123). Existing projects using online services are advised to migrate to online portals to avoid interruption. On-premise installations that do not connect to online services should not be affected, however changes to online services will inevitably move into their associated on-premise versions and it is advisable for on-premise users to also seriously consider starting migration efforts.**
 
 Using Microsoft's online version should be the primary goal of existing and new users, and using this version is primarily intended for those with special circumstances where they need to stay on premise for a longer time period while preparing to move online. We understand that there will be varying reasons to use this version, but Microsoft's offering is the recommended long term solution that we recommend.
+
+## TODO
+
+- [ ] Add modern .NET analyzers to replace the removed legacy FxCop analysis.
+- [ ] Replace the removed StyleCop rules with `.editorconfig` conventions and actively maintained analyzers where needed.
+- [ ] Establish an analyzer warning baseline and enforce it in continuous integration.
 
 ## Disclaimers
 

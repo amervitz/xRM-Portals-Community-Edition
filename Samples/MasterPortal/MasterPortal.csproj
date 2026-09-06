@@ -44,8 +44,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <CodeAnalysisRuleSet>..\..\Build\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -57,8 +55,6 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <CodeAnalysisRuleSet>..\..\Build\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Metrics.dll')">
     <Content Include="$(NativeDllPath)\IfxEvents.dll">
@@ -486,40 +482,32 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\AccountManagement\AccountManagementAreaRegistration.cs" />
     <Compile Include="Areas\AccountManagement\Pages\CreatePortalContact.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CreatePortalContact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\AccountManagement\Pages\CreatePortalContact.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CreatePortalContact.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\AccountManagement\Pages\EditPortalContact.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>EditPortalContact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\AccountManagement\Pages\EditPortalContact.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>EditPortalContact.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\AccountManagement\Enums.cs" />
     <Compile Include="Areas\AccountManagement\Pages\ManageParentAccount.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ManageParentAccount.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\AccountManagement\Pages\ManageParentAccount.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ManageParentAccount.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\AccountManagement\Pages\ManageUserContactRoles.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ManageUserContactRoles.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\AccountManagement\Pages\ManageUserContactRoles.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ManageUserContactRoles.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
@@ -543,12 +531,10 @@
     <Compile Include="Areas\Blogs\BlogsAreaRegistration.cs" />
     <Compile Include="Areas\Careers\CareersAreaRegistration.cs" />
     <Compile Include="Areas\Careers\Pages\Careers.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Careers.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Careers\Pages\Careers.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Careers.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\CaseManagement\CaseManagementAreaRegistration.cs" />
@@ -557,12 +543,10 @@
     <Compile Include="Areas\Category\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Category\ViewModels\CategoryViewModel.cs" />
     <Compile Include="Areas\Category\Views\Category\Index.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Category\Views\Category\Index.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Chat\ChatAreaRegistration.cs" />
@@ -579,157 +563,124 @@
     <Compile Include="Areas\Commerce\CommerceAreaRegistration.cs" />
     <Compile Include="Areas\Commerce\Controllers\ShoppingCartController.cs" />
     <Compile Include="Areas\Commerce\Controls\ShoppingCart.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ShoppingCart.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Controls\ShoppingCart.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ShoppingCart.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Commerce\Controls\WebFormOrderConfirmation.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormOrderConfirmation.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Controls\WebFormOrderConfirmation.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormOrderConfirmation.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Commerce\Controls\WebFormPayment.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormPayment.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Controls\WebFormPayment.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormPayment.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Commerce\Controls\WebFormCommercePortalUserControl.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Controls\WebFormPurchaseSummary.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormPurchaseSummary.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Controls\WebFormPurchaseSummary.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormPurchaseSummary.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Commerce\Enums.cs" />
     <Compile Include="Areas\Commerce\QuoteFunctions.cs" />
     <Compile Include="Areas\Commerce\Pages\OrderStatus.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>OrderStatus.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Pages\OrderStatus.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>OrderStatus.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Commerce\Pages\Product.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Product.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Pages\Product.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Product.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Commerce\Pages\ProductListing.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ProductListing.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Pages\ProductListing.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ProductListing.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Commerce\Pages\QuoteStatus.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>QuoteStatus.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Pages\QuoteStatus.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>QuoteStatus.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Commerce\Pages\ShoppingCart.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ShoppingCart.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Commerce\Pages\ShoppingCart.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ShoppingCart.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Community\CommunityAreaRegistration.cs" />
     <Compile Include="Areas\Community\Pages\Home.facebook.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.facebook.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Community\Pages\Home.facebook.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.facebook.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Company\CompanyAreaRegistration.cs" />
     <Compile Include="Areas\Company\NewsFeedHandler.cs" />
     <Compile Include="Areas\Company\Pages\Home.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Company\Pages\Home.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Conference\ConferenceAreaRegistration.cs" />
     <Compile Include="Areas\Conference\Pages\Conference.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Conference.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Conference\Pages\Conference.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Conference.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Conference\Pages\ConferenceSpeakers.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ConferenceSpeakers.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Conference\Pages\ConferenceSpeakers.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ConferenceSpeakers.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Conference\Pages\ConferenceEvent.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ConferenceEvent.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Conference\Pages\ConferenceEvent.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ConferenceEvent.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Conference\Pages\Home.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Conference\Pages\Home.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Conference\Pages\Sponsors.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Sponsors.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Conference\Pages\Sponsors.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Sponsors.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Enums.cs" />
@@ -747,27 +698,22 @@
     <Compile Include="Areas\Portal\Controllers\LayoutController.cs" />
     <Compile Include="Areas\Portal\EntityRecord.cs" />
     <Compile Include="Areas\Portal\Pages\QuickForm.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>QuickForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Portal\Pages\QuickForm.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>QuickForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Portal\Pages\Form.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Form.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Portal\Pages\Form.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Form.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Portal\PortalAreaRegistration.cs" />
     <Compile Include="Areas\EntityList\Controllers\CalendarController.cs" />
     <Compile Include="Areas\EntityList\Controllers\ODataEntitySetController.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\EntityList\Controllers\MapController.cs" />
@@ -775,166 +721,130 @@
     <Compile Include="Areas\EntityList\EntityListAreaRegistration.cs" />
     <Compile Include="Areas\EntityList\Helpers\PackageRepositoryHelpers.cs" />
     <Compile Include="Areas\EntityList\Pages\Gallery.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Gallery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\EntityList\Pages\Gallery.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Gallery.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\EntityList\Pages\VideoDetail.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>VideoDetail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\EntityList\Pages\VideoDetail.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>VideoDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\EntityList\Pages\GalleryDetail.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>GalleryDetail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\EntityList\Pages\GalleryDetail.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>GalleryDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Events\Controls\SessionScheduleDetails.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>SessionScheduleDetails.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Events\Controls\SessionScheduleDetails.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>SessionScheduleDetails.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Events\Pages\ChildEvents.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ChildEvents.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Events\Pages\ChildEvents.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ChildEvents.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Events\Pages\EventFeedback.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>EventFeedback.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Events\Pages\EventFeedback.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>EventFeedback.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Events\Pages\MyEventSchedule.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>MyEventSchedule.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Events\Pages\MyEventSchedule.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>MyEventSchedule.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Forums\Pages\ChildForums.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ChildForums.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Forums\Pages\ChildForums.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ChildForums.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Government\Pages\CitizenProfile.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CitizenProfile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Government\Pages\CitizenProfile.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CitizenProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Government\Pages\Home.facebook.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.facebook.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Government\Pages\Home.facebook.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.facebook.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\KnowledgeBase\Controls\Search.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Search.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\KnowledgeBase\Controls\Search.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Search.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\KnowledgeBase\Pages\Search.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Search.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\KnowledgeBase\Pages\Search.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Search.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\KnowledgeBase\Pages\Subject.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Subject.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\KnowledgeBase\Pages\Subject.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Subject.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\KnowledgeBase\ViewModels\RelatedArticle.cs" />
     <Compile Include="Areas\Permits\Controls\WebFormPermitManualPaymentRequired.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormPermitManualPaymentRequired.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Permits\Controls\WebFormPermitManualPaymentRequired.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormPermitManualPaymentRequired.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Permits\Controls\WebFormPermitSuccess.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormPermitSuccess.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Permits\Controls\WebFormPermitSuccess.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormPermitSuccess.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Permits\Pages\MyPermitApplications.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>MyPermitApplications.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Permits\Pages\MyPermitApplications.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>MyPermitApplications.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Permits\Pages\PermitApplicationDetails.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>PermitApplicationDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Permits\Pages\PermitApplicationDetails.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>PermitApplicationDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Permits\Pages\Permits.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Permits.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Permits\Pages\Permits.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Permits.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Permits\PermitsAreaRegistration.cs" />
@@ -942,88 +852,70 @@
     <Compile Include="Areas\Products\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Products\Controllers\ReviewController.cs" />
     <Compile Include="Areas\Products\MasterPages\Products.master.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Products.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Products\MasterPages\Products.master.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Products.master</DependentUpon>
     </Compile>
     <Compile Include="Areas\Products\Pages\ProductCollection.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ProductCollection.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Products\Pages\ProductCollection.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ProductCollection.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Products\Pages\ProductCollections.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ProductCollections.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Products\Pages\ProductCollections.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ProductCollections.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Areas\Products\ViewModels\ProductImageGalleryViewModel.cs" />
     <Compile Include="Areas\Products\ViewModels\ProductViewModel.cs" />
     <Compile Include="Areas\Retail\Pages\Home.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Retail\Pages\Home.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Retail\Pages\MyAccount.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>MyAccount.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Retail\Pages\MyAccount.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>MyAccount.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Retail\RetailAreaRegistration.cs" />
     <Compile Include="Areas\Service311\Controls\WebFormServiceRequestKbArticles.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormServiceRequestKbArticles.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Controls\WebFormServiceRequestKbArticles.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormServiceRequestKbArticles.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service311\Pages\Home.facebook.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.facebook.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Pages\Home.facebook.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.facebook.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service311\Pages\ServiceRequestDetails.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceRequestDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Pages\ServiceRequestDetails.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceRequestDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service311\Controls\WebFormServiceRequestResolveDuplicates.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormServiceRequestResolveDuplicates.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Controls\WebFormServiceRequestResolveDuplicates.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormServiceRequestResolveDuplicates.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Setup\Controllers\SetupController.cs" />
@@ -1031,180 +923,142 @@
     <Compile Include="Areas\Setup\SetupRoute.cs" />
     <Compile Include="Areas\Setup\SetupManager.cs" />
     <Compile Include="Controls\BlogsPanel.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>BlogsPanel.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controls\BlogsPanel.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>BlogsPanel.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\EventsPanel.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>EventsPanel.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controls\EventsPanel.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>EventsPanel.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\ForumsPanel.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ForumsPanel.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controls\ForumsPanel.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ForumsPanel.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\NewsPanel.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>NewsPanel.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controls\NewsPanel.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>NewsPanel.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\Poll.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Poll.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controls\Poll.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Poll.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\WebFormPortalUserControl.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Conference\Pages\ConferencePage.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Conference\Pages\ConferenceSessions.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ConferenceSessions.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Conference\Pages\ConferenceSessions.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ConferenceSessions.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\ContactUs\ContactUsAreaRegistration.cs" />
     <Compile Include="Areas\ContactUs\Pages\ContactUs.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ContactUs.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\ContactUs\Pages\ContactUs.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ContactUs.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\CustomerManagement\CustomerManagementAreaRegistration.cs" />
     <Compile Include="Areas\CustomerManagement\Pages\ReadOnlyAccountView.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ReadOnlyAccountView.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\ReadOnlyAccountView.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ReadOnlyAccountView.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\CreateCustomerAccount.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CreateCustomerAccount.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\CreateCustomerAccount.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CreateCustomerAccount.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\CreateCustomerContact.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CreateCustomerContact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\CreateCustomerContact.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CreateCustomerContact.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\EditCustomerAccount.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>EditCustomerAccount.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\EditCustomerAccount.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>EditCustomerAccount.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\EditCustomerContact.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>EditCustomerContact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\EditCustomerContact.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>EditCustomerContact.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\ManageCustomerAccounts.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ManageCustomerAccounts.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\ManageCustomerAccounts.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ManageCustomerAccounts.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\ManageCustomerContacts.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ManageCustomerContacts.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\ManageCustomerContacts.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ManageCustomerContacts.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\ReadOnlyContactView.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ReadOnlyContactView.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\CustomerManagement\Pages\ReadOnlyContactView.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ReadOnlyContactView.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Customer\CustomerAreaRegistration.cs" />
     <Compile Include="Areas\Customer\Pages\Home.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Customer\Pages\Home.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Events\EventsAreaRegistration.cs" />
     <Compile Include="Areas\Forums\ForumsAreaRegistration.cs" />
     <Compile Include="Areas\Government\GovernmentAreaRegistration.cs" />
     <Compile Include="Areas\Government\Pages\Home.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Government\Pages\Home.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\HelpDesk\HelpDeskAreaRegistration.cs" />
     <Compile Include="Areas\HelpDesk\Pages\CreateCase.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CreateCase.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\HelpDesk\Pages\CreateCase.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CreateCase.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\HelpDesk\ProductTypeCode.cs" />
@@ -1217,50 +1071,40 @@
     <Compile Include="Areas\Opportunities\OpportunitiesAreaRegistration.cs" />
     <Compile Include="Areas\Opportunities\OrganizationServiceContextExtensions.cs" />
     <Compile Include="Areas\Opportunities\Pages\AcceptedOpportunities.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>AcceptedOpportunities.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Opportunities\Pages\AcceptedOpportunities.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>AcceptedOpportunities.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Opportunities\Pages\CreateNewOpportunity.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CreateNewOpportunity.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Opportunities\Pages\CreateNewOpportunity.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CreateNewOpportunity.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Opportunities\Pages\NewOpportunities.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>NewOpportunities.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Opportunities\Pages\NewOpportunities.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>NewOpportunities.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Opportunities\Pages\OpportunityDetails.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>OpportunityDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Opportunities\Pages\OpportunityDetails.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>OpportunityDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Partner\Enums.cs" />
     <Compile Include="Areas\Partner\OrganizationServiceContextExtensions.cs" />
     <Compile Include="Areas\Partner\Pages\Home.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Partner\Pages\Home.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Partner\PartnerAreaRegistration.cs" />
@@ -1281,67 +1125,53 @@
     <Compile Include="Areas\PublicProfile\ViewModels\ProfileViewModel.cs" />
     <Compile Include="Areas\Service311\Controllers\MapController.cs" />
     <Compile Include="Areas\Service311\Controls\WebFormServiceRequestSuccess.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormServiceRequestSuccess.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Controls\WebFormServiceRequestSuccess.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormServiceRequestSuccess.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service311\Enums.cs" />
     <Compile Include="Areas\Service311\Pages\Home.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Pages\Home.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service311\Pages\MyServiceRequests.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>MyServiceRequests.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Pages\MyServiceRequests.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>MyServiceRequests.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service311\Pages\ServiceRequest.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceRequest.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Pages\ServiceRequest.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceRequest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service311\Pages\ServiceRequests.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceRequests.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Pages\ServiceRequests.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceRequests.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service311\Pages\ServiceRequestsMap.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceRequestsMap.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Pages\ServiceRequestsMap.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceRequestsMap.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service311\Pages\ServiceRequestStatus.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceRequestStatus.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service311\Pages\ServiceRequestStatus.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceRequestStatus.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service311\Service311AreaRegistration.cs" />
@@ -1349,120 +1179,94 @@
     <Compile Include="Areas\Service\CalendarHandler.cs" />
     <Compile Include="Areas\Service\ServiceAppointmentState.cs" />
     <Compile Include="Areas\Service\Pages\ScheduleService.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ScheduleService.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service\Pages\ScheduleService.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ScheduleService.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service\Pages\ServiceDetails.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service\Pages\ServiceDetails.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ServiceDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service\Pages\ViewScheduledServices.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ViewScheduledServices.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Service\Pages\ViewScheduledServices.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ViewScheduledServices.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Service\ServiceAreaRegistration.cs" />
     <Compile Include="Controls\ChildNavigation.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ChildNavigation.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controls\ChildNavigation.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ChildNavigation.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\CommentCreator.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CommentCreator.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controls\CommentCreator.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CommentCreator.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\Comments.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Comments.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controls\Comments.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Comments.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\PortalUserControl.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\HelpDesk\Controls\WebFormSupportRequestEntitlement.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormSupportRequestEntitlement.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\HelpDesk\Controls\WebFormSupportRequestEntitlement.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormSupportRequestEntitlement.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\HelpDesk\Controls\WebFormSupportRequestManualPaymentRequired.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormSupportRequestManualPaymentRequired.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\HelpDesk\Controls\WebFormSupportRequestManualPaymentRequired.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormSupportRequestManualPaymentRequired.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\HelpDesk\Controls\WebFormSupportRequestSelectOrder.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormSupportRequestSelectOrder.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\HelpDesk\Controls\WebFormSupportRequestSelectOrder.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormSupportRequestSelectOrder.ascx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Areas\HelpDesk\Controls\CaseDeflection.ascx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CaseDeflection.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\HelpDesk\Controls\CaseDeflection.ascx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CaseDeflection.ascx</DependentUpon>
     </Compile>
     <Compile Include="Areas\HelpDesk\Pages\Case.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Case.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\HelpDesk\Pages\Case.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Case.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\HelpDesk\Pages\HelpDesk.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>HelpDesk.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\HelpDesk\Pages\HelpDesk.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>HelpDesk.aspx</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
@@ -1472,187 +1276,146 @@
     <Compile Include="Helpers\DataTableExtensions.cs" />
     <Compile Include="Helpers\UrlHelpers.cs" />
     <Compile Include="Areas\Blogs\MasterPages\Blogs.master.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Blogs.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Blogs\MasterPages\Blogs.master.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Blogs.master</DependentUpon>
     </Compile>
     <Compile Include="MasterPages\WebLinkNavigation.master.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebLinkNavigation.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MasterPages\WebLinkNavigation.master.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebLinkNavigation.master</DependentUpon>
     </Compile>
     <Compile Include="MasterPages\Default.master.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Default.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MasterPages\Default.master.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Default.master</DependentUpon>
     </Compile>
     <Compile Include="Areas\Forums\MasterPages\Forums.master.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Forums.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Forums\MasterPages\Forums.master.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Forums.master</DependentUpon>
     </Compile>
     <Compile Include="MasterPages\PortalMasterPage.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MasterPages\Profile.master.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Profile.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MasterPages\Profile.master.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Profile.master</DependentUpon>
     </Compile>
     <Compile Include="MasterPages\WebForms.master.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebForms.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MasterPages\WebForms.master.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebForms.master</DependentUpon>
     </Compile>
     <Compile Include="MasterPages\WebFormsContent.master.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormsContent.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MasterPages\WebFormsContent.master.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormsContent.master</DependentUpon>
     </Compile>
     <Compile Include="Pages\AccessDenied.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>AccessDenied.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\AccessDenied.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>AccessDenied.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Blogs\Pages\Blog.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Blog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Blogs\Pages\Blog.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Blog.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Blogs\Pages\BlogArchive.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>BlogArchive.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Blogs\Pages\BlogArchive.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>BlogArchive.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Blogs\Pages\BlogPost.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>BlogPost.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Blogs\Pages\BlogPost.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>BlogPost.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Blogs\Pages\Blogs.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Blogs.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Blogs\Pages\Blogs.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Blogs.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Blogs\Pages\Search.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Search.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Blogs\Pages\Search.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Search.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Blank.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Blank.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Blank.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Blank.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Category.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Category.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Category.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Category.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\CategoryTopic.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CategoryTopic.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\CategoryTopic.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CategoryTopic.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\AuthenticatedPage.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>AuthenticatedPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\AuthenticatedPage.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>AuthenticatedPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\CategoryTopicPage.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CategoryTopicPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\CategoryTopicPage.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>CategoryTopicPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\FullPage.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>FullPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\FullPage.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>FullPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\WebFormNoValidation.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormNoValidation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\WebFormNoValidation.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebFormNoValidation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\WebTemplateNoValidation.aspx.cs">
@@ -1663,179 +1426,140 @@
       <DependentUpon>WebTemplateNoValidation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\WebTemplate.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebTemplate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\WebTemplate.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebTemplate.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\ProfileChildPage.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ProfileChildPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\ProfileChildPage.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ProfileChildPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Directory.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Directory.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Directory.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Directory.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Error.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Error.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Error.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Events\Pages\Event.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Event.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Events\Pages\Event.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Event.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Events\Pages\Events.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Events.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Events\Pages\Events.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Events.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Forums\Pages\Forum.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Forum.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Forums\Pages\Forum.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Forum.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Forums\ForumHelpers.cs" />
     <Compile Include="Areas\Forums\Pages\Forums.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Forums.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Forums\Pages\Forums.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Forums.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Forums\Pages\ForumThread.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ForumThread.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Forums\Pages\ForumThread.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>ForumThread.aspx</DependentUpon>
     </Compile>
     <Compile Include="Areas\Community\Pages\Home.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Areas\Community\Pages\Home.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Listing.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Listing.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Listing.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Listing.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Page.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Page.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Page.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Page.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\PollArchives.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>PollArchives.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\PollArchives.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>PollArchives.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\PortalPage.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Profile.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Profile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Profile.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Profile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Search.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Search.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Search.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>Search.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\SiteMap.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>SiteMap.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\SiteMap.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>SiteMap.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\WebForm.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\WebForm.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\WebLinkNavigationPage.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebLinkNavigationPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\WebLinkNavigationPage.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebLinkNavigationPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\WebTemplateNoMaster.aspx.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebTemplateNoMaster.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\WebTemplateNoMaster.aspx.designer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
       <DependentUpon>WebTemplateNoMaster.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -3491,10 +3215,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.0-beta004\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.1.0-beta004\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>

@@ -7,7 +7,6 @@ namespace Adxstudio.Xrm.Services
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 
 	using Adxstudio.Xrm.Diagnostics.Trace;
@@ -82,7 +81,6 @@ namespace Adxstudio.Xrm.Services
 		/// <param name="isSingle">The is single.</param>
 		/// <param name="path">The path.</param>
 		/// <returns>The dependencies.</returns>
-		[SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed. Suppression is OK here.")]
 		public IEnumerable<string> GetDependenciesForObject(object query, bool isSingle = false, IEnumerable<object> path = null)
 		{
 			// Below block is for empty dependencies.
