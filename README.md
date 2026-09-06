@@ -42,7 +42,7 @@ Some users have observed poor application performance and scalability with this 
 
 ## Building
 
-To build the project, ensure that you have [Git](https://git-scm.com/downloads) installed to obtain the source code, and [Visual Studio 2017](https://docs.microsoft.com/en-us/visualstudio/welcome-to-visual-studio) installed to compile the source code.
+To build the project, ensure that you have [Git](https://git-scm.com/downloads) installed to obtain the source code, and [Visual Studio 2026](https://learn.microsoft.com/en-us/visualstudio/install/install-visual-studio) installed with the .NET Framework 4.8.1 Developer Pack to compile the source code.
 
 - Clone the repository using Git:
   ```sh
@@ -63,7 +63,7 @@ A full description of the deployment process is described in the file `Self-host
 
 The following system requirements are additional to those listed in `Self-hosted_Installation_Guide_for_Portals.pdf`:
 
-- .NET Framework 4.7 must be installed ([download](https://www.microsoft.com/net/download/dotnet-framework-runtime/net47), [system requirements](https://docs.microsoft.com/en-us/dotnet/framework/get-started/system-requirements)).
+- .NET Framework 4.8.1 must be installed ([download](https://www.microsoft.com/net/download/dotnet-framework-runtime/net481), [system requirements](https://docs.microsoft.com/en-us/dotnet/framework/get-started/system-requirements)).
 
 - The website must be set to run in 64-bit mode:
 
