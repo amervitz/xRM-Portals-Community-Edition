@@ -157,8 +157,8 @@ namespace Adxstudio.Xrm.Json
 			typeof(OwnershipTypes[]),
 			typeof(ImeMode),
 			typeof(ImeMode[]),
-			typeof(RelationshipType),
-			typeof(RelationshipType[]),
+			typeof(Microsoft.Xrm.Sdk.Metadata.RelationshipType),
+			typeof(Microsoft.Xrm.Sdk.Metadata.RelationshipType[]),
 			typeof(AttributeTypeDisplayName),
 			typeof(AttributeTypeDisplayName[])
 		};
@@ -401,7 +401,7 @@ namespace Adxstudio.Xrm.Json
 			typeof(Relationship),
 			typeof(RelationshipMetadataBase),
 			typeof(RelationshipQueryExpression),
-			typeof(RelationshipType),
+			typeof(Microsoft.Xrm.Sdk.Metadata.RelationshipType),
 			typeof(RemoteExecutionContext),
 			typeof(RemovedOrDeletedItem),
 			typeof(RetrieveAllEntitiesRequest),

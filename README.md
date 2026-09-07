@@ -22,15 +22,11 @@ xRM Portals Community Edition enables portal deployments for Dynamics 365 online
 
 ## Objectives
 
-xRM Portals Community Edition provides a way of upgrading from [Adxstudio Portals 7](https://community.adxstudio.com/products/adxstudio-portals/releases/adxstudio-portals-7/) to this open source version of portals, which provides a migration path to [Microsoft Power Pages](https://learn.microsoft.com/en-us/power-pages/).
+xRM Portals Community Edition allows for an intermediary migration path from Adxstudio Portals 7, to this open source version of portals, towards upgrading to [Microsoft Power Pages](https://learn.microsoft.com/en-us/power-pages/).
 
-This version is locked to the features as of the 8.3 version of code that Microsoft released. Maintaining feature parity with Microsoft's version is not an objective for this project, and new features that Microsoft adds to the online version are not going to be implemented in this project. At present, changes are focused on bug fixes and general supportability.
- 
-**New portal implementations should use Microsoft's software as a service version. This project has historically been intended for those who were already using Adxstudio Portals and wanted to perform the relatively smaller efforts needed to use this supported project while taking more time to migrate their existing applications to [Microsoft Power Pages](https://learn.microsoft.com/en-us/power-pages/).**
+New portal implementations should use [Microsoft Power Pages](https://learn.microsoft.com/en-us/power-pages/). This project is intended only for maintaining or migrating existing deployments and is not recommended for new portal development.
 
-**Multiple  upcoming incompatibilities affecting online installations (Dynamics 365/PowerApps/SharePoint) are becoming prominently advertized and are listed in [this issue](https://github.com/amervitz/xRM-Portals-Community-Edition/issues/123). Existing projects using online services are advised to migrate to online portals to avoid interruption. On-premise installations that do not connect to online services should not be affected, however changes to online services will inevitably move into their associated on-premise versions and it is advisable for on-premise users to also seriously consider starting migration efforts.**
-
-Using Microsoft's online version should be the primary goal of existing and new users, and using this version is primarily intended for those with special circumstances where they need to stay on premise for a longer time period while preparing to move online. We understand that there will be varying reasons to use this version, but Microsoft's offering is the recommended long term solution that we recommend.
+Additional scenarios for using this project may emerge in the future as the renewed development initiative matures.
 
 ## TODO
 
@@ -42,11 +38,7 @@ Using Microsoft's online version should be the primary goal of existing and new 
 
 This project is licensed under the [MIT license](https://opensource.org/licenses/MIT), which provides access to the source code free of charge and without warranty of any kind.
 
-Adoxio has not performed a detailed audit or testing of the source code after its release by Microsoft.
-
-This project only contains the source code for the portal web application and its dependent class libraries. The associated Dynamics 365 solutions were not included by Microsoft as part of the one-time open source release - as such we are unable to fix issues or make changes to behavior of components contained within the solutions, including any and all components such as schema, plugins, and web resources.
-
-Some users have observed poor application performance and scalability with this codebase compared to their prior experience with Adxstudio Portals v7. Before using this code in a production setting it would be advisable to perform adequate testing to ensure it meets your performance needs.
+This project only contains the source code for the portal web application and its dependent class libraries. The associated Dynamics 365 solutions and their components are distributed separately.
 
 ## Building
 
@@ -66,6 +58,10 @@ xRM Portals Community Edition is a set of .NET class libraries and an ASP.NET we
 The `MasterPortal` web application  deployment is dependent upon schema (solutions) and data being installed in a Dynamics 365 instance. These components are downloaded from the [Microsoft Download Center](https://www.microsoft.com/en-us/download/details.aspx?id=55789) in the file `MicrosoftDynamics365PortalsSolutions.exe`. The components in this download have not been released under the MIT license and are not managed by the xRM Portals Community Edition project.
 
 A full description of the deployment process is described in the file `Self-hosted_Installation_Guide_for_Portals.pdf` available for download on the [Microsoft Download Center](https://www.microsoft.com/en-us/download/details.aspx?id=55789).
+
+## CRM connection configuration
+
+[Read the CRM connection configuration guide](docs/design/connection-configuration.md) for the `OrganizationServiceType` and `PortalBaseSolution` app settings and the `Xrm` connection string.
 
 ## System Requirements
 

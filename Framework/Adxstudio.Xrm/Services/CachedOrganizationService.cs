@@ -344,7 +344,20 @@ namespace Adxstudio.Xrm.Services
 					var keyed = innerRequest as KeyedRequest;
 					var keyedInner = keyed != null ? keyed.Request : innerRequest;
 
-					var response = base.Execute(keyedInner);
+					// Keep portal wrappers for caching/telemetry, but pass a typed request to
+					// SDK clients whose execution and retry paths cast RetrieveMultiple requests.
+					var sdkRequest = keyedInner;
+					if (keyedInner is FetchMultipleRequest || keyedInner is RetrieveSingleRequest)
+					{
+						sdkRequest = new RetrieveMultipleRequest
+						{
+							Parameters = keyedInner.Parameters,
+							RequestId = keyedInner.RequestId,
+							ExtensionData = keyedInner.ExtensionData
+						};
+					}
+
+					var response = base.Execute(sdkRequest);
 
 					var rsr = keyedInner as RetrieveSingleRequest;
 

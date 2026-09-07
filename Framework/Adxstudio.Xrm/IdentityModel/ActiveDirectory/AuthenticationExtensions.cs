@@ -76,7 +76,7 @@ namespace Adxstudio.Xrm.IdentityModel.ActiveDirectory
 			var certificateCredential = new ClientAssertionCertificate(authenticationSettings.ClientId, certificate);
 
 			// ADAL includes an in memory cache, so this call will only send a message to the server if the cached token is expired.
-			var authResult = authenticationContext.AcquireToken(resource, certificateCredential);
+			var authResult = authenticationContext.AcquireTokenAsync(resource, certificateCredential).GetAwaiter().GetResult();
 
 			return authResult;
 		}
@@ -97,11 +97,14 @@ namespace Adxstudio.Xrm.IdentityModel.ActiveDirectory
 			var certificateCredential = new ClientAssertionCertificate(authenticationSettings.ClientId, certificate);
 			
 			// ADAL includes an in memory cache, so this call will only send a message to the server if the cached token is expired.
-			var authResult = authenticationContext.AcquireTokenByAuthorizationCode(
-				authorizationCode,
-				new Uri(authenticationSettings.RedirectUri),
-				certificateCredential,
-				resource);
+			var authResult = authenticationContext
+				.AcquireTokenByAuthorizationCodeAsync(
+					authorizationCode,
+					new Uri(authenticationSettings.RedirectUri),
+					certificateCredential,
+					resource)
+				.GetAwaiter()
+				.GetResult();
 
 			return authResult;
 		}

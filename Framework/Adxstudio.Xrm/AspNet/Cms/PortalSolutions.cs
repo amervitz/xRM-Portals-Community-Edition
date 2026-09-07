@@ -28,7 +28,13 @@ namespace Adxstudio.Xrm.AspNet.Cms
 			/// <summary>
 			/// Base soltuion name
 			/// </summary>
-			public static readonly string BaseSolutionName = "MicrosoftCrmPortalBase";
+			public static readonly string BaseSolutionName = GetBaseSolutionName();
+
+			private static string GetBaseSolutionName()
+			{
+				var configured = System.Configuration.ConfigurationManager.AppSettings["PortalBaseSolution"];
+				return string.IsNullOrWhiteSpace(configured) ? "MicrosoftCrmPortalBase" : configured.Trim();
+			}
 
 			/// <summary>
 			/// Blogs solution name

@@ -78,8 +78,15 @@ namespace Microsoft.Xrm.Client.Services
 
 		protected virtual IOrganizationService ToOrganizationService(CrmConnection connection, Exception error)
 		{
-			var service = ToOrganizationServiceProxy(connection);
-			return service;
+			var organizationServiceType = ConfigurationManager.AppSettings["OrganizationServiceType"];
+			if (connection.ConnectionString == null
+				|| string.IsNullOrWhiteSpace(organizationServiceType)
+				|| organizationServiceType == "OrganizationServiceProxy")
+			{
+				return ToOrganizationServiceProxy(connection);
+			}
+
+			return OrganizationServiceClientFactory.Create(connection.ConnectionString, organizationServiceType);
 		}
 
 		protected virtual OrganizationServiceProxy ToOrganizationServiceProxy(CrmConnection connection)

@@ -9,7 +9,9 @@ using System.Configuration;
 using System.Data.Common;
 using System.Net;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.ServiceModel.Description;
+using System.Text;
 using System.Web;
 using Microsoft.Xrm.Client.Collections.Generic;
 using Microsoft.Xrm.Client.Configuration;
@@ -139,6 +141,8 @@ namespace Microsoft.Xrm.Client
 		/// </summary>
 		public TimeSpan? UserTokenExpiryWindow { get; set; }
 
+		internal string ConnectionString { get; private set; }
+
 		public CrmConnection()
 		{
 			ProxyTypesEnabled = _defaultProxyTypesEnabled;
@@ -153,6 +157,7 @@ namespace Microsoft.Xrm.Client
 		public CrmConnection(ConnectionStringSettings connectionString)
 			: this(CrmConfigurationManager.CreateConnectionDictionary(connectionString))
 		{
+			ConnectionString = connectionString.ConnectionString;
 		}
 
 		private CrmConnection(IDictionary<string, string> connection)
@@ -273,6 +278,15 @@ namespace Microsoft.Xrm.Client
 		/// <returns></returns>
 		public string GetConnectionId()
 		{
+			if (ConnectionString != null)
+			{
+				var value = Encoding.UTF8.GetBytes(ConnectionString);
+				using (var algorithm = SHA256.Create())
+				{
+					return Convert.ToBase64String(algorithm.ComputeHash(value));
+				}
+			}
+
 			var client = GetUserName(ClientCredentials);
 			var device = GetUserName(DeviceCredentials);
 			var proxy = ProxyTypesAssembly != null ? ProxyTypesAssembly.ToString() : null;

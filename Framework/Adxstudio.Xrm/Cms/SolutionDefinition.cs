@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Adxstudio.Xrm.AspNet.Cms;
 using Adxstudio.Xrm.Services.Query;
 
 namespace Adxstudio.Xrm.Cms
@@ -47,7 +48,7 @@ namespace Adxstudio.Xrm.Cms
 				// If solution name is missing in entity definition or CRM is missing this solution, do the filtering based on MicrosoftCrmPortalBase solution version.
 				var solutionVersion = !string.IsNullOrEmpty(entity.Value.Solution) && crmSolutions.ContainsKey(entity.Value.Solution)
 						? crmSolutions[entity.Value.Solution].SolutionVersion
-						: crmSolutions["MicrosoftCrmPortalBase"].SolutionVersion;
+						: crmSolutions[PortalSolutions.SolutionNames.BaseSolutionName].SolutionVersion;
 
 				if (entity.Value.IntroducedVersion != null)
 				{

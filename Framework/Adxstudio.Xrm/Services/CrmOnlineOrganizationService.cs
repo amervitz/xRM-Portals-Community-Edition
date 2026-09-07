@@ -9,11 +9,6 @@ namespace Adxstudio.Xrm.Services
 	using System.Collections.Generic;
 	using System.Collections.Specialized;
 	using System.Linq;
-	using Adxstudio.Xrm.Configuration;
-	using Adxstudio.Xrm.Core.Flighting;
-	using Adxstudio.Xrm.Web;
-	using Microsoft.Crm.Sdk.Messages;
-	using Microsoft.IdentityModel.Clients.ActiveDirectory;
 	using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 	using Microsoft.Practices.EnterpriseLibrary.WindowsAzure.TransientFaultHandling;
 	using Microsoft.Practices.TransientFaultHandling;
@@ -22,7 +17,6 @@ namespace Adxstudio.Xrm.Services
 	using Microsoft.Xrm.Sdk;
 	using Microsoft.Xrm.Sdk.Messages;
 	using Microsoft.Xrm.Sdk.Query;
-	using Microsoft.Xrm.Sdk.WebServiceClient;
 
 	/// <summary>
 	/// An <see cref="IOrganizationService"/> that includes transient fault handling capabilities.
@@ -56,19 +50,6 @@ namespace Adxstudio.Xrm.Services
 	/// <seealso cref="Microsoft.Xrm.Client.Configuration.CrmConfigurationManager"/>
 	public class CrmOnlineOrganizationService : CachedOrganizationService
 	{
-		/// <summary>Lazy CrmTokenManager </summary>
-		private static readonly Lazy<CrmTokenManager> tokenManager = new Lazy<CrmTokenManager>(CreateCrmTokenManager);
-
-		private static CrmTokenManager CreateCrmTokenManager()
-		{
-			return new CrmTokenManager(PortalSettings.Instance.Authentication, PortalSettings.Instance.Certificate, PortalSettings.Instance.Crm.PrimaryServiceUrl);
-		}
-
-		private static ICrmTokenManager TokenManager
-		{
-			get { return tokenManager.Value; }
-		}
-
 		/// <summary>
 		/// The <see cref="RetryPolicy"/> used to handle read request faults.
 		/// </summary>
@@ -105,70 +86,6 @@ namespace Adxstudio.Xrm.Services
 
 		public CrmOnlineOrganizationService(IOrganizationService service, IOrganizationServiceCache cache) : base(service, cache)
 		{
-		}
-
-		protected override IOrganizationService ToOrganizationService(CrmConnection connection, Exception error)
-		{
-			// check if S2S connection is enabled
-			if (!string.IsNullOrWhiteSpace(PortalSettings.Instance.Crm.PrimaryServiceUrl))
-			{
-				if (TokenManager.GetToken(null, token => TestToken(token, error)) != null)
-				{
-					var serviceUrl = GetServiceUrl(PortalSettings.Instance.Crm, error);
-					var proxy = new CrmOrganizationWebProxyClient(serviceUrl, false, TokenManager);
-					return proxy;
-				}
-			}
-
-			return base.ToOrganizationService(connection, error);
-		}
-
-		/// <summary>
-		/// Retrieves the current full organization service URL.
-		/// </summary>
-		/// <param name="settings">The connection settings.</param>
-		/// <param name="error">Any encountered failover error.</param>
-		/// <returns></returns>
-		private static Uri GetServiceUrl(CrmSettings settings, Exception error)
-		{
-			if (error != null)
-			{
-				if (!FeatureCheckHelper.IsFeatureEnabled(FeatureNames.WebProxyClientFailover))
-				{
-					// re-throw the original error to skip the failover and retry behavior
-					throw error;
-				}
-
-				// the service is currently reacting to a failover error
-				var toggleResult = settings.TryToggleCurrentServiceUrl();
-				var message = toggleResult ? "toggled" : "blocked";
-
-				WebEventSource.Log.GenericWarningException(new Exception($"Failover: {message}: {settings.UseAlternateServiceUrl}: {settings.CurrentServiceUrlModifiedOn}", error));
-			}
-
-			return settings.CurrentServiceUrl;
-		}
-
-		/// <summary>
-		/// Tests the given access token by executing the organization service.
-		/// </summary>
-		/// <param name="token">The token being tested.</param>
-		/// <param name="error">Any encountered failover error.</param>
-		/// <returns></returns>
-		private static Exception TestToken(AuthenticationResult token, Exception error)
-		{
-			try
-			{
-				var serviceUrl = GetServiceUrl(PortalSettings.Instance.Crm, error);
-				var client = new OrganizationWebProxyClient(serviceUrl, false) { HeaderToken = token.AccessToken };
-				client.Execute(new WhoAmIRequest());
-			}
-			catch (Exception e)
-			{
-				return e;
-			}
-
-			return null;
 		}
 
 		public override void Initialize(string name, NameValueCollection config)
