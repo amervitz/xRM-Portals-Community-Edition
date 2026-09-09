@@ -47,6 +47,16 @@ namespace Site.Pages
 			}
 		}
 
+		public bool ShowMarketingListsPanel
+		{
+			get
+			{
+				var showMarketingListsSetting = this.Context.GetSiteSetting("Profile/ShowMarketingListsPanel") ?? "false";
+
+				return showMarketingListsSetting.ToLower() == "true";
+			}
+		}
+
 		public bool ForceRegistration
 		{
 			get
@@ -110,7 +120,14 @@ namespace Site.Pages
 				marketMail.Checked = !contact.GetAttributeValue<bool>("donotpostalmail");
 			}
 
-			PopulateMarketingLists();
+			if (ShowMarketingListsPanel)
+			{
+				PopulateMarketingLists();
+			}
+			else
+			{
+				MarketingLists.Visible = false;
+			}
 		}
 
 		protected void SubmitButton_Click(object sender, EventArgs e)
@@ -124,7 +141,10 @@ namespace Site.Pages
 
 			var contact = XrmContext.MergeClone(Contact);
 
-			ManageLists(XrmContext, contact);
+			if (ShowMarketingListsPanel)
+			{
+				ManageLists(XrmContext, contact);
+			}
 
 			ProfileFormView.UpdateItem();
 

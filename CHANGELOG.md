@@ -23,6 +23,7 @@ Code
 
 - Retargeted all projects to .NET Framework 4.8.1.
 - Updated CRM SDK dependencies and binding redirects for both clients, preserving the portal's connection and caching wrappers.
+- Made profile marketing lists optional through the `Profile/ShowMarketingListsPanel` site setting (defaults to `false`) because the `adx_website_list` relationship may not exist.
 
 Docs
 
