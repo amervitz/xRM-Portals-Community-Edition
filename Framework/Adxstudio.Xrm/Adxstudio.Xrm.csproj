@@ -186,10 +186,6 @@
       <HintPath>..\..\packages\Microsoft.AspNet.Identity.Owin.2.2.4\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNet.OData">
-      <HintPath>..\..\packages\Microsoft.AspNet.OData.7.8.0\lib\net45\Microsoft.AspNet.OData.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Azure.Amqp">
       <HintPath>..\..\packages\Microsoft.Azure.Amqp.2.7.3\lib\net45\Microsoft.Azure.Amqp.dll</HintPath>
       <Private>True</Private>
@@ -360,14 +356,6 @@
     </Reference>
     <Reference Include="Microsoft.Kiota.Serialization.Text">
       <HintPath>..\..\packages\Microsoft.Kiota.Serialization.Text.2.1.2\lib\netstandard2.0\Microsoft.Kiota.Serialization.Text.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.OData.Core">
-      <HintPath>..\..\packages\Microsoft.OData.Core.7.22.0\lib\net45\Microsoft.OData.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.OData.Edm">
-      <HintPath>..\..\packages\Microsoft.OData.Edm.7.22.0\lib\net45\Microsoft.OData.Edm.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin">
@@ -605,14 +593,6 @@
     </Reference>
     <Reference Include="System.Web.Helpers">
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.Helpers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http">
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.3.0\lib\net45\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost">
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.3.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Mvc">
@@ -1838,9 +1818,6 @@
     <Compile Include="Web\Handlers\Utility.cs" />
     <Compile Include="Web\Handlers\WebResourceHandler.cs" />
     <Compile Include="Web\HostNameSettingDisplayMode.cs" />
-    <Compile Include="Web\Http\OData\FetchXml\FetchFilterBinder.cs" />
-    <Compile Include="Web\Http\OData\FetchXml\ODataQueryOptionExtensions.cs" />
-    <Compile Include="Web\Http\OData\MetadataHelpers.cs" />
     <Compile Include="Web\Modules\AzureErrorNotifierModule.cs" />
     <Compile Include="Web\Modules\ErrorNotifierModule.cs" />
     <Compile Include="Web\Modules\OutputCacheModule.cs" />
@@ -2146,13 +2123,6 @@
     <Compile Include="Web\UI\JsonConfiguration\ViewMetadata.cs" />
     <Compile Include="Web\UI\JsonConfiguration\WinOpportunityActionLink.cs" />
     <Compile Include="Web\UI\JsonConfiguration\WorkflowActionLink.cs" />
-    <Compile Include="Web\UI\EntityList\OData\DataAdapterDependencies.cs" />
-    <Compile Include="Web\UI\EntityList\OData\EntityListFormatQueryStringHandler.cs" />
-    <Compile Include="Web\UI\EntityList\OData\EntityListODataFeedDataAdapter.cs" />
-    <Compile Include="Web\UI\EntityList\OData\EntityListODataRoutingConvention.cs" />
-    <Compile Include="Web\UI\EntityList\OData\IDataAdapterDependencies.cs" />
-    <Compile Include="Web\UI\EntityList\OData\IEntityListODataFeedDataAdapter.cs" />
-    <Compile Include="Web\UI\EntityList\OData\PortalConfigurationDataAdapterDependencies.cs" />
     <Compile Include="Web\UI\JsonConfiguration\FormActionMetadata.cs" />
     <Compile Include="Web\UI\CrmEntityListView\FilterConfiguration.cs" />
     <Compile Include="Web\UI\CrmEntityListView\IViewConfiguration.cs" />
