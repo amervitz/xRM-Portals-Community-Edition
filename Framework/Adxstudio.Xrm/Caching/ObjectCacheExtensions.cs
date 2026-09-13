@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -17,7 +17,7 @@ namespace Adxstudio.Xrm.Caching
 	using Adxstudio.Xrm.Json;
 	using Adxstudio.Xrm.ServiceModel;
 	using Adxstudio.Xrm.Services;
-	using Microsoft.Practices.EnterpriseLibrary.Common.Utility;
+	
 	using Microsoft.Xrm.Client.Caching;
 	using Microsoft.Xrm.Sdk;
 	using Microsoft.Xrm.Client.Runtime.Serialization;
@@ -649,7 +649,7 @@ namespace Adxstudio.Xrm.Caching
 				}
 			}
 
-			entitiesDictionary.Values.ForEach(v => retval.Add(v));
+			entitiesDictionary.Values.ToList().ForEach(v => retval.Add(v));
 			return retval;
 		}
 

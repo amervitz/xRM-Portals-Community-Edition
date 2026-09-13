@@ -7,7 +7,7 @@ namespace Adxstudio.Xrm.Services
 {
 	using System;
 	using System.Threading.Tasks;
-	using Microsoft.IdentityModel.Clients.ActiveDirectory;
+	using Microsoft.Identity.Client;
 
 	/// <summary>
 	///  ICrmTokenManager interface

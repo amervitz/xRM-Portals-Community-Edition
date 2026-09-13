@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -15,7 +15,8 @@ using Adxstudio.Xrm.Core.Flighting;
 using Adxstudio.Xrm.Configuration;
 using Adxstudio.Xrm.IO;
 using Microsoft.Owin;
-using Microsoft.Practices.TransientFaultHandling;
+using Polly;
+using Adxstudio.Xrm.Threading;
 using Microsoft.Xrm.Client.Services.Messages;
 using Microsoft.Xrm.Sdk;
 
@@ -25,7 +26,7 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 	{
 		private static readonly bool timeTrackingTelemetry = WebAppConfigurationProvider.GetTimeTrackingTelemetryString();
 		private static readonly Lazy<PortalCacheInvalidatorThread> instance = new Lazy<PortalCacheInvalidatorThread>(() => new PortalCacheInvalidatorThread());
-		private readonly Lazy<RetryPolicy> retryPolicy = new Lazy<RetryPolicy>(GetRetryPolicy); 
+		private readonly Lazy<ResiliencePipeline> retryPolicy = new Lazy<ResiliencePipeline>(GetRetryPolicy); 
 		private static object mutexLockObject = new object();
 
 		/// <summary>
@@ -304,7 +305,7 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 
 			ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Posting Batch Cache Invalidation Request for {0}  with Count {1} ", messageName, batchedPluginMessage.Count));
 
-			retryPolicy.Value.ExecuteAction(() => CacheInvalidation.ProcessMessage(cacheMessage));
+			retryPolicy.Value.Execute(() => CacheInvalidation.ProcessMessage(cacheMessage));
 		}
 
 		private void InvalidateSearchIndex(List<OrganizationServiceCachePluginMessage> batchedPluginMessage, Dictionary<Guid, SearchIndexBuildRequest.SearchIndexInvalidationData> searchInvalidationDatum)
@@ -320,7 +321,7 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 						searchInvalidationDatum.TryGetValue(message.Target.Id, out searchInvalidationData);
 					}
 
-					retryPolicy.Value.ExecuteAction(() => SearchIndexBuildRequest.ProcessMessage(message, searchInvalidationData, CrmChangeTrackingManager.Instance.OrganizationServiceContext));
+					retryPolicy.Value.Execute(() => SearchIndexBuildRequest.ProcessMessage(message, searchInvalidationData, CrmChangeTrackingManager.Instance.OrganizationServiceContext));
 				}
 			}
 		}
@@ -417,10 +418,10 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
             return searchIndexInvalidationData;
         }
 
-		private static RetryPolicy GetRetryPolicy()
+		private static ResiliencePipeline GetRetryPolicy()
 		{
-			var retryStrategy = new Incremental(5, new TimeSpan(0, 0, 1), new TimeSpan(0, 0, 1));
-			var retryPolicy = new RetryPolicy(new EventHubInvalidationErrorDetectionStrategy(), retryStrategy);
+			var retryStrategy = RetryPolicies.Incremental(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+			var retryPolicy = RetryPolicies.Create(new EventHubInvalidationErrorDetectionStrategy().IsTransient, retryStrategy);
 
 			return retryPolicy;
 		}

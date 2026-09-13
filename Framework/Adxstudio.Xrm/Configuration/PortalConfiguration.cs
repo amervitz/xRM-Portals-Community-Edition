@@ -94,7 +94,9 @@ namespace Adxstudio.Xrm.Configuration
 
 		public GraphSettings()
 		{
-			this.RootUrl = "Azure.Graph.RootUrl".ResolveAppSetting();
+			var configuredRoot = "Azure.Graph.RootUrl".ResolveAppSetting();
+			this.RootUrl = string.IsNullOrWhiteSpace(configuredRoot) || configuredRoot.TrimEnd('/').Equals("https://graph.windows.net", StringComparison.OrdinalIgnoreCase)
+				? "https://graph.microsoft.com" : configuredRoot.TrimEnd('/');
 		}
 	}
 

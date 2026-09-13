@@ -10,7 +10,9 @@ using System.Threading;
 using Adxstudio.Xrm.Notes;
 using Adxstudio.Xrm.Resources;
 using Adxstudio.Xrm.Web.Mvc;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Azure.Storage.Sas;
 using Microsoft.Xrm.Client.Diagnostics;
 using Microsoft.Xrm.Client.Security;
 using Microsoft.Xrm.Portal.Web;
@@ -120,7 +122,7 @@ namespace Adxstudio.Xrm.Forums
 			
 			var cloudStorageAccount = AnnotationDataAdapter.GetStorageAccount(serviceContext);
 			var cloudStorageContainerName = AnnotationDataAdapter.GetStorageContainerName(serviceContext);
-			CloudBlobContainer cloudStorageContainer = null;
+			BlobContainerClient cloudStorageContainer = null;
 			if (cloudStorageAccount != null)
 			{
 				cloudStorageContainer = AnnotationDataAdapter.GetBlobContainer(cloudStorageAccount, cloudStorageContainerName);

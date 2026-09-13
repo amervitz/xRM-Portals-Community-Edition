@@ -1,17 +1,15 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
 
 using System.Collections.Generic;
+using System.IdentityModel;
+using System.Security.Claims;
+using System.IdentityModel.Configuration;
 using System.IdentityModel.Tokens;
-using Microsoft.IdentityModel.Claims;
-using Microsoft.IdentityModel.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.IdentityModel.Tokens.Saml11;
-using Microsoft.IdentityModel.Tokens.Saml2;
-using Microsoft.IdentityModel.Web;
-using Microsoft.IdentityModel.Web.Configuration;
+using System.IdentityModel.Services;
+using System.IdentityModel.Services.Configuration;
 
 namespace Microsoft.Xrm.Portal.IdentityModel
 {
@@ -21,7 +19,7 @@ namespace Microsoft.Xrm.Portal.IdentityModel
 		/// Reconfigures the service to use a custom service certificate for cookie tranformation instead of using DPAPI.
 		/// Reconfigures the service to use the <see cref="ClaimTypes.NameIdentifier"/> claim as the default identity claim.
 		/// </summary>
-		public static void OnServiceConfigurationCreated(object sender, ServiceConfigurationCreatedEventArgs args)
+		public static void OnFederationConfigurationCreated(object sender, FederationConfigurationCreatedEventArgs args)
 		{
 			ConfigureServiceCertificateCookieTransform(sender, args);
 			ConfigureNameIdentifierSecurityTokenHandlers(sender, args);
@@ -30,15 +28,15 @@ namespace Microsoft.Xrm.Portal.IdentityModel
 		/// <summary>
 		/// Reconfigures the service to use a custom service certificate for cookie tranformation instead of using DPAPI.
 		/// </summary>
-		public static void ConfigureServiceCertificateCookieTransform(object sender, ServiceConfigurationCreatedEventArgs args)
+		public static void ConfigureServiceCertificateCookieTransform(object sender, FederationConfigurationCreatedEventArgs args)
 		{
-			ConfigureServiceCertificateCookieTransform(args.ServiceConfiguration);
+			ConfigureServiceCertificateCookieTransform(args.FederationConfiguration);
 		}
 
 		/// <summary>
 		/// Reconfigures the service to use a custom service certificate for cookie tranformation instead of using DPAPI.
 		/// </summary>
-		public static void ConfigureServiceCertificateCookieTransform(this ServiceConfiguration config)
+		public static void ConfigureServiceCertificateCookieTransform(this FederationConfiguration config)
 		{
 			if (config.ServiceCertificate != null)
 			{
@@ -51,29 +49,29 @@ namespace Microsoft.Xrm.Portal.IdentityModel
 					new RsaSignatureCookieTransform(config.ServiceCertificate)
 				});
 
-				var sessionHandler = new Microsoft.IdentityModel.Tokens.SessionSecurityTokenHandler(sessionTransforms.AsReadOnly());
+				var sessionHandler = new System.IdentityModel.Tokens.SessionSecurityTokenHandler(sessionTransforms.AsReadOnly());
 
-				config.SecurityTokenHandlers.AddOrReplace(sessionHandler);
+				config.IdentityConfiguration.SecurityTokenHandlers.AddOrReplace(sessionHandler);
 			}
 		}
 
 		/// <summary>
 		/// Reconfigures the service to use the <see cref="ClaimTypes.NameIdentifier"/> claim as the default identity claim.
 		/// </summary>
-		public static void ConfigureNameIdentifierSecurityTokenHandlers(object sender, ServiceConfigurationCreatedEventArgs args)
+		public static void ConfigureNameIdentifierSecurityTokenHandlers(object sender, FederationConfigurationCreatedEventArgs args)
 		{
-			ConfigureNameIdentifierSecurityTokenHandlers(args.ServiceConfiguration);
+			ConfigureNameIdentifierSecurityTokenHandlers(args.FederationConfiguration);
 		}
 
 		/// <summary>
 		/// Reconfigures the service to use the <see cref="ClaimTypes.NameIdentifier"/> claim as the default identity claim.
 		/// </summary>
-		public static void ConfigureNameIdentifierSecurityTokenHandlers(this ServiceConfiguration config)
+		public static void ConfigureNameIdentifierSecurityTokenHandlers(this FederationConfiguration config)
 		{
 			// configure the token handlers to use the NameIdentifier claim instead of the Name claim
 
-			var saml11Handler = config.SecurityTokenHandlers[typeof(SamlSecurityToken)] as Saml11SecurityTokenHandler;
-			var saml2Handler = config.SecurityTokenHandlers[typeof(Microsoft.IdentityModel.Tokens.Saml2.Saml2SecurityToken)] as Microsoft.IdentityModel.Tokens.Saml2.Saml2SecurityTokenHandler;
+			var saml11Handler = config.IdentityConfiguration.SecurityTokenHandlers[typeof(SamlSecurityToken)] as SamlSecurityTokenHandler;
+			var saml2Handler = config.IdentityConfiguration.SecurityTokenHandlers[typeof(System.IdentityModel.Tokens.Saml2SecurityToken)] as System.IdentityModel.Tokens.Saml2SecurityTokenHandler;
 			if (saml11Handler != null) saml11Handler.SamlSecurityTokenRequirement.NameClaimType = ClaimTypes.NameIdentifier;
 			if (saml2Handler != null) saml2Handler.SamlSecurityTokenRequirement.NameClaimType = ClaimTypes.NameIdentifier;
 		}

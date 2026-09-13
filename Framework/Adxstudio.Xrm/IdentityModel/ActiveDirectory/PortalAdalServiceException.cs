@@ -6,10 +6,10 @@
 namespace Adxstudio.Xrm.IdentityModel.ActiveDirectory
 {
 	using System;
-	using Microsoft.IdentityModel.Clients.ActiveDirectory;
+	using Microsoft.Identity.Client;
 
 	/// <summary>
-	/// A portal specific container for <see cref="AdalServiceException"/>.
+	/// A portal specific container for <see cref="MsalServiceException"/>.
 	/// </summary>
 	public class PortalAdalServiceException : Exception
 	{

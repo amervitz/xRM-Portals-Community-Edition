@@ -14,8 +14,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using Adxstudio.Xrm.AspNet;
-using ITfoxtec.Saml2.Schemas;
+using ITfoxtec.Identity.Saml2.Schemas;
 using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols.WsFederation;
 
 namespace Adxstudio.Xrm.Owin.Security.Saml2
 {
@@ -93,7 +95,7 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 			using (var sr = new StringReader(document))
 			using (var xr = XmlReader.Create(sr, _settings))
 			{
-				var serializer = new MetadataSerializer { CertificateValidationMode = X509CertificateValidationMode.None };
+				var serializer = new MetadataSerializer { CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.None };
 				var entityDescriptor = serializer.ReadMetadata(xr) as EntityDescriptor;
 
 				if (entityDescriptor != null)
@@ -114,7 +116,7 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 						var keys = idpssod.Keys
 							.Where(key => key.KeyInfo != null && (key.Use == KeyType.Signing || key.Use == KeyType.Unspecified))
 							.SelectMany(key => key.KeyInfo.OfType<X509RawDataKeyIdentifierClause>())
-							.Select(clause => new X509SecurityKey(new X509Certificate2(clause.GetX509RawData())));
+							.Select(clause => new Microsoft.IdentityModel.Tokens.X509SecurityKey(new X509Certificate2(clause.GetX509RawData())));
 
 						foreach (var key in keys)
 						{

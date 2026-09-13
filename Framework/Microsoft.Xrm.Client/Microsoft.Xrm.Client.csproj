@@ -49,83 +49,75 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces">
-      <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.10.0.12\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Xrm.Sdk.Workflow">
-      <HintPath>..\..\packages\Microsoft.CrmSdk.Workflow.9.0.2.42\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xrm.Tooling.Connector">
-      <HintPath>..\..\packages\Microsoft.CrmSdk.XrmTooling.CoreAssembly.9.1.1.65\lib\net462\Microsoft.Xrm.Tooling.Connector.dll</HintPath>
+    <Reference Include="Microsoft.Crm.Sdk.Proxy">
+      <HintPath>..\..\packages\Microsoft.PowerPlatform.Dataverse.Client.1.2.27\lib\net48\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Caching.Abstractions">
-      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Abstractions.10.0.12\lib\net462\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Caching.Memory">
-      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Memory.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.Caching.Memory.10.0.12\lib\net462\Microsoft.Extensions.Caching.Memory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration">
-      <HintPath>..\..\packages\Microsoft.Extensions.Configuration.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.Configuration.10.0.12\lib\net462\Microsoft.Extensions.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
-      <HintPath>..\..\packages\Microsoft.Extensions.Configuration.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.Configuration.Abstractions.10.0.12\lib\net462\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration.Binder">
-      <HintPath>..\..\packages\Microsoft.Extensions.Configuration.Binder.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.Configuration.Binder.10.0.12\lib\net462\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection">
-      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.3.1.9\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.10.0.12\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.10.0.12\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Http">
-      <HintPath>..\..\packages\Microsoft.Extensions.Http.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Http.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.Http.10.0.12\lib\net462\Microsoft.Extensions.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Logging">
-      <HintPath>..\..\packages\Microsoft.Extensions.Logging.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.Logging.10.0.12\lib\net462\Microsoft.Extensions.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions">
-      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.10.0.12\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Options">
-      <HintPath>..\..\packages\Microsoft.Extensions.Options.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.Options.10.0.12\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Primitives">
-      <HintPath>..\..\packages\Microsoft.Extensions.Primitives.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Extensions.Primitives.10.0.12\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Identity.Client">
-      <HintPath>..\..\packages\Microsoft.Identity.Client.4.84.2\lib\net472\Microsoft.Identity.Client.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Identity.Client.4.89.0\lib\net472\Microsoft.Identity.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Identity.Client.Extensions.Msal">
-      <HintPath>..\..\packages\Microsoft.Identity.Client.Extensions.Msal.4.84.2\lib\netstandard2.0\Microsoft.Identity.Client.Extensions.Msal.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Identity.Client.Extensions.Msal.4.89.0\lib\netstandard2.0\Microsoft.Identity.Client.Extensions.Msal.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Abstractions">
-      <HintPath>..\..\packages\Microsoft.IdentityModel.Abstractions.8.14.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Abstractions.8.22.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
-      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.19.8\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.Platform">
-      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.19.8\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.5.3.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.PowerPlatform.Dataverse.Client">
@@ -136,86 +128,6 @@
       <HintPath>..\..\packages\Microsoft.Rest.ClientRuntime.2.3.24\lib\net461\Microsoft.Rest.ClientRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Buffers">
-      <HintPath>..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.ComponentModel.Annotations">
-      <HintPath>..\..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Diagnostics.DiagnosticSource">
-      <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.6.0.1\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Formats.Asn1">
-      <HintPath>..\..\packages\System.Formats.Asn1.8.0.1\lib\net462\System.Formats.Asn1.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.AccessControl">
-      <HintPath>..\..\packages\System.IO.FileSystem.AccessControl.5.0.0\lib\net461\System.IO.FileSystem.AccessControl.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Memory">
-      <HintPath>..\..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Numerics.Vectors">
-      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.AccessControl">
-      <HintPath>..\..\packages\System.Security.AccessControl.5.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.ProtectedData">
-      <HintPath>..\..\packages\System.Security.Cryptography.ProtectedData.4.5.0\lib\net461\System.Security.Cryptography.ProtectedData.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Principal.Windows">
-      <HintPath>..\..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.ServiceModel.Http">
-      <HintPath>..\..\packages\System.ServiceModel.Http.4.10.3\lib\net461\System.ServiceModel.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.ServiceModel.Primitives">
-      <HintPath>..\..\packages\System.ServiceModel.Primitives.4.10.3\lib\net461\System.ServiceModel.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Text.Encodings.Web">
-      <HintPath>..\..\packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Text.Json">
-      <HintPath>..\..\packages\System.Text.Json.8.0.5\lib\net462\System.Text.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions">
-      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.ValueTuple">
-      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Crm.Sdk.Proxy">
-      <HintPath>..\..\packages\Microsoft.PowerPlatform.Dataverse.Client.1.2.27\lib\net48\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.IdentityModel.6.1.7600.16394\lib\net35\Microsoft.IdentityModel.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Xrm.Sdk">
       <HintPath>..\..\packages\Microsoft.PowerPlatform.Dataverse.Client.1.2.27\lib\net48\Microsoft.Xrm.Sdk.dll</HintPath>
       <Private>True</Private>
@@ -224,6 +136,145 @@
       <HintPath>..\..\packages\Microsoft.CrmSdk.Deployment.9.0.2.34\lib\net462\Microsoft.Xrm.Sdk.Deployment.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Xrm.Sdk.Workflow">
+      <HintPath>..\..\packages\Microsoft.CrmSdk.Workflow.9.0.2.60\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Tooling.Connector">
+      <HintPath>..\..\packages\Microsoft.CrmSdk.XrmTooling.CoreAssembly.9.1.1.65\lib\net462\Microsoft.Xrm.Tooling.Connector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers">
+      <HintPath>..\..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations">
+      <HintPath>..\..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource">
+      <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.10.0.12\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Formats.Asn1">
+      <HintPath>..\..\packages\System.Formats.Asn1.10.0.12\lib\net462\System.Formats.Asn1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>..\..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.AccessControl">
+      <HintPath>..\..\packages\System.IO.FileSystem.AccessControl.5.0.0\lib\net461\System.IO.FileSystem.AccessControl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Pipelines">
+      <HintPath>..\..\packages\System.IO.Pipelines.10.0.12\lib\net462\System.IO.Pipelines.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>..\..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.AccessControl">
+      <HintPath>..\..\packages\System.Security.AccessControl.6.0.1\lib\net461\System.Security.AccessControl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms">
+      <HintPath>..\..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding">
+      <HintPath>..\..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives">
+      <HintPath>..\..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.ProtectedData">
+      <HintPath>..\..\packages\System.Security.Cryptography.ProtectedData.10.0.12\lib\net462\System.Security.Cryptography.ProtectedData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates">
+      <HintPath>..\..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows">
+      <HintPath>..\..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel.Duplex">
+      <HintPath>..\..\packages\System.ServiceModel.Primitives.10.0.652802\lib\net462\System.ServiceModel.Duplex.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel.Http">
+      <HintPath>..\..\packages\System.ServiceModel.Http.10.0.652802\lib\net462\System.ServiceModel.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel.Primitives">
+      <HintPath>..\..\packages\System.ServiceModel.Primitives.10.0.652802\lib\net462\System.ServiceModel.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel.Security">
+      <HintPath>..\..\packages\System.ServiceModel.Primitives.10.0.652802\lib\net462\System.ServiceModel.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web">
+      <HintPath>..\..\packages\System.Text.Encodings.Web.10.0.12\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Json">
+      <HintPath>..\..\packages\System.Text.Json.10.0.12\lib\net462\System.Text.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq" />
+    <Reference Include="System.Linq.Expressions" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Reflection" />
+    <Reference Include="System.Runtime.Serialization.Primitives" />
+    <Reference Include="System.Runtime.Serialization.Xml" />
+    <Reference Include="System.ValueTuple" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Workflow.Activities" />
+    <Reference Include="System.Workflow.ComponentModel" />
+    <Reference Include="System.Workflow.Runtime" />
+    <Reference Include="System.Xml.XmlDocument" />
+    <Reference Include="mscorlib" />
+    <Reference Include="netstandard" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -385,4 +436,10 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+
+  <Import Project="..\..\packages\Microsoft.Extensions.Configuration.Binder.10.0.12\buildTransitive\netstandard2.0\Microsoft.Extensions.Configuration.Binder.targets" Condition="Exists('..\..\packages\Microsoft.Extensions.Configuration.Binder.10.0.12\buildTransitive\netstandard2.0\Microsoft.Extensions.Configuration.Binder.targets')" />
+  <Import Project="..\..\packages\Microsoft.Extensions.Logging.Abstractions.10.0.12\buildTransitive\net462\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\..\packages\Microsoft.Extensions.Logging.Abstractions.10.0.12\buildTransitive\net462\Microsoft.Extensions.Logging.Abstractions.targets')" />
+  <Import Project="..\..\packages\Microsoft.Extensions.Options.10.0.12\buildTransitive\net462\Microsoft.Extensions.Options.targets" Condition="Exists('..\..\packages\Microsoft.Extensions.Options.10.0.12\buildTransitive\net462\Microsoft.Extensions.Options.targets')" />
+  <Import Project="..\..\packages\System.Text.Json.10.0.12\buildTransitive\net462\System.Text.Json.targets" Condition="Exists('..\..\packages\System.Text.Json.10.0.12\buildTransitive\net462\System.Text.Json.targets')" />
+  <Import Project="..\..\packages\System.ValueTuple.4.6.2\buildTransitive\net471\System.ValueTuple.targets" Condition="Exists('..\..\packages\System.ValueTuple.4.6.2\buildTransitive\net471\System.ValueTuple.targets')" />
 </Project>

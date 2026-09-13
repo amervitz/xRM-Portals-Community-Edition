@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -7,8 +7,8 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Controllers;
-using System.Web.Http.OData.Routing;
-using System.Web.Http.OData.Routing.Conventions;
+using Microsoft.AspNet.OData.Routing;
+using Microsoft.AspNet.OData.Routing.Conventions;
 
 namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 {
@@ -32,7 +32,7 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 		{
 			var firstSegment = odataPath.Segments.FirstOrDefault();
 
-			if (firstSegment is EntitySetPathSegment)
+			if (firstSegment is Microsoft.OData.UriParser.EntitySetSegment)
 			{
 				return _controllerName;
 			}

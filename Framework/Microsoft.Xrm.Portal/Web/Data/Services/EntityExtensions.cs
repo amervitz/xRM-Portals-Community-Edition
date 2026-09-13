@@ -1,10 +1,10 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
 
 using System;
-using Microsoft.Security.Application;
+using Encoder = System.Web.Security.AntiXss.AntiXssEncoder;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Client.Metadata;
 using Microsoft.Xrm.Portal.Configuration;

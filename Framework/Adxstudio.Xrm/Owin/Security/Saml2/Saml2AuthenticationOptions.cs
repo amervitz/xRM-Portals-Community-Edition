@@ -1,11 +1,11 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
 
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
-using ITfoxtec.Saml2.Schemas;
+using ITfoxtec.Identity.Saml2.Schemas;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.WsFederation;

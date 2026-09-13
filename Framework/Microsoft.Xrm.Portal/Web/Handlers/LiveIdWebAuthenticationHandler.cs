@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -9,7 +9,7 @@ using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Client.Diagnostics;
 using Microsoft.Xrm.Portal.Web.Security;
 using Microsoft.Xrm.Portal.Web.Security.LiveId;
-using Microsoft.Security.Application;
+using Encoder = System.Web.Security.AntiXss.AntiXssEncoder;
 
 namespace Microsoft.Xrm.Portal.Web.Handlers
 {

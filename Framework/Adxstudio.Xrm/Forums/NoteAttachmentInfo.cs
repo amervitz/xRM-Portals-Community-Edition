@@ -4,9 +4,13 @@
 */
 
 using System;
+using System.Net;
 using Adxstudio.Xrm.Notes;
 using Adxstudio.Xrm.Text;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Azure;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Azure.Storage.Sas;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Portal.Web;
 using Microsoft.Xrm.Sdk;
@@ -15,7 +19,7 @@ namespace Adxstudio.Xrm.Forums
 {
 	public class NoteAttachmentInfo : IForumPostAttachmentInfo
 	{
-		public NoteAttachmentInfo(EntityReference annotation, string name, string contentType, int size, Guid? websiteId = null, CloudBlobContainer cloudStorageContainer = null)
+		public NoteAttachmentInfo(EntityReference annotation, string name, string contentType, int size, Guid? websiteId = null, BlobContainerClient cloudStorageContainer = null)
 		{
 			if (annotation == null) throw new ArgumentNullException("annotation");
 
@@ -26,10 +30,16 @@ namespace Adxstudio.Xrm.Forums
 			if (cloudStorageContainer != null)
 			{
 				var file =
-					cloudStorageContainer.GetBlockBlobReference("{0:N}/{1}".FormatWith(annotation.Id, name));
-				if (file.Exists())
+					cloudStorageContainer.GetBlobClient("{0:N}/{1}".FormatWith(annotation.Id, name));
+
+				// Fetching the attributes reports a missing blob as a 404, so the size is established
+				// in a single request and the CRM-reported size is kept when the blob is absent.
+				try
 				{
-					Size = new FileSize(Convert.ToUInt64(file.Properties.Length));
+					Size = new FileSize(Convert.ToUInt64(file.GetProperties().Value.ContentLength));
+				}
+				catch (RequestFailedException e) when (e.Status == (int)HttpStatusCode.NotFound)
+				{
 				}
 			}
 		}

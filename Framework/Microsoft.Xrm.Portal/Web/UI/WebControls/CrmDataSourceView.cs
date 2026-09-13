@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -18,7 +18,7 @@ using Microsoft.Xrm.Client.Caching;
 using Microsoft.Xrm.Client.Diagnostics;
 using Microsoft.Xrm.Client.Runtime.Serialization;
 using Microsoft.Xrm.Client.Services;
-using Microsoft.Security.Application;
+using Encoder = System.Web.Security.AntiXss.AntiXssEncoder;
 using System.Globalization;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;

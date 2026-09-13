@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -10,12 +10,13 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.ServiceModel;
-using Microsoft.Practices.TransientFaultHandling;
+using Polly;
+using Adxstudio.Xrm.Threading;
 using Microsoft.Xrm.Sdk;
 
 namespace Adxstudio.Xrm.Services
 {
-	public class CrmOnlineReadTransientErrorDetectionStrategy : ITransientErrorDetectionStrategy
+	public class CrmOnlineReadTransientErrorDetectionStrategy
 	{
 		private static readonly IEnumerable<string> _transientWebExceptions = new[]
 		{

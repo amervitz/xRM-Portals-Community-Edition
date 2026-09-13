@@ -1,11 +1,16 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
 
+using System;
 using System.Web.Http;
-using System.Web.Http.OData.Routing;
-using System.Web.Http.OData.Routing.Conventions;
+using System.Collections.Generic;
+using Microsoft.AspNet.OData.Extensions;
+using Microsoft.OData;
+using Microsoft.OData.Edm;
+using Microsoft.AspNet.OData.Routing;
+using Microsoft.AspNet.OData.Routing.Conventions;
 using System.Web.Mvc;
 using Adxstudio.Xrm.Web.UI.EntityList.OData;
 
@@ -33,8 +38,9 @@ namespace Site.Areas.EntityList
 			RegisterEntityListODataRoute(GlobalConfiguration.Configuration);
 		}
 
-		public void RegisterEntityListODataRoute(HttpConfiguration config)
+		public void RegisterEntityListODataRoute(HttpConfiguration config, Func<IEdmModel> modelFactory = null)
 		{
+			modelFactory = modelFactory ?? (() => new EntityListODataFeedDataAdapter(new PortalConfigurationDataAdapterDependencies()).GetEdmModel());
 			config.MessageHandlers.Add(new EntityListFormatQueryMessageHandler());
 			
 			var routingConventions = ODataRoutingConventions.CreateDefault();
@@ -44,9 +50,10 @@ namespace Site.Areas.EntityList
 			const string routeName = "EntityListOData";
 			const string routePrefix = "_odata";
 
-			var routeConstraint = new EntityListODataPathRouteConstraint(new DefaultODataPathHandler(), routeName, routingConventions);
-			
-			config.Routes.Add(routeName, new ODataRoute(routePrefix, routeConstraint));
+			// Resolve the website model within each request, never on the shared route.
+			config.MapODataServiceRoute(routeName, routePrefix, builder => builder
+				.AddService<IEdmModel>(ServiceLifetime.Scoped, services => modelFactory())
+				.AddService<IEnumerable<IODataRoutingConvention>>(ServiceLifetime.Singleton, services => routingConventions));
 		}
 	}
 }

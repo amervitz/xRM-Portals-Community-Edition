@@ -13,7 +13,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 	using Adxstudio.Xrm.AspNet.Identity;
 	using Adxstudio.Xrm.AspNet.PortalBus;
 	using Adxstudio.Xrm.Owin.Security.Saml2;
-	using ITfoxtec.Saml2.Cryptography;
+	using ITfoxtec.Identity.Saml2.Cryptography;
 	using Microsoft.Owin.Security.Cookies;
 	using global::Owin;
 	using global::Owin.Security.Providers.LinkedIn;
@@ -140,7 +140,6 @@ namespace Adxstudio.Xrm.AspNet.Cms
 		public static void UsePortalsAuthentication<TUser>(this IAppBuilder app, StartupSettingsManager<TUser> manager)
 			where TUser : CrmUser
 		{
-			CryptoConfig.AddAlgorithm(typeof(RSAPKCS1SHA256SignatureDescription), "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256");
 
 			if (manager.MicrosoftAccount != null) app.UseMicrosoftAccountAuthentication(manager.MicrosoftAccount);
 			if (manager.Twitter != null) app.UseTwitterAuthentication(manager.Twitter);

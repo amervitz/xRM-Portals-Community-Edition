@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -6,24 +6,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http.OData.Query;
+using Microsoft.AspNet.OData.Query;
 using Adxstudio.Xrm.Resources;
 using Adxstudio.Xrm.Services.Query;
-using Microsoft.Data.Edm;
-using Microsoft.Data.Edm.Library;
-using Microsoft.Data.OData;
-using Microsoft.Data.OData.Query;
-using Microsoft.Data.OData.Query.SemanticAst;
+using Microsoft.OData.Edm;
+using Microsoft.OData;
+using Microsoft.OData.UriParser;
 using Microsoft.Xrm.Sdk.Query;
 
 namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 {
 	/// <summary>
-	/// Provides operations to translate <see cref="System.Web.Http.OData.Query.ODataQueryOptions"/> <see cref="System.Web.Http.OData.Query.FilterQueryOption"/> to equivalent filters in FetchXml.
+	/// Provides operations to translate <see cref="Microsoft.AspNet.OData.Query.ODataQueryOptions"/> <see cref="Microsoft.AspNet.OData.Query.FilterQueryOption"/> to equivalent filters in FetchXml.
 	/// </summary>
 	public class FetchFilterBinder
 	{
-		private static bool _applyLogicalNegation;
+		private bool _applyLogicalNegation;
 		/// <summary>
 		/// Bind the <see cref="FilterQueryOption"/> to a FetchXml Filter
 		/// </summary>
@@ -31,16 +29,15 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 		/// <returns><see cref="Filter"/></returns>
 		public static Filter BindFilterQueryOption(FilterQueryOption filterQueryOption)
 		{
-			_applyLogicalNegation = false;
-			return BindFilterClause(filterQueryOption.FilterClause);
+			return new FetchFilterBinder().BindFilterClause(filterQueryOption.FilterClause);
 		}
 
-		protected static Filter BindFilterClause(FilterClause filterClause)
+		protected Filter BindFilterClause(FilterClause filterClause)
 		{
 			return Bind(filterClause.Expression);
 		}
 
-		protected static Filter Bind(QueryNode node)
+		protected Filter Bind(QueryNode node)
 		{
 			var singleValueNode = node as SingleValueNode;
 
@@ -54,10 +51,10 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 					case QueryNodeKind.Convert:
 						return BindConvertNode(node as ConvertNode);
 
-					case QueryNodeKind.EntityRangeVariableReference:
+					case QueryNodeKind.ResourceRangeVariableReference:
 						return null;
 
-					case QueryNodeKind.NonentityRangeVariableReference:
+					case QueryNodeKind.NonResourceRangeVariableReference:
 						return null;
 
 					case QueryNodeKind.UnaryOperator:
@@ -72,7 +69,7 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 			throw new NotSupportedException(string.Format("Query Nodes of type {0} aren't supported.", node.Kind));
 		}
 
-		private static Condition BindSingleValueFunctionCallNode(SingleValueFunctionCallNode singleValueFunctionCallNode)
+		private Condition BindSingleValueFunctionCallNode(SingleValueFunctionCallNode singleValueFunctionCallNode)
 		{
 			switch (singleValueFunctionCallNode.Name)
 			{
@@ -80,16 +77,16 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 					return BindStartsWith(singleValueFunctionCallNode);
 				case "endswith":
 					return BindEndsWith(singleValueFunctionCallNode);
-				case "substringof":
-					return BindSubstringof(singleValueFunctionCallNode);
+				case "contains":
+					return BindContains(singleValueFunctionCallNode);
 				default:
 					throw new NotSupportedException(string.Format("Function call {0} isn't supported.", singleValueFunctionCallNode.Name));
 			}
 		}
 
-		private static Condition BindStartsWith(SingleValueFunctionCallNode singleValueFunctionCallNode)
+		private Condition BindStartsWith(SingleValueFunctionCallNode singleValueFunctionCallNode)
 		{
-			var arguments = singleValueFunctionCallNode.Arguments.ToList();
+			var arguments = singleValueFunctionCallNode.Parameters.ToList();
 			if (arguments.Count != 2)
 			{
 				throw new ODataException(string.Format("Invalid {0} function call. The 2 required parameters have not been specified.", singleValueFunctionCallNode.Name));
@@ -115,9 +112,9 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 			return condition;
 		}
 
-		private static Condition BindEndsWith(SingleValueFunctionCallNode singleValueFunctionCallNode)
+		private Condition BindEndsWith(SingleValueFunctionCallNode singleValueFunctionCallNode)
 		{
-			var arguments = singleValueFunctionCallNode.Arguments.ToList();
+			var arguments = singleValueFunctionCallNode.Parameters.ToList();
 			if (arguments.Count != 2)
 			{
 				throw new ODataException(string.Format("Invalid {0} function call. The 2 required parameters have not been specified.", singleValueFunctionCallNode.Name));
@@ -143,24 +140,24 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 			return condition;
 		}
 
-		private static Condition BindSubstringof(SingleValueFunctionCallNode singleValueFunctionCallNode)
+		private Condition BindContains(SingleValueFunctionCallNode singleValueFunctionCallNode)
 		{
-			var arguments = singleValueFunctionCallNode.Arguments.ToList();
+			var arguments = singleValueFunctionCallNode.Parameters.ToList();
 			if (arguments.Count != 2)
 			{
 				throw new ODataException(string.Format("Invalid {0} function call. The 2 required parameters have not been specified.", singleValueFunctionCallNode.Name));
 			}
 			var condition = new Condition { Operator = _applyLogicalNegation ? ConditionOperator.NotLike : ConditionOperator.Like };
-			var singleValuePropertyAccessNode = arguments[1] as SingleValuePropertyAccessNode;
+			var singleValuePropertyAccessNode = arguments[0] as SingleValuePropertyAccessNode;
 			if (singleValuePropertyAccessNode == null)
 			{
-				throw new ODataException(string.Format("Invalid {0} function call. A valid property name must be specified as the {1} parameter.", singleValueFunctionCallNode.Name, "second"));
+				throw new ODataException(string.Format("Invalid {0} function call. A valid property name must be specified as the {1} parameter.", singleValueFunctionCallNode.Name, "first"));
 			}
 			condition.Attribute = BindPropertyAccessQueryNode(singleValuePropertyAccessNode);
-			var constantNode = arguments[0] as ConstantNode;
+			var constantNode = arguments[1] as ConstantNode;
 			if (constantNode == null)
 			{
-				throw new ODataException(string.Format("Invalid {0} function call. A valid string value must be specified as the {1} parameter.", singleValueFunctionCallNode.Name, "first"));
+				throw new ODataException(string.Format("Invalid {0} function call. A valid string value must be specified as the {1} parameter.", singleValueFunctionCallNode.Name, "second"));
 			}
 			var value = BindConstantNode(constantNode);
 			if (value == null)
@@ -171,23 +168,24 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 			return condition;
 		}
 
-		private static Filter BindUnaryOperatorNode(UnaryOperatorNode unaryOperatorNode)
+		private Filter BindUnaryOperatorNode(UnaryOperatorNode unaryOperatorNode)
 		{
 			switch (unaryOperatorNode.OperatorKind)
 			{
 				case UnaryOperatorKind.Negate:
 					throw new NotSupportedException("The Negate arithmetic operator isn't supported.");
 				case UnaryOperatorKind.Not:
-					_applyLogicalNegation = true;
+					_applyLogicalNegation = !_applyLogicalNegation;
 					break;
 				default:
 					throw new NotSupportedException("Unknown UnaryOperatorKind.");
 			}
 
-			return Bind(unaryOperatorNode.Operand);
+			try { return Bind(unaryOperatorNode.Operand); }
+			finally { _applyLogicalNegation = !_applyLogicalNegation; }
 		}
 
-		private static string BindPropertyAccessQueryNode(SingleValuePropertyAccessNode singleValuePropertyAccessNode)
+		private string BindPropertyAccessQueryNode(SingleValuePropertyAccessNode singleValuePropertyAccessNode)
 		{
 			if (singleValuePropertyAccessNode.Source.TypeReference.Definition.TypeKind == EdmTypeKind.Complex)
 			{
@@ -206,7 +204,7 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 						{
 							throw new ODataException(string.Format("Equality comparison on Complex type {0} property {1} isn't supported.", type.Name, singleValuePropertyAccessNode.Property.Name));
 						}
-						var sourceSingleValuePropertyAccessNode = singleValuePropertyAccessNode.Source as SingleValuePropertyAccessNode;
+						var sourceSingleValuePropertyAccessNode = singleValuePropertyAccessNode.Source as SingleComplexNode;
 						if (sourceSingleValuePropertyAccessNode != null)
 						{
 							return sourceSingleValuePropertyAccessNode.Property.Name;
@@ -218,17 +216,17 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 			return singleValuePropertyAccessNode.Property.Name;
 		}
 
-		private static object BindConstantNode(ConstantNode constantNode)
+		private object BindConstantNode(ConstantNode constantNode)
 		{
-			return constantNode.Value;
+			return constantNode.Value is DateTimeOffset ? ((DateTimeOffset)constantNode.Value).UtcDateTime : constantNode.Value;
 		}
 
-		private static Filter BindConvertNode(ConvertNode convertNode)
+		private Filter BindConvertNode(ConvertNode convertNode)
 		{
 			return Bind(convertNode.Source);
 		}
 
-		private static Filter BindBinaryOperatorNode(BinaryOperatorNode binaryOperatorNode)
+		private Filter BindBinaryOperatorNode(BinaryOperatorNode binaryOperatorNode)
 		{
 			var filter = new Filter();
 
@@ -268,7 +266,7 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 			return filter;
 		}
 
-		private static Condition CreateBinaryCondition(BinaryOperatorNode binaryOperatorNode)
+		private Condition CreateBinaryCondition(BinaryOperatorNode binaryOperatorNode)
 		{
 			if (binaryOperatorNode.OperatorKind == BinaryOperatorKind.And || binaryOperatorNode.OperatorKind == BinaryOperatorKind.Or)
 			{
@@ -311,7 +309,7 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 			return condition;
 		}
 
-		private static ConditionOperator ToConditionOperator(BinaryOperatorKind binaryOperator)
+		private ConditionOperator ToConditionOperator(BinaryOperatorKind binaryOperator)
 		{
 			switch (binaryOperator)
 			{

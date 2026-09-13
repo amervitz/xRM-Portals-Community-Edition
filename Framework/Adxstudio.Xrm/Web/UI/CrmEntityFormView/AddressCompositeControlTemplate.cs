@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -25,7 +25,7 @@ namespace Adxstudio.Xrm.Web.UI.CrmEntityFormView
 	using Adxstudio.Xrm.Resources;
 	using Adxstudio.Xrm.Web.UI.WebControls;
 
-	using Microsoft.Practices.EnterpriseLibrary.Common.Utility;
+	
 	using Microsoft.Xrm.Client;
 	using Microsoft.Xrm.Portal.Web.UI.CrmEntityFormView;
 	using Microsoft.Xrm.Sdk;
@@ -161,7 +161,7 @@ namespace Adxstudio.Xrm.Web.UI.CrmEntityFormView
 			divContainer.ID = contentId.ToString();
 
 			var addRangeControls =
-				new Action<IEnumerable<Control>>(controls => { controls.ForEach(x => divContainer.Controls.Add(x)); });
+				new Action<IEnumerable<Control>>(controls => { controls.ToList().ForEach(x => divContainer.Controls.Add(x)); });
 
 			container.Controls.Add(divContainer);
 

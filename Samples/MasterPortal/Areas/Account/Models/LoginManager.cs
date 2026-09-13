@@ -30,7 +30,7 @@ namespace Site.Areas.Account.Models
     using Microsoft.Owin.Security;
     using Microsoft.Xrm.Sdk;
     using Microsoft.Xrm.Client;
-    using System.Data.Services.Client;
+    
 
     /// <summary>
     /// Validating the Registration details
@@ -214,14 +214,13 @@ namespace Site.Areas.Account.Models
 		/// <param name="graphRoot">graph root</param>
 		/// <param name="tenantId">tenant id</param>
 		/// <returns>retuns Active Directory Client</returns>
-		private Microsoft.Azure.ActiveDirectory.GraphClient.ActiveDirectoryClient GetGraphClient(ExternalLoginInfo loginInfo, string graphRoot, string tenantId)
+		private Microsoft.Graph.GraphServiceClient GetGraphClient(ExternalLoginInfo loginInfo, string graphRoot, string tenantId)
 		{
 			var accessCodeClaim = loginInfo.ExternalIdentity.FindFirst("AccessCode");
 			var accessCode = accessCodeClaim?.Value;
 
-			return new Microsoft.Azure.ActiveDirectory.GraphClient.ActiveDirectoryClient(
-				new Uri(graphRoot + "/" + tenantId),
-				async () => await this.TokenManager.GetTokenAsync(accessCode));
+			return Adxstudio.Xrm.IdentityModel.ActiveDirectory.PortalGraphClient.Create(
+				PortalSettings.Instance.Graph.RootUrl, () => this.TokenManager.GetTokenAsync(accessCode));
 		}
 
 		/// <summary>
@@ -248,14 +247,14 @@ namespace Site.Areas.Account.Models
 		/// </summary>
 		/// <param name="graphUser">graph user</param>
 		/// <returns>returns email id</returns>
-		public static string ToEmail(Microsoft.Azure.ActiveDirectory.GraphClient.IUser graphUser)
+		public static string ToEmail(Microsoft.Graph.Models.User graphUser)
 		{
 			if (!string.IsNullOrWhiteSpace(graphUser.Mail))
 			{
 				return graphUser.Mail;
 			}
 
-			return graphUser.OtherMails != null ? graphUser.OtherMails.FirstOrDefault() : graphUser.UserPrincipalName;
+			return graphUser.OtherMails?.FirstOrDefault() ?? graphUser.UserPrincipalName;
 		}
 
 		/// <summary>
@@ -576,7 +575,7 @@ namespace Site.Areas.Account.Models
 		/// </summary>
 		/// <param name="loginInfo">Login information</param>
 		/// <returns>user value</returns>
-		private async Task<Microsoft.Azure.ActiveDirectory.GraphClient.IUser> GetGraphUser(ExternalLoginInfo loginInfo)
+		private async Task<Microsoft.Graph.Models.User> GetGraphUser(ExternalLoginInfo loginInfo)
 		{
 			var userCacheKey = $"{loginInfo.Login.ProviderKey}_graphUser";
 			var userAuthResultCacheKey = $"{loginInfo.Login.ProviderKey}_userAuthResult";
@@ -593,7 +592,7 @@ namespace Site.Areas.Account.Models
 				return await this.GetGraphUser(loginInfo, userCacheKey, userAuthResultCacheKey);
 			}
 
-			return (Microsoft.Azure.ActiveDirectory.GraphClient.IUser)this.HttpContext.Cache[userCacheKey];
+			return (Microsoft.Graph.Models.User)this.HttpContext.Cache[userCacheKey];
 		}
 
 		/// <summary>
@@ -603,13 +602,13 @@ namespace Site.Areas.Account.Models
 		/// <param name="userCacheKey">User Cache key value</param>
 		/// <param name="userAuthResultCacheKey">User authentication cache key</param>
 		/// <returns>User value</returns>
-		private async Task<Microsoft.Azure.ActiveDirectory.GraphClient.IUser> GetGraphUser(ExternalLoginInfo loginInfo, string userCacheKey, string userAuthResultCacheKey)
+		private async Task<Microsoft.Graph.Models.User> GetGraphUser(ExternalLoginInfo loginInfo, string userCacheKey, string userAuthResultCacheKey)
 		{
 			var client = this.GetGraphClient(loginInfo,
 				PortalSettings.Instance.Authentication.RootUrl,
 				PortalSettings.Instance.Authentication.TenantId);
 
-			Microsoft.Azure.ActiveDirectory.GraphClient.IUser user = null;
+			Microsoft.Graph.Models.User user = null;
 			
 
 			// retry tokenRetryCount times to retrieve the users. each time it fails, it will nullify the cache and try again
@@ -620,40 +619,17 @@ namespace Site.Areas.Account.Models
 					ADXTrace.Instance.TraceInfo(TraceCategory.Application, $"Attempting to retrieve user from Graph with NameIdentifier {loginInfo.Login.ProviderKey}.");
 
 					// when we call this, the client will try to retrieve a token from GetAuthTokenTask()
-					user = await client.Me.ExecuteAsync();
+					user = await client.Me.GetAsync(request => request.QueryParameters.Select = new[]
+					{ "id", "givenName", "surname", "displayName", "mail", "otherMails", "userPrincipalName", "assignedPlans" });
 
 					// if we get here then everything is alright. stop looping
 					break;
 				}
-				catch (AggregateException ex)
+				catch (Microsoft.Kiota.Abstractions.ApiException exception) when (exception.ResponseStatusCode == (int)HttpStatusCode.Unauthorized)
 				{
-					var handled = false;
-
-					foreach (var innerEx in ex.InnerExceptions)
-					{
-						if (innerEx.InnerException == null)
-						{
-							break;
-						}
-
-						// if the exception can be cast to a DataServiceClientException
-						// NOTE: the version of Microsoft.Data.Services.Client MUST match the one Microsoft.Azure.ActiveDirectory.GraphClient uses (currently 5.6.4.0. 5.7.0.0 won't cast the exception correctly.)
-						var clientException = innerEx.InnerException as DataServiceClientException;
-						if (clientException?.StatusCode == (int)HttpStatusCode.Unauthorized)
-						{
-							ADXTrace.Instance.TraceInfo(TraceCategory.Application, "Current GraphClient auth token didn't seem to work. Discarding...");
-
-							// the token didn't seem to work. throw away cached token to retrieve new one
-							this.HttpContext.Cache.Remove(TokenCacheKey);
-							handled = true;
-						}
-					}
-
-					if (!handled)
-					{
-						throw;
-					}
+					this.TokenManager.Reset();
 				}
+
 			}
 
 			// if users is null here, we have a config problem where we can't get correct auth tokens despite repeated attempts

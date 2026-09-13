@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -14,7 +14,7 @@ using System.IO;
 using System.Net;
 using System.Xml;
 using Microsoft.Xrm.Client.Collections.Generic;
-using Microsoft.Security.Application;
+using Encoder = System.Web.Security.AntiXss.AntiXssEncoder;
 
 namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 {
@@ -619,10 +619,10 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 			string alg = "&alg=" + SecurityAlgorithm;
 
 			context = string.IsNullOrEmpty(context) ?
-				string.Empty : "&appctx=" + Microsoft.Security.Application.Encoder.UrlEncode(context);
+				string.Empty : "&appctx=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(context);
 
 			market = string.IsNullOrEmpty(market) ?
-				string.Empty : "&mkt=" + Microsoft.Security.Application.Encoder.UrlEncode(market);
+				string.Empty : "&mkt=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(market);
 
 			return BaseUrl + "wlogin.srf?appid=" + AppId +
 				alg + context + market;
@@ -649,7 +649,7 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 		public string GetLogoutUrl(string market)
 		{
 			market = string.IsNullOrEmpty(market) ?
-				string.Empty : "&mkt=" + Microsoft.Security.Application.Encoder.UrlEncode(market);
+				string.Empty : "&mkt=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(market);
 
 			return BaseUrl + "logout.srf?appid=" + AppId + market;
 		}
@@ -1012,10 +1012,10 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 				throw new ArgumentException("Error: GetConsentUrl: Invalid offers list.");
 			}
 
-			offers = "?ps=" + Microsoft.Security.Application.Encoder.UrlEncode(offers);
+			offers = "?ps=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(offers);
 
 			context = string.IsNullOrEmpty(context) ?
-				string.Empty : "&appctx=" + Microsoft.Security.Application.Encoder.UrlEncode(context);
+				string.Empty : "&appctx=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(context);
 
 			if (string.IsNullOrEmpty(ru))
 			{
@@ -1023,16 +1023,16 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 			}
 
 			ru = string.IsNullOrEmpty(ru) ?
-				string.Empty : "&ru=" + Microsoft.Security.Application.Encoder.UrlEncode(ru);
+				string.Empty : "&ru=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(ru);
 
 			market = string.IsNullOrEmpty(market) ?
-				string.Empty : "&mkt=" + Microsoft.Security.Application.Encoder.UrlEncode(market);
+				string.Empty : "&mkt=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(market);
 
 			string pu = string.Empty;
 
 			if (!string.IsNullOrEmpty(PolicyUrl))
 			{
-				pu = "&pl=" + Microsoft.Security.Application.Encoder.UrlEncode(PolicyUrl);
+				pu = "&pl=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(PolicyUrl);
 			}
 
 			string app = string.Empty;
@@ -1074,7 +1074,7 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 				throw new ArgumentException("Error: GetRefreshConsentTokenUrl: Invalid offers list.");
 			}
 
-			offers = "?ps=" + Microsoft.Security.Application.Encoder.UrlEncode(offers);
+			offers = "?ps=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(offers);
 
 			if (string.IsNullOrEmpty(refreshToken))
 			{
@@ -1089,7 +1089,7 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 			}
 
 			ru = string.IsNullOrEmpty(ru) ?
-				string.Empty : "&ru=" + Microsoft.Security.Application.Encoder.UrlEncode(ru);
+				string.Empty : "&ru=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(ru);
 
 			string app = string.Empty;
 
@@ -1120,7 +1120,7 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 		public string GetManageConsentUrl(string market)
 		{
 			market = string.IsNullOrEmpty(market) ?
-				string.Empty : "?mkt=" + Microsoft.Security.Application.Encoder.UrlEncode(market);
+				string.Empty : "?mkt=" + System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(market);
 
 			return ConsentUrl + "ManageConsent.aspx" + market;
 		}
@@ -1516,7 +1516,7 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 				}
 
 				parsedToken = parse(decodedToken);
-				decodedToken = Microsoft.Security.Application.Encoder.UrlEncode(decodedToken);
+				decodedToken = System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(decodedToken);
 			}
 
 			ConsentToken consentToken = null;
@@ -1916,7 +1916,7 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 			}
 
 			token += "&sig=" + sig;
-			return Microsoft.Security.Application.Encoder.UrlEncode(token);
+			return System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(token);
 		}
 
 		/// <summary>
@@ -2145,7 +2145,7 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 			}
 
 			string token = "appid=" + AppId + "&uid=" +
-			Microsoft.Security.Application.Encoder.UrlEncode(user) + "&ts=" + getTimestamp();
+			System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(user) + "&ts=" + getTimestamp();
 			string sig = e64(SignToken(token));
 
 			if (string.IsNullOrEmpty(sig))
@@ -2155,7 +2155,7 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 			}
 
 			token += "&sig=" + sig;
-			return Microsoft.Security.Application.Encoder.UrlEncode(token);
+			return System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(token);
 		}
 
 		/// <summary>
@@ -2286,7 +2286,7 @@ namespace Microsoft.Xrm.Portal.Web.Security.LiveId
 			try
 			{
 				s = System.Convert.ToBase64String(b);
-				s = Microsoft.Security.Application.Encoder.UrlEncode(s);
+				s = System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(s);
 			}
 			catch (Exception e)
 			{

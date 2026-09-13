@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -7,12 +7,12 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.OData;
-using System.Web.Http.OData.Extensions;
-using System.Web.Http.OData.Query;
+using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNet.OData.Query;
 using Adxstudio.Xrm.Resources;
 using Adxstudio.Xrm.Web.UI.EntityList.OData;
-using Microsoft.Data.Edm;
+using Microsoft.OData.Edm;
 
 namespace Site.Areas.EntityList.Controllers
 {
@@ -30,19 +30,19 @@ namespace Site.Areas.EntityList.Controllers
            	}
 
 			var entityType = collectionType.ElementType.AsEntity();
-			var entitySetName = entityType.EntityDefinition().Name;
-			var model = Request.ODataProperties().Model;
+			var entitySetName = path.NavigationSource.Name;
+			var model = Request.GetModel();
 			var dataAdapter = new EntityListODataFeedDataAdapter(new PortalConfigurationDataAdapterDependencies());
 			var pageSize = dataAdapter.GetPageSize(model, entitySetName);
-			var queryContext = new ODataQueryContext(Request.ODataProperties().Model, entityType.Definition);
+			var queryContext = new ODataQueryContext(Request.GetModel(), entityType.Definition, path);
 			var queryOptions = new ODataQueryOptions(queryContext, Request);
 			var querySettings = new ODataQuerySettings { PageSize = pageSize };
 			
 			// http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api/odata-security-guidance
 			var validationSettings = new ODataValidationSettings
 			{
-				AllowedFunctions = AllowedFunctions.EndsWith | AllowedFunctions.StartsWith | AllowedFunctions.SubstringOf,
-				AllowedQueryOptions = AllowedQueryOptions.All & ~AllowedQueryOptions.Expand & ~AllowedQueryOptions.Select & ~AllowedQueryOptions.SkipToken,
+				AllowedFunctions = AllowedFunctions.EndsWith | AllowedFunctions.StartsWith | AllowedFunctions.Contains,
+				AllowedQueryOptions = AllowedQueryOptions.Filter | AllowedQueryOptions.OrderBy | AllowedQueryOptions.Top | AllowedQueryOptions.Skip | AllowedQueryOptions.Count | AllowedQueryOptions.Format,
 				MaxNodeCount = 100,
 				MaxTop = pageSize
 			};
@@ -56,8 +56,8 @@ namespace Site.Areas.EntityList.Controllers
 		{
 			var path = Request.ODataProperties().Path;
 			var entityType = path.EdmType as IEdmEntityType;
-			var entitySetName = entityType == null ? string.Empty : entityType.Name;
-			var model = Request.ODataProperties().Model;
+			var entitySetName = path.NavigationSource.Name;
+			var model = Request.GetModel();
 			var dataAdapter = new EntityListODataFeedDataAdapter(new PortalConfigurationDataAdapterDependencies());
 			var entity = dataAdapter.Select(model, entitySetName, key);
 

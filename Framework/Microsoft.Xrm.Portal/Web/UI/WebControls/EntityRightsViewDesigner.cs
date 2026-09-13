@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -13,7 +13,7 @@ using System.Text;
 using System.Web.UI;
 using System.Web.UI.Design;
 using System.Web;
-using Microsoft.Security.Application;
+using Encoder = System.Web.Security.AntiXss.AntiXssEncoder;
 using Microsoft.Xrm.Client;
 
 namespace Microsoft.Xrm.Portal.Web.UI.WebControls
@@ -67,8 +67,8 @@ namespace Microsoft.Xrm.Portal.Web.UI.WebControls
 				{ 
 					ColorTranslator.ToHtml(SystemColors.ControlText), 
 					ColorTranslator.ToHtml(SystemColors.Control), 
-					Microsoft.Security.Application.Encoder.HtmlEncode(_entityRightsView.ID ?? "EntityRightsView"), 
-					Microsoft.Security.Application.Encoder.HtmlAttributeEncode(DesignerRegion.DesignerRegionAttributeName), 
+					System.Web.Security.AntiXss.AntiXssEncoder.HtmlEncode(_entityRightsView.ID ?? "EntityRightsView", false), 
+					System.Web.Security.AntiXss.AntiXssEncoder.HtmlEncode(DesignerRegion.DesignerRegionAttributeName, false), 
 					string.Empty 
 				}));
 

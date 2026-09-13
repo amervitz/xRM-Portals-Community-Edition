@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -6,8 +6,8 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Web.Http.OData;
-using Microsoft.Data.Edm;
+using Microsoft.AspNet.OData;
+using Microsoft.OData.Edm;
 using Microsoft.Xrm.Sdk;
 
 namespace Adxstudio.Xrm.Web.UI.EntityList.OData
@@ -74,11 +74,11 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 		/// </summary>
 		/// <param name="model"><see cref="IEdmModel"/></param>
 		/// <param name="entitySetName">Name of the entity set</param>
-		/// <param name="queryOptions"><see cref="System.Web.Http.OData.Query.ODataQueryOptions"/></param>
-		/// <param name="querySettings"><see cref="System.Web.Http.OData.Query.ODataQuerySettings"/></param>
+		/// <param name="queryOptions"><see cref="Microsoft.AspNet.OData.Query.ODataQueryOptions"/></param>
+		/// <param name="querySettings"><see cref="Microsoft.AspNet.OData.Query.ODataQuerySettings"/></param>
 		/// <param name="request"><see cref="HttpRequestMessage"/></param>
 		/// <returns><see cref="EdmEntityObjectCollection"/></returns>
-		EdmEntityObjectCollection SelectMultiple(IEdmModel model, string entitySetName, System.Web.Http.OData.Query.ODataQueryOptions queryOptions, System.Web.Http.OData.Query.ODataQuerySettings querySettings, HttpRequestMessage request);
+		EdmEntityObjectCollection SelectMultiple(IEdmModel model, string entitySetName, Microsoft.AspNet.OData.Query.ODataQueryOptions queryOptions, Microsoft.AspNet.OData.Query.ODataQuerySettings querySettings, HttpRequestMessage request);
 
 		/// <summary>
 		/// Get a single record for the specified entity set where the object's key matches the id provided.

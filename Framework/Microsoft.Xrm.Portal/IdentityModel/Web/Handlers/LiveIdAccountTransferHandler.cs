@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web;
-using Microsoft.IdentityModel.Protocols.WSFederation;
+using System.IdentityModel.Services;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Client.Diagnostics;
 using Microsoft.Xrm.Portal.IdentityModel.Configuration;
@@ -22,7 +22,7 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Handlers
 	{
 		private class Message : WSFederationMessage
 		{
-			public Message(Uri baseUrl) : base(baseUrl, WSFederationConstants.Actions.SignIn) { Parameters.Clear(); }
+			public Message(Uri baseUrl) : base(baseUrl, "wsignin1.0") { Parameters.Clear(); }
 			public override void Write(TextWriter writer) { }
 		}
 

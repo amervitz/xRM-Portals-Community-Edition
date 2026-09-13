@@ -6,7 +6,8 @@
 namespace Adxstudio.Xrm.EventHubBasedInvalidation
 {
 	using System.Collections.Generic;
-	using Microsoft.ServiceBus.Messaging;
+	using Azure.Messaging.ServiceBus;
+	using Azure.Messaging.ServiceBus.Administration;
 	using Adxstudio.Xrm.Cms;
 	using Newtonsoft.Json;
 
@@ -18,14 +19,14 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// <summary>
 		/// Factory method that generates an ICrmSubscriptionMessage
 		/// </summary>
-		/// <param name="message">BrokeredMessage</param>
+		/// <param name="message">ServiceBusReceivedMessage</param>
 		/// <returns>ICrmSubscriptionMessage</returns>
-		public static ICrmSubscriptionMessage Create(BrokeredMessage message)
+		public static ICrmSubscriptionMessage Create(ServiceBusReceivedMessage message)
 		{
 			if (message == null)
 				return null;
 
-			string messageBody = message.GetBody<string>();
+			string messageBody = ReadMessageBody(message);
 
 			if (messageBody == null)
 				return null;
@@ -42,11 +43,46 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 			return subscriptionMessage;
 		}
 
-		private static ICrmSubscriptionMessage Create(string messageBody, BrokeredMessage message)
+		private static string ReadMessageBody(ServiceBusReceivedMessage message)
 		{
-			Dictionary<string, string> jsonDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(messageBody);
+			// Existing CRM publishers use the legacy SDK's binary XML string serialization.
+			var bytes = message.Body.ToArray();
+			try
+			{
+				var quotas = new System.Xml.XmlDictionaryReaderQuotas
+				{
+					MaxDepth = 16,
+					MaxStringContentLength = 4 * 1024 * 1024,
+				};
+				using (var reader = System.Xml.XmlDictionaryReader.CreateBinaryReader(bytes, quotas))
+				{
+					return (string)new System.Runtime.Serialization.DataContractSerializer(typeof(string)).ReadObject(reader);
+				}
+			}
+			// Publishers that send the body as plain text are not binary XML and fail to deserialize;
+			// their body is already the string, so decode it rather than discarding the message.
+			catch (System.Xml.XmlException) { return message.Body.ToString(); }
+			catch (System.Runtime.Serialization.SerializationException) { return message.Body.ToString(); }
+		}
 
-			if (!jsonDictionary.ContainsKey("MessageName"))
+		private static ICrmSubscriptionMessage Create(string messageBody, ServiceBusReceivedMessage message)
+		{
+			Dictionary<string, string> jsonDictionary;
+
+			// A body that is neither binary XML nor JSON reaches here as whatever text it decoded to.
+			// Report it the way an unexpected format is reported below rather than letting the parse
+			// failure escape to the subscription's job, which would abandon the rest of the batch.
+			try
+			{
+				jsonDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(messageBody);
+			}
+			catch (JsonException e)
+			{
+				ADXTrace.Instance.TraceWarning(TraceCategory.Application, string.Format("Unreadable message body. MessageId: {0}: {1} ", message.MessageId, e.Message));
+				return null;
+			}
+
+			if (jsonDictionary == null || !jsonDictionary.ContainsKey("MessageName"))
 			{
 				ADXTrace.Instance.TraceWarning(TraceCategory.Application, string.Format("Unexpected message format. MessageId: {0} ", message.MessageId));
 				return null;

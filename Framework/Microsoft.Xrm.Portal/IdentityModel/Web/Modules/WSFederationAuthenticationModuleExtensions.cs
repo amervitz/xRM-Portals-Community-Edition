@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -9,10 +9,9 @@ using System.Data.Common;
 using System.Linq;
 using System.Web;
 using System.Web.UI.HtmlControls;
-using Microsoft.IdentityModel.Claims;
-using Microsoft.IdentityModel.Protocols.WSFederation;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.IdentityModel.Web;
+using System.Security.Claims;
+using System.IdentityModel.Tokens;
+using System.IdentityModel.Services;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Client.Collections.Generic;
 using Microsoft.Xrm.Client.Diagnostics;
@@ -33,8 +32,8 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Modules
 
 		public static ClaimsPrincipal GetClaimsPrincipal(this WSFederationAuthenticationModule fam, HttpContext context)
 		{
-			var token = fam.GetSecurityToken(context.Request);
-			var identities = fam.ServiceConfiguration.SecurityTokenHandlers.ValidateToken(token);
+			var token = fam.GetSecurityToken(new HttpRequestWrapper(context.Request));
+			var identities = fam.FederationConfiguration.IdentityConfiguration.SecurityTokenHandlers.ValidateToken(token);
 			var principal = new ClaimsPrincipal(identities);
 
 			return principal;
@@ -58,7 +57,7 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Modules
 			Func<string, string> find = claimType => !string.IsNullOrWhiteSpace(claimType)
 				? principal.Identities
 					.SelectMany(identity => identity.Claims)
-					.Where(claim => string.Equals(claim.ClaimType, claimType, StringComparison.OrdinalIgnoreCase))
+					.Where(claim => string.Equals(claim.Type, claimType, StringComparison.OrdinalIgnoreCase))
 					.Select(claim => claim.Value)
 					.FirstOrDefault()
 				: null;
@@ -74,7 +73,7 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Modules
 			this WSFederationAuthenticationModule fam,
 			HttpContext context)
 		{
-			var message = fam.GetSignInResponseMessage(context.Request);
+			var message = fam.GetSignInResponseMessage(new HttpRequestWrapper(context.Request));
 			var ctx = message.Context.ToDictionary();
 
 			return ctx;
@@ -204,7 +203,7 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Modules
 			HttpContext context,
 			Uri uri)
 		{
-			var message = fam.GetSignInResponseMessage(context.Request);
+			var message = fam.GetSignInResponseMessage(new HttpRequestWrapper(context.Request));
 			message.BaseUri = uri;
 
 			// clean out the non-WIF parameters
@@ -280,7 +279,7 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Modules
 
 		public static void AddSignInResponseParametersToForm(this WSFederationAuthenticationModule fam, HttpContext context, HtmlForm form)
 		{
-			var message = fam.GetSignInResponseMessage(context.Request);
+			var message = fam.GetSignInResponseMessage(new HttpRequestWrapper(context.Request));
 
 			foreach (var parameter in message.GetParameters())
 			{
@@ -307,26 +306,26 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Modules
 
 		private static readonly IEnumerable<string> _federationParameters = new[]
 		{
-			WSFederationConstants.Parameters.Action,
-			WSFederationConstants.Parameters.Attribute,
-			WSFederationConstants.Parameters.AttributePtr,
-			WSFederationConstants.Parameters.AuthenticationType,
-			WSFederationConstants.Parameters.Context,
-			WSFederationConstants.Parameters.CurrentTime,
-			WSFederationConstants.Parameters.Encoding,
-			WSFederationConstants.Parameters.Federation,
-			WSFederationConstants.Parameters.Freshness,
-			WSFederationConstants.Parameters.HomeRealm,
-			WSFederationConstants.Parameters.Policy,
-			WSFederationConstants.Parameters.Pseudonym,
-			WSFederationConstants.Parameters.PseudonymPtr,
-			WSFederationConstants.Parameters.Realm,
-			WSFederationConstants.Parameters.Reply,
-			WSFederationConstants.Parameters.Request,
-			WSFederationConstants.Parameters.RequestPtr,
-			WSFederationConstants.Parameters.Resource,
-			WSFederationConstants.Parameters.Result,
-			WSFederationConstants.Parameters.ResultPtr
+			"wa",
+			"wattr",
+			"wattrptr",
+			"wauth",
+			"wctx",
+			"wct",
+			"wencoding",
+			"wfed",
+			"wfresh",
+			"whr",
+			"wp",
+			"wpseudo",
+			"wpseudoptr",
+			"wtrealm",
+			"wreply",
+			"wreq",
+			"wreqptr",
+			"wres",
+			"wresult",
+			"wresultptr"
 		};
 
 		private static IEnumerable<KeyValuePair<string, string>> GetParameters(

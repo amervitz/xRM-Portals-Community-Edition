@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -11,16 +11,16 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 	using System.Net.Http;
 	using System.ServiceModel.Security;
 	using System.Web;
-	using System.Web.Http.OData;
+	using Microsoft.AspNet.OData;
+	using Microsoft.AspNet.OData.Extensions;
 	using Adxstudio.Xrm.Globalization;
 	using Adxstudio.Xrm.Resources;
 	using Adxstudio.Xrm.Security;
 	using Adxstudio.Xrm.Services.Query;
 	using Adxstudio.Xrm.Web.Http.OData;
 	using Adxstudio.Xrm.Web.Http.OData.FetchXml;
-	using Microsoft.Data.Edm;
-	using Microsoft.Data.Edm.Library;
-	using Microsoft.Data.OData;
+	using Microsoft.OData.Edm;
+	using Microsoft.OData;
 	using Microsoft.Xrm.Client.Diagnostics;
 	using Microsoft.Xrm.Sdk;
 	using Microsoft.Xrm.Sdk.Metadata;
@@ -163,9 +163,9 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 		/// <returns><see cref="Entity"/></returns>
 		public virtual Entity GetEntityList(IEdmModel model, string entitySetName)
 		{
-			var edmEntitySchemaType = model.FindDeclaredType(string.Format("{0}.{1}", NamespaceName, entitySetName));
+			var edmEntitySchemaType = model.EntityContainer.FindEntitySet(entitySetName).EntityType();
 			var edmEntityType = edmEntitySchemaType as IEdmEntityType;
-			var entityListIdProperty = edmEntityType.FindProperty("list-id") as IEdmStructuralProperty;
+			var entityListIdProperty = edmEntityType.FindProperty("list_id") as IEdmStructuralProperty;
 			var entityListIdString = entityListIdProperty.DefaultValueString;
 			Guid id;
 			Guid.TryParse(entityListIdString, out id);
@@ -197,7 +197,6 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 			var model = new EdmModel();
 			var container = new EdmEntityContainer(NamespaceName, ContainerName);
 			model.AddElement(container);
-			model.SetIsDefaultEntityContainer(container, true);
 
 			var entitylists = GetEntityLists(website);
 
@@ -252,16 +251,17 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 
 				var columns = view.Columns;
 
-				var key = entityType.AddStructuralProperty(view.PrimaryKeyLogicalName, EdmPrimitiveTypeKind.Guid);
+				var key = entityType.AddStructuralProperty(view.PrimaryKeyLogicalName, EdmPrimitiveTypeKind.Guid, false);
 				entityType.AddKeys(key);
 
 				foreach (var column in columns)
 				{
+					if (column.LogicalName == view.PrimaryKeyLogicalName) continue;
 					var attributeMetadata = column.Metadata;
 					var propertyName = column.LogicalName;
 					if (propertyName.Contains('.'))
 					{
-						propertyName = string.Format("{0}-{1}", column.Metadata.EntityLogicalName, column.Metadata.LogicalName);
+						propertyName = string.Format("{0}_{1}", column.Metadata.EntityLogicalName, column.Metadata.LogicalName);
 					}
 					var edmPrimitiveTypeKind = MetadataHelpers.GetEdmPrimitiveTypeKindFromAttributeMetadata(attributeMetadata);
 					if (edmPrimitiveTypeKind != null)
@@ -286,9 +286,9 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 					}
 				}
 
-				entityType.AddProperty(new EdmStructuralProperty(entityType, "list-id", EdmCoreModel.Instance.GetPrimitive(EdmPrimitiveTypeKind.String, true), entityListId.ToString(), EdmConcurrencyMode.None));
-				entityType.AddProperty(new EdmStructuralProperty(entityType, "view-id", EdmCoreModel.Instance.GetPrimitive(EdmPrimitiveTypeKind.String, true), viewId.ToString(), EdmConcurrencyMode.None));
-				entityType.AddProperty(new EdmStructuralProperty(entityType, "entity-permissions-enabled", EdmCoreModel.Instance.GetPrimitive(EdmPrimitiveTypeKind.String, true), entityPermissionsEnabled.ToString(), EdmConcurrencyMode.None));
+				entityType.AddProperty(new EdmStructuralProperty(entityType, "list_id", EdmCoreModel.Instance.GetPrimitive(EdmPrimitiveTypeKind.String, true), entityListId.ToString()));
+				entityType.AddProperty(new EdmStructuralProperty(entityType, "view_id", EdmCoreModel.Instance.GetPrimitive(EdmPrimitiveTypeKind.String, true), viewId.ToString()));
+				entityType.AddProperty(new EdmStructuralProperty(entityType, "entity_permissions_enabled", EdmCoreModel.Instance.GetPrimitive(EdmPrimitiveTypeKind.String, true), entityPermissionsEnabled.ToString()));
 
 				model.AddElement(entityType);
 				container.AddEntitySet(entitySetName, entityType);
@@ -302,20 +302,20 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 		/// </summary>
 		/// <param name="model"><see cref="IEdmModel"/></param>
 		/// <param name="entitySetName">Name of the entity set</param>
-		/// <param name="queryOptions"><see cref="System.Web.Http.OData.Query.ODataQueryOptions"/></param>
-		/// <param name="querySettings"><see cref="System.Web.Http.OData.Query.ODataQuerySettings"/></param>
+		/// <param name="queryOptions"><see cref="Microsoft.AspNet.OData.Query.ODataQueryOptions"/></param>
+		/// <param name="querySettings"><see cref="Microsoft.AspNet.OData.Query.ODataQuerySettings"/></param>
 		/// <param name="request"><see cref="HttpRequestMessage"/></param>
 		/// <returns><see cref="EdmEntityObjectCollection"/></returns>
-		public virtual EdmEntityObjectCollection SelectMultiple(IEdmModel model, string entitySetName, System.Web.Http.OData.Query.ODataQueryOptions queryOptions, System.Web.Http.OData.Query.ODataQuerySettings querySettings, HttpRequestMessage request)
+		public virtual EdmEntityObjectCollection SelectMultiple(IEdmModel model, string entitySetName, Microsoft.AspNet.OData.Query.ODataQueryOptions queryOptions, Microsoft.AspNet.OData.Query.ODataQuerySettings querySettings, HttpRequestMessage request)
 		{
-			var edmEntitySchemaType = model.FindDeclaredType(string.Format("{0}.{1}", NamespaceName, entitySetName));
+			var edmEntitySchemaType = model.EntityContainer.FindEntitySet(entitySetName).EntityType();
 			var edmEntityType = edmEntitySchemaType as IEdmEntityType;
-			var entityListIdProperty = edmEntityType.FindProperty("list-id") as IEdmStructuralProperty;
+			var entityListIdProperty = edmEntityType.FindProperty("list_id") as IEdmStructuralProperty;
 			var entityListIdString = entityListIdProperty.DefaultValueString;
-			var viewIdProperty = edmEntityType.FindProperty("view-id") as IEdmStructuralProperty;
+			var viewIdProperty = edmEntityType.FindProperty("view_id") as IEdmStructuralProperty;
 			var viewIdString = viewIdProperty.DefaultValueString;
 			var entityPermissionEnabledProperty =
-				edmEntityType.FindProperty("entity-permissions-enabled") as IEdmStructuralProperty;
+				edmEntityType.FindProperty("entity_permissions_enabled") as IEdmStructuralProperty;
 			bool entityPermissionsEnabled;
 			bool.TryParse(entityPermissionEnabledProperty.DefaultValueString, out entityPermissionsEnabled);
 
@@ -349,10 +349,10 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 				}
 			}
 
-			var dataSchemaType = model.FindDeclaredType(string.Format("{0}.{1}", NamespaceName, entitySetName));
+			var dataSchemaType = model.EntityContainer.FindEntitySet(entitySetName).EntityType();
 			var dataEntityType = dataSchemaType as IEdmEntityType;
 			var dataEntityTypeReference = new EdmEntityTypeReference(dataEntityType, true);
-			var collection = new EdmEntityObjectCollection(new EdmCollectionTypeReference(new EdmCollectionType(dataEntityTypeReference), true));
+			var collection = new EdmEntityObjectCollection(new EdmCollectionTypeReference(new EdmCollectionType(dataEntityTypeReference)));
 			var entityReferenceSchemaType = model.FindDeclaredType(string.Format("{0}.{1}", NamespaceName, "EntityReference"));
 			var entityReferenceComplexType = entityReferenceSchemaType as IEdmComplexType;
 			var entityReferenceComplexTypeReference = new EdmComplexTypeReference(entityReferenceComplexType, true);
@@ -377,12 +377,12 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 			if (entityCollection.MoreRecords && querySettings.PageSize.HasValue && querySettings.PageSize > 0)
 			{
 				var nextPageLink = ODataQueryOptionExtensions.GetNextPageLink(request, querySettings.PageSize.Value);
-				request.SetNextPageLink(nextPageLink);
+				request.ODataProperties().NextLink = nextPageLink;
 			}
 
-			if (entityCollection.TotalRecordCount > 0)
+			if (queryOptions.Count != null && queryOptions.Count.Value && entityCollection.TotalRecordCount >= 0)
 			{
-				request.SetInlineCount(entityCollection.TotalRecordCount);
+				request.ODataProperties().TotalCount = entityCollection.TotalRecordCount;
 			}
 
 			return collection;
@@ -397,11 +397,11 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 		/// <returns>A single <see cref="IEdmEntityObject"/></returns>
 		public virtual IEdmEntityObject Select(IEdmModel model, string entitySetName, Guid id)
 		{
-			var edmEntitySchemaType = model.FindDeclaredType(string.Format("{0}.{1}", NamespaceName, entitySetName));
+			var edmEntitySchemaType = model.EntityContainer.FindEntitySet(entitySetName).EntityType();
 			var edmEntityType = edmEntitySchemaType as IEdmEntityType;
-			var entityListIdProperty = edmEntityType.FindProperty("list-id") as IEdmStructuralProperty;
+			var entityListIdProperty = edmEntityType.FindProperty("list_id") as IEdmStructuralProperty;
 			var entityListIdString = entityListIdProperty.DefaultValueString;
-			var viewIdProperty = edmEntityType.FindProperty("view-id") as IEdmStructuralProperty;
+			var viewIdProperty = edmEntityType.FindProperty("view_id") as IEdmStructuralProperty;
 			var viewIdString = viewIdProperty.DefaultValueString;
 			Guid viewId;
 			Guid.TryParse(viewIdString, out viewId);
@@ -447,7 +447,7 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 				return null;
 			}
 
-			var dataSchemaType = model.FindDeclaredType(string.Format("{0}.{1}", NamespaceName, entitySetName));
+			var dataSchemaType = model.EntityContainer.FindEntitySet(entitySetName).EntityType();
 			var dataEntityType = dataSchemaType as IEdmEntityType;
 			var dataEntityTypeReference = new EdmEntityTypeReference(dataEntityType, true);
 			
@@ -493,11 +493,19 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 
 				if (propertyName.Contains('.'))
 				{
-					propertyName = string.Format("{0}-{1}", column.Metadata.EntityLogicalName, column.Metadata.LogicalName);
+					propertyName = string.Format("{0}_{1}", column.Metadata.EntityLogicalName, column.Metadata.LogicalName);
 				}
 
 				switch (column.Metadata.AttributeType)
 				{
+					case AttributeTypeCode.DateTime:
+						// CRM stores UTC; an unspecified Kind must not use the web server's local offset.
+						var dateTime = value as DateTime?;
+						entityObject.TrySetPropertyValue(propertyName, dateTime.HasValue
+							? (object)new DateTimeOffset(dateTime.Value.Kind == DateTimeKind.Unspecified
+								? DateTime.SpecifyKind(dateTime.Value, DateTimeKind.Utc) : dateTime.Value)
+							: null);
+						break;
 					case AttributeTypeCode.Money:
 						var money = value as Money;
 						decimal moneyValue = 0;
@@ -593,8 +601,8 @@ namespace Adxstudio.Xrm.Web.UI.EntityList.OData
 						entityObject.TrySetPropertyValue(propertyName, value);
 						break;
 				}
-				entityObject.TrySetPropertyValue("list-id", entityListIdString);
-				entityObject.TrySetPropertyValue("view-id", viewIdString);
+				entityObject.TrySetPropertyValue("list_id", entityListIdString);
+				entityObject.TrySetPropertyValue("view_id", viewIdString);
 			}
 			return entityObject;
 		}

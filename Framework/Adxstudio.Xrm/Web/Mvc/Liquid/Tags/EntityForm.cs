@@ -31,7 +31,7 @@ namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 			if (syntaxMatch.Success)
 			{
 				_attributes = new Dictionary<string, string>(Template.NamingConvention.StringComparer);
-				R.Scan(markup, DotLiquid.Liquid.TagAttributes, (key, value) => _attributes[key] = value);
+				R.Scan(markup, TagSyntax.Attributes, (key, value) => _attributes[key] = value);
 			}
 			else
 			{

@@ -5,20 +5,21 @@
 
 namespace Adxstudio.Xrm.EventHubBasedInvalidation
 {
-	using Microsoft.ServiceBus.Messaging;
+	using Azure.Messaging.ServiceBus;
+	using Azure.Messaging.ServiceBus.Administration;
 
 	/// <summary>
-	/// CrmSubscriptionMessage wrapping a BrokeredMessage indicating a CRM Metadata change
+	/// CrmSubscriptionMessage wrapping a ServiceBusReceivedMessage indicating a CRM Metadata change
 	/// </summary>
 	public sealed class MetadataMessage : CrmSubscriptionMessage
 	{
 		/// <summary>
-		/// Deserialize the BrokeredMessage message body into a MetadataMessage
+		/// Deserialize the ServiceBusReceivedMessage message body into a MetadataMessage
 		/// </summary>
-		/// <param name="message">BrokeredMessage message body</param>
-		/// <param name="brokeredMessage">BrokeredMessage message</param>
+		/// <param name="message">ServiceBusReceivedMessage message body</param>
+		/// <param name="brokeredMessage">ServiceBusReceivedMessage message</param>
 		/// <returns>ICrmSubscriptionMessage</returns>
-		internal static ICrmSubscriptionMessage DeserializeMessage(string message, BrokeredMessage brokeredMessage)
+		internal static ICrmSubscriptionMessage DeserializeMessage(string message, ServiceBusReceivedMessage brokeredMessage)
 		{
 			MetadataMessage metadataMessage = (MetadataMessage)CrmSubscriptionMessage.DeserializeMessage(message, typeof(MetadataMessage));
 

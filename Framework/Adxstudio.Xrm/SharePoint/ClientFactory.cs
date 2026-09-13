@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -10,11 +10,11 @@ using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.ServiceModel.Security;
 using System.Text;
 using Adxstudio.Xrm.Resources;
-using Microsoft.IdentityModel.Protocols.WSTrust;
-using Microsoft.IdentityModel.Protocols.WSTrust.Bindings;
+using System.IdentityModel.Protocols.WSTrust;
 using Microsoft.SharePoint.Client;
 using Microsoft.Xrm.Portal.Configuration;
 using Adxstudio.Xrm.Cms;
@@ -268,10 +268,27 @@ namespace Adxstudio.SharePoint
 
 		private static GenericXmlSecurityToken GetSecurityToken(Uri spSiteUrl, string username, string password)
 		{
-			var binding = new UserNameWSTrustBinding(SecurityMode.TransportWithMessageCredential) { TrustVersion = TrustVersion.WSTrustFeb2005 };
+			var wsHttpBinding = new WSHttpBinding(SecurityMode.TransportWithMessageCredential);
+			wsHttpBinding.Security.Message.ClientCredentialType = MessageCredentialType.UserName;
+			wsHttpBinding.Security.Message.EstablishSecurityContext = false;
+			wsHttpBinding.Security.Message.NegotiateServiceCredential = false;
+
+			// WIF's UserNameWSTrustBinding issued the WSSecurity10/WSTrustFeb2005 profile that the
+			// Microsoft Online STS expects, whereas WSHttpBinding defaults to WSSecurity11/WSTrust13.
+			// The default has to be overridden on the security binding element, which is only reachable
+			// by rebuilding the binding as a CustomBinding.
+			var binding = new CustomBinding(wsHttpBinding);
+			var security = binding.Elements.Find<SecurityBindingElement>();
+
+			if (security != null)
+			{
+				security.MessageSecurityVersion =
+					MessageSecurityVersion.WSSecurity10WSTrustFebruary2005WSSecureConversationFebruary2005WSSecurityPolicy11BasicSecurityProfile10;
+			}
+
 			var address = new EndpointAddress(_stsUrl);
 
-			using (var factory = new Microsoft.IdentityModel.Protocols.WSTrust.WSTrustChannelFactory(binding, address))
+			using (var factory = new WSTrustChannelFactory(binding, address) { TrustVersion = TrustVersion.WSTrustFeb2005 })
 			{
 				factory.Credentials.UserName.UserName = username;
 				factory.Credentials.UserName.Password = password;
@@ -280,10 +297,10 @@ namespace Adxstudio.SharePoint
 
 				var rst = new RequestSecurityToken
 				{
-					RequestType = WSTrustFeb2005Constants.RequestTypes.Issue,
-					KeyType = WSTrustFeb2005Constants.KeyTypes.Bearer,
-					TokenType = Microsoft.IdentityModel.Tokens.SecurityTokenTypes.Saml11TokenProfile11,
-					AppliesTo = new EndpointAddress(spSiteUrl),
+					RequestType = RequestTypes.Issue,
+					KeyType = KeyTypes.Bearer,
+					TokenType = "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1",
+					AppliesTo = new EndpointReference(spSiteUrl.AbsoluteUri),
 				};
 
 				var genericToken = channel.Issue(rst) as GenericXmlSecurityToken;

@@ -3,12 +3,14 @@
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
 
-using Microsoft.WindowsAzure.Storage.Blob;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Azure.Storage.Sas;
 
 namespace Adxstudio.Xrm.Notes
 {
 	public interface IAzureAnnotationFile : IAnnotationFile
 	{
-		CloudBlockBlob BlockBlob { get; set; }
+		BlobClient BlockBlob { get; set; }
 	}
 }

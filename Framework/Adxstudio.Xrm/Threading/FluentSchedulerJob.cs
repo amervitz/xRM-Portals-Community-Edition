@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -8,13 +8,13 @@ namespace Adxstudio.Xrm.Threading
 	using System;
 	using System.Diagnostics.Tracing;
 	using System.Web.Hosting;
-	using FluentScheduler;
+	
 	using Adxstudio.Xrm.Web;
 
 	/// <summary>
 	/// A scheduler job.
 	/// </summary>
-	public abstract class FluentSchedulerJob : IJob, IRegisteredObject
+	public abstract class FluentSchedulerJob : IRegisteredObject
 	{
 		/// <summary>
 		/// Safe shutdown lock.

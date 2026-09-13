@@ -6,7 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data.Services.Client;
+
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
@@ -673,7 +673,7 @@ namespace Site.Areas.Account.Controllers
 				if (this.StartupSettingsManager.AzureAdOptions.AuthenticationType == authenticationType)
 				{
 					// this is an Azure AD sign-in
-					Microsoft.Azure.ActiveDirectory.GraphClient.IUser graphUser;
+					Microsoft.Graph.Models.User graphUser;
 
 					try
 					{
@@ -712,18 +712,18 @@ namespace Site.Areas.Account.Controllers
 			return null;
 		}
 
-		private static string ToEmail(Microsoft.Azure.ActiveDirectory.GraphClient.IUser graphUser)
+		private static string ToEmail(Microsoft.Graph.Models.User graphUser)
 		{
 			if (!string.IsNullOrWhiteSpace(graphUser.Mail)) return graphUser.Mail;
 
-			return graphUser.OtherMails != null ? graphUser.OtherMails.FirstOrDefault() : graphUser.UserPrincipalName;
+			return graphUser.OtherMails?.FirstOrDefault() ?? graphUser.UserPrincipalName;
 		}
 
 		private async Task<Enums.AzureADGraphAuthResults> DoAdditionalEssGraphWork(ExternalLoginInfo loginInfo)
 		{
 			var userCacheKey = $"{loginInfo.Login.ProviderKey}_graphUser";
 			var userAuthResultCacheKey = $"{loginInfo.Login.ProviderKey}_userAuthResult";
-			Microsoft.Azure.ActiveDirectory.GraphClient.IUser user = null;
+			Microsoft.Graph.Models.User user = null;
 
 			// if the user's already gone through the Graph check, this will be set with the error that happened
 			if (HttpContext.Cache[userAuthResultCacheKey] != null)
@@ -743,7 +743,7 @@ namespace Site.Areas.Account.Controllers
 			}
 			else
 			{
-				user = (Microsoft.Azure.ActiveDirectory.GraphClient.IUser)HttpContext.Cache[userCacheKey];
+				user = (Microsoft.Graph.Models.User)HttpContext.Cache[userCacheKey];
 			}
 
 			// if the user doesn't have an email address, try to use the UPN
@@ -777,7 +777,7 @@ namespace Site.Areas.Account.Controllers
 			return OutputGraphError(Enums.AzureADGraphAuthResults.NoValidLicense, userAuthResultCacheKey, loginInfo);
 		}
 
-		private async Task<Microsoft.Azure.ActiveDirectory.GraphClient.IUser> GetGraphUser(ExternalLoginInfo loginInfo)
+		private async Task<Microsoft.Graph.Models.User> GetGraphUser(ExternalLoginInfo loginInfo)
 		{
 			var userCacheKey = $"{loginInfo.Login.ProviderKey}_graphUser";
 			var userAuthResultCacheKey = $"{loginInfo.Login.ProviderKey}_userAuthResult";
@@ -794,10 +794,10 @@ namespace Site.Areas.Account.Controllers
 				return await GetGraphUser(loginInfo, userCacheKey, userAuthResultCacheKey);
 			}
 
-			return (Microsoft.Azure.ActiveDirectory.GraphClient.IUser)HttpContext.Cache[userCacheKey];
+			return (Microsoft.Graph.Models.User)HttpContext.Cache[userCacheKey];
 		}
 
-		private async Task<Microsoft.Azure.ActiveDirectory.GraphClient.IUser> GetGraphUser(ExternalLoginInfo loginInfo, string userCacheKey, string userAuthResultCacheKey)
+		private async Task<Microsoft.Graph.Models.User> GetGraphUser(ExternalLoginInfo loginInfo, string userCacheKey, string userAuthResultCacheKey)
 		{
 			const int tokenRetryCount = 3;
 
@@ -805,7 +805,7 @@ namespace Site.Areas.Account.Controllers
 				PortalSettings.Instance.Graph.RootUrl,
 				PortalSettings.Instance.Authentication.TenantId);
 
-			Microsoft.Azure.ActiveDirectory.GraphClient.IUser user = null;
+			Microsoft.Graph.Models.User user = null;
 
 			// retry tokenRetryCount times to retrieve the users. each time it fails, it will nullify the cache and try again
 			for (var x = 0; x < tokenRetryCount; x++)
@@ -815,37 +815,17 @@ namespace Site.Areas.Account.Controllers
 					ADXTrace.Instance.TraceInfo(TraceCategory.Application, "Attempting to retrieve user from Graph with UPN ");
 
 					// when we call this, the client will try to retrieve a token from GetAuthTokenTask()
-					user = await client.Me.ExecuteAsync();
+					user = await client.Me.GetAsync(request => request.QueryParameters.Select = new[]
+					{ "id", "givenName", "surname", "displayName", "mail", "otherMails", "userPrincipalName", "assignedPlans" });
 						
 					// if we get here then everything is alright. stop looping
 					break;
 				}
-				catch (AggregateException ex)
+				catch (Microsoft.Kiota.Abstractions.ApiException exception) when (exception.ResponseStatusCode == (int)HttpStatusCode.Unauthorized)
 				{
-					var handled = false;
-
-					foreach (var innerEx in ex.InnerExceptions)
-					{
-						if (innerEx.InnerException == null)
-						{
-							break;
-						}
-						var clientException = innerEx.InnerException as DataServiceClientException;
-						if (clientException?.StatusCode == (int)HttpStatusCode.Unauthorized)
-						{
-							ADXTrace.Instance.TraceInfo(TraceCategory.Application, "Current GraphClient auth token didn't seem to work. Discarding...");
-
-							// the token didn't seem to work. throw away cached token to retrieve new one
-							this.TokenManager.Reset();
-							handled = true;
-						}
-					}
-
-					if (!handled)
-					{
-						throw;
-					}
+					this.TokenManager.Reset();
 				}
+
 			}
 
 			// if user is null here, we have a config problem where we can't get correct auth tokens despite repeated attempts
@@ -900,13 +880,12 @@ namespace Site.Areas.Account.Controllers
 
 		private ICrmTokenManager TokenManager => this.tokenManager.Value;
 
-		private Microsoft.Azure.ActiveDirectory.GraphClient.ActiveDirectoryClient GetGraphClient(ExternalLoginInfo loginInfo, string graphRoot, string tenantId) {
+		private Microsoft.Graph.GraphServiceClient GetGraphClient(ExternalLoginInfo loginInfo, string graphRoot, string tenantId) {
 			var accessCodeClaim = loginInfo.ExternalIdentity.FindFirst("AccessCode");
 			var accessCode = accessCodeClaim?.Value;
 
-			return new Microsoft.Azure.ActiveDirectory.GraphClient.ActiveDirectoryClient(
-				new Uri(graphRoot + "/" + tenantId),
-				async () => await this.TokenManager.GetTokenAsync(accessCode));
+			return Adxstudio.Xrm.IdentityModel.ActiveDirectory.PortalGraphClient.Create(
+				PortalSettings.Instance.Graph.RootUrl, () => this.TokenManager.GetTokenAsync(accessCode));
 		}
 
 		//

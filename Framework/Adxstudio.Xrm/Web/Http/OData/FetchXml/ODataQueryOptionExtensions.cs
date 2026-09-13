@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -10,11 +10,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
-using System.Web.Http.OData.Query;
+using Microsoft.AspNet.OData.Query;
 using Adxstudio.Xrm.Resources;
 using Adxstudio.Xrm.Services.Query;
-using Microsoft.Data.OData;
-using Microsoft.Data.OData.Query;
+using Microsoft.OData;
+using Microsoft.OData.UriParser;
 using Microsoft.Xrm.Sdk.Query;
 
 namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
@@ -78,9 +78,9 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 
 			fetch = fetch.Apply(queryOptions.Skip);
 
-			// apply $inlinecount
+			// apply $count
 
-			fetch = fetch.Apply(queryOptions.InlineCount);
+			fetch = fetch.Apply(queryOptions.Count);
 
 			return fetch;
 		}
@@ -120,11 +120,11 @@ namespace Adxstudio.Xrm.Web.Http.OData.FetchXml
 			return fetch;
 		}
 
-		private static Fetch Apply(this Fetch fetch, InlineCountQueryOption inlineCountQueryOption)
+		private static Fetch Apply(this Fetch fetch, CountQueryOption countQueryOption)
 		{
-			if (inlineCountQueryOption != null)
+			if (countQueryOption != null)
 			{
-				fetch.ReturnTotalRecordCount = inlineCountQueryOption.Value == InlineCountValue.AllPages;
+				fetch.ReturnTotalRecordCount = countQueryOption.Value;
 			}
 
 			return fetch;

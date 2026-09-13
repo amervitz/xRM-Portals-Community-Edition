@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -6,7 +6,7 @@
 namespace Adxstudio.Xrm.Configuration
 {
 	using System;
-	using Microsoft.Azure;
+	using System.Configuration;
 
 	/// <summary>
 	/// Helpers related to configuration.
@@ -20,7 +20,7 @@ namespace Adxstudio.Xrm.Configuration
 		/// <returns>The appSetting value.</returns>
 		public static string ResolveAppSetting(this string name)
 		{
-			return CloudConfigurationManager.GetSetting(name, false);
+			return ConfigurationManager.AppSettings[name];
 		}
 
 		/// <summary>

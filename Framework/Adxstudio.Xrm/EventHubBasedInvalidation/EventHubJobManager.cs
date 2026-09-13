@@ -8,8 +8,9 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 	using System;
 	using System.Threading;
 	using Microsoft.Crm.Sdk.Messages;
-	using Microsoft.ServiceBus;
-	using Microsoft.ServiceBus.Messaging;
+	
+	using Azure.Messaging.ServiceBus;
+	using Azure.Messaging.ServiceBus.Administration;
 	using Adxstudio.Xrm.AspNet;
 	using Adxstudio.Xrm.Web;
 
@@ -51,12 +52,12 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// <summary>
 		/// The namespace manager field.
 		/// </summary>
-		private Lazy<NamespaceManager> namespaceManager;
+		private Lazy<ServiceBusAdministrationClient> namespaceManager;
 
 		/// <summary>
 		/// The namespace manager.
 		/// </summary>
-		public NamespaceManager NamespaceManager
+		public ServiceBusAdministrationClient ServiceBusAdministrationClient
 		{
 			get
 			{
@@ -101,12 +102,12 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// <summary>
 		/// The subscription field.
 		/// </summary>
-		private Lazy<SubscriptionDescription> subscription;
+		private Lazy<SubscriptionProperties> subscription;
 
 		/// <summary>
 		/// The subscription.
 		/// </summary>
-		public SubscriptionDescription Subscription
+		public SubscriptionProperties Subscription
 		{
 			get
 			{
@@ -126,12 +127,13 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// <summary>
 		/// The subscription client field.
 		/// </summary>
-		private Lazy<SubscriptionClient> subscriptionClient;
+		private Lazy<ServiceBusReceiver> subscriptionClient;
+		private Lazy<ServiceBusClient> client;
 
 		/// <summary>
 		/// The subscription client.
 		/// </summary>
-		public SubscriptionClient SubscriptionClient
+		public ServiceBusReceiver ServiceBusReceiver
 		{
 			get
 			{
@@ -166,10 +168,14 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// </summary>
 		public void Reset()
 		{
-			this.namespaceManager = new Lazy<NamespaceManager>(CreateNamespaceManager(this.Settings), LazyThreadSafetyMode.PublicationOnly);
+			DisposeClients();
+			// PublicationOnly does not cache a failed initialization, so a transient Service Bus error
+			// is retried on the next access instead of disabling invalidation for the process lifetime.
+			this.client = new Lazy<ServiceBusClient>(() => new ServiceBusClient(this.Settings.ConnectionString), LazyThreadSafetyMode.PublicationOnly);
+			this.namespaceManager = new Lazy<ServiceBusAdministrationClient>(CreateServiceBusAdministrationClient(this.Settings), LazyThreadSafetyMode.PublicationOnly);
 			this.topicExists = new Lazy<bool>(() => this.GetTopicExists(this.Settings), LazyThreadSafetyMode.PublicationOnly);
-			this.subscription = new Lazy<SubscriptionDescription>(() => this.GetSubscription(this.Settings), LazyThreadSafetyMode.PublicationOnly);
-			this.subscriptionClient = new Lazy<SubscriptionClient>(() => this.GetSubscriptionClient(this.Settings), LazyThreadSafetyMode.PublicationOnly);
+			this.subscription = new Lazy<SubscriptionProperties>(() => this.GetSubscription(this.Settings), LazyThreadSafetyMode.PublicationOnly);
+			this.subscriptionClient = new Lazy<ServiceBusReceiver>(() => this.GetServiceBusReceiver(this.Settings), LazyThreadSafetyMode.PublicationOnly);
 		}
 
 		/// <summary>
@@ -188,9 +194,9 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// </summary>
 		/// <param name="settings">The settings.</param>
 		/// <returns>The namespace manager.</returns>
-		private static Func<NamespaceManager> CreateNamespaceManager(EventHubJobSettings settings)
+		private static Func<ServiceBusAdministrationClient> CreateServiceBusAdministrationClient(EventHubJobSettings settings)
 		{
-			return () => NamespaceManager.CreateFromConnectionString(settings.ConnectionString);
+			return () => new ServiceBusAdministrationClient(settings.ConnectionString);
 		}
 
 		/// <summary>
@@ -200,8 +206,8 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// <returns>The topic exists flag.</returns>
 		private bool GetTopicExists(EventHubJobSettings settings)
 		{
-			var topicPath = settings.Subscription.TopicPath;
-			var exists = this.NamespaceManager.TopicExists(topicPath);
+			var topicPath = settings.Subscription.TopicName;
+			var exists = this.ServiceBusAdministrationClient.TopicExistsAsync(topicPath).ConfigureAwait(false).GetAwaiter().GetResult().Value;
 
 			if (!exists)
 			{
@@ -216,17 +222,17 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// </summary>
 		/// <param name="settings">The settings.</param>
 		/// <returns>The subscription.</returns>
-		private SubscriptionDescription GetSubscription(EventHubJobSettings settings)
+		private SubscriptionProperties GetSubscription(EventHubJobSettings settings)
 		{
-			var topicPath = settings.Subscription.TopicPath;
-			var subscriptionName = settings.Subscription.Name;
+			var topicPath = settings.Subscription.TopicName;
+			var subscriptionName = settings.Subscription.SubscriptionName;
 
 			if (!this.TopicExists)
 			{
 				throw new InvalidOperationException(string.Format("The topic '{0}' does not exist.", topicPath));
 			}
 
-			var subscriptionExists = this.NamespaceManager.SubscriptionExists(topicPath, subscriptionName);
+			var subscriptionExists = this.ServiceBusAdministrationClient.SubscriptionExistsAsync(topicPath, subscriptionName).ConfigureAwait(false).GetAwaiter().GetResult().Value;
 
 			if (!subscriptionExists)
 			{
@@ -239,7 +245,7 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 			{
 				ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Deleting Subscription '{0}' for topic '{1}'.", subscriptionName, topicPath));
 
-				this.NamespaceManager.DeleteSubscription(topicPath, subscriptionName);
+				this.ServiceBusAdministrationClient.DeleteSubscriptionAsync(topicPath, subscriptionName).ConfigureAwait(false).GetAwaiter().GetResult();
 
 				ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Creating Subscription '{0}' for topic '{1}'.", subscriptionName, topicPath));
 
@@ -248,7 +254,7 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 
 			ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Using Subscription '{0}' for topic '{1}'.", subscriptionName, topicPath));
 
-			return this.NamespaceManager.GetSubscription(topicPath, subscriptionName);
+			return this.ServiceBusAdministrationClient.GetSubscriptionAsync(topicPath, subscriptionName).ConfigureAwait(false).GetAwaiter().GetResult().Value;
 		}
 
 		/// <summary>
@@ -256,16 +262,16 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// </summary>
 		/// <param name="description">The subscription description.</param>
 		/// <returns>The subscription.</returns>
-		private SubscriptionDescription CreateSubscription(SubscriptionDescription description)
+		private SubscriptionProperties CreateSubscription(CreateSubscriptionOptions description)
 		{
             try
             {
-                return this.NamespaceManager.CreateSubscription(description, this.CreateFilter());
+                return this.ServiceBusAdministrationClient.CreateSubscriptionAsync(description, new CreateRuleOptions("$Default", this.CreateFilter())).ConfigureAwait(false).GetAwaiter().GetResult().Value;
             }
-            catch (MessagingEntityAlreadyExistsException e)
+            catch (Azure.RequestFailedException e) when (e.Status == 409)
             {
-                WebEventSource.Log.GenericWarningException(e, string.Format("MessagingEntityAlreadyExistsException: Using Subscription '{0}' for topic '{1}'.", description.Name, description.TopicPath));
-                return this.NamespaceManager.GetSubscription(description.TopicPath, description.Name);
+                WebEventSource.Log.GenericWarningException(e, string.Format("MessagingEntityAlreadyExistsException: Using Subscription '{0}' for topic '{1}'.", description.SubscriptionName, description.TopicName));
+                return this.ServiceBusAdministrationClient.GetSubscriptionAsync(description.TopicName, description.SubscriptionName).ConfigureAwait(false).GetAwaiter().GetResult().Value;
             }
         }
 
@@ -273,9 +279,9 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
         /// Creates the filter.
         /// </summary>
         /// <returns>The filter.</returns>
-        private Filter CreateFilter()
+        private RuleFilter CreateFilter()
 		{
-			return new SqlFilter(string.Format("OrganizationId = '{0}'", this.OrganizationId));
+			return new SqlRuleFilter(string.Format("OrganizationId = '{0}'", this.OrganizationId));
 		}
 
 		/// <summary>
@@ -283,16 +289,30 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// </summary>
 		/// <param name="settings">The settings.</param>
 		/// <returns>The subscription client.</returns>
-		private SubscriptionClient GetSubscriptionClient(EventHubJobSettings settings)
+		private ServiceBusReceiver GetServiceBusReceiver(EventHubJobSettings settings)
 		{
 			if (this.Subscription != null)
 			{
-				var topicPath = this.Subscription.TopicPath;
-				var subscriptionName = this.Subscription.Name;
-				return SubscriptionClient.CreateFromConnectionString(settings.ConnectionString, topicPath, subscriptionName);
+				var topicPath = this.Subscription.TopicName;
+				var subscriptionName = this.Subscription.SubscriptionName;
+				return this.client.Value.CreateReceiver(topicPath, subscriptionName, new ServiceBusReceiverOptions { ReceiveMode = ServiceBusReceiveMode.PeekLock });
 			}
 
-			throw new InvalidOperationException(string.Format("The subscription '{0}' for topic '{1}' is not ready.", settings.Subscription.Name, settings.Subscription.TopicPath));
+			throw new InvalidOperationException(string.Format("The subscription '{0}' for topic '{1}' is not ready.", settings.Subscription.SubscriptionName, settings.Subscription.TopicName));
+		}
+
+		private void DisposeClients()
+		{
+			try
+			{
+				if (this.subscriptionClient != null && this.subscriptionClient.IsValueCreated)
+					this.subscriptionClient.Value.DisposeAsync().AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+			}
+			finally
+			{
+				if (this.client != null && this.client.IsValueCreated)
+					this.client.Value.DisposeAsync().AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+			}
 		}
 
 		/// <summary>
@@ -300,7 +320,7 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// </summary>
 		void IDisposable.Dispose()
 		{
-			// IDisposable is only required to satisfy the IdentityFactoryOptions<T> constraint
+			DisposeClients();
 		}
 	}
 }

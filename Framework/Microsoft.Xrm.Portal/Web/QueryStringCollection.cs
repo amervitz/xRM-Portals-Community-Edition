@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -6,7 +6,7 @@
 using System.Collections.Specialized;
 using System.Web;
 using System.Text;
-using Microsoft.Security.Application;
+using Encoder = System.Web.Security.AntiXss.AntiXssEncoder;
 
 namespace Microsoft.Xrm.Portal.Web
 {
@@ -102,18 +102,18 @@ namespace Microsoft.Xrm.Portal.Web
 					{
 						if (!string.IsNullOrEmpty(key))
 						{
-							queryString.Append("&").Append(Microsoft.Security.Application.Encoder.UrlEncode(key)).Append("=").Append(Microsoft.Security.Application.Encoder.UrlEncode(value));
+							queryString.Append("&").Append(System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(key)).Append("=").Append(System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(value));
 						}
 						else
 						{
-							queryString.Append("&").Append(Microsoft.Security.Application.Encoder.UrlEncode(value));
+							queryString.Append("&").Append(System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(value));
 						}
 					}
 				}
 				else
 				{
 					// there is a key with no values - just output the key
-					queryString.Append("&").Append(Microsoft.Security.Application.Encoder.UrlEncode(key));
+					queryString.Append("&").Append(System.Web.Security.AntiXss.AntiXssEncoder.UrlEncode(key));
 				}
 			}
 

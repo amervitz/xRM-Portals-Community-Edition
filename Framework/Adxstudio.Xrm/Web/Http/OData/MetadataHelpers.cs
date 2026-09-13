@@ -1,9 +1,9 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
 
-using Microsoft.Data.Edm;
+using Microsoft.OData.Edm;
 using Microsoft.Xrm.Sdk.Metadata;
 
 namespace Adxstudio.Xrm.Web.Http.OData
@@ -34,7 +34,7 @@ namespace Adxstudio.Xrm.Web.Http.OData
 				case AttributeTypeCode.Customer:
 					return null;
 				case AttributeTypeCode.DateTime:
-					return EdmPrimitiveTypeKind.DateTime;
+					return EdmPrimitiveTypeKind.DateTimeOffset;
 				case AttributeTypeCode.Decimal:
 					return EdmPrimitiveTypeKind.Decimal;
 				case AttributeTypeCode.Double:

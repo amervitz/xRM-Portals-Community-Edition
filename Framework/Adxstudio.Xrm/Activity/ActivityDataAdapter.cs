@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -22,7 +22,7 @@ namespace Adxstudio.Xrm.Activity
 	using Microsoft.Xrm.Sdk.Metadata;
 	using Microsoft.Xrm.Sdk.Query;
 	using Adxstudio.Xrm.Text;
-	using Microsoft.Practices.ObjectBuilder2;
+	
 	using Filter = Adxstudio.Xrm.Services.Query.Filter;
 
 	/// <summary>
@@ -237,7 +237,7 @@ namespace Adxstudio.Xrm.Activity
 				var acceptExtensionTypes = AnnotationDataAdapter.GetAcceptRegex(portalComment.AttachmentSettings.AcceptExtensionTypes);
 				if (portalComment.FileAttachments != null)
 				{
-					portalComment.FileAttachments.ForEach(attachment =>
+					portalComment.FileAttachments.ToList().ForEach(attachment =>
 					{
 						if (!(acceptExtensionTypes.IsMatch(Path.GetExtension(attachment.FileName).ToLower()) ||
 								acceptMimeTypes.IsMatch(attachment.MimeType)))
