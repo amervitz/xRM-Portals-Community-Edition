@@ -447,7 +447,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin">
-      <HintPath>..\..\packages\Owin.1.0.0\lib\net40\Owin.dll</HintPath>
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin.Security.Providers.LinkedIn">
