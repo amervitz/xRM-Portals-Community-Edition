@@ -424,18 +424,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.OData, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.OData.5.4.0\lib\net45\System.Web.Http.OData.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
@@ -1569,9 +1557,6 @@
     <Compile Include="Web\Handlers\Utility.cs" />
     <Compile Include="Web\Handlers\WebResourceHandler.cs" />
     <Compile Include="Web\HostNameSettingDisplayMode.cs" />
-    <Compile Include="Web\Http\OData\FetchXml\FetchFilterBinder.cs" />
-    <Compile Include="Web\Http\OData\FetchXml\ODataQueryOptionExtensions.cs" />
-    <Compile Include="Web\Http\OData\MetadataHelpers.cs" />
     <Compile Include="Web\Modules\AzureErrorNotifierModule.cs" />
     <Compile Include="Web\Modules\ErrorNotifierModule.cs" />
     <Compile Include="Web\Modules\OutputCacheModule.cs" />
@@ -1877,14 +1862,6 @@
     <Compile Include="Web\UI\JsonConfiguration\ViewMetadata.cs" />
     <Compile Include="Web\UI\JsonConfiguration\WinOpportunityActionLink.cs" />
     <Compile Include="Web\UI\JsonConfiguration\WorkflowActionLink.cs" />
-    <Compile Include="Web\UI\EntityList\OData\DataAdapterDependencies.cs" />
-    <Compile Include="Web\UI\EntityList\OData\EntityListFormatQueryStringHandler.cs" />
-    <Compile Include="Web\UI\EntityList\OData\EntityListODataFeedDataAdapter.cs" />
-    <Compile Include="Web\UI\EntityList\OData\EntityListODataPathRouteContstraint.cs" />
-    <Compile Include="Web\UI\EntityList\OData\EntityListODataRoutingConvention.cs" />
-    <Compile Include="Web\UI\EntityList\OData\IDataAdapterDependencies.cs" />
-    <Compile Include="Web\UI\EntityList\OData\IEntityListODataFeedDataAdapter.cs" />
-    <Compile Include="Web\UI\EntityList\OData\PortalConfigurationDataAdapterDependencies.cs" />
     <Compile Include="Web\UI\JsonConfiguration\FormActionMetadata.cs" />
     <Compile Include="Web\UI\CrmEntityListView\FilterConfiguration.cs" />
     <Compile Include="Web\UI\CrmEntityListView\IViewConfiguration.cs" />

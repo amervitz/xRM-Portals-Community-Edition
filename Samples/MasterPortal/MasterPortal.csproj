@@ -404,21 +404,6 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Http">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http.OData">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.OData.5.4.0\lib\net45\System.Web.Http.OData.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Web.Mvc">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
@@ -714,9 +699,6 @@
     </Compile>
     <Compile Include="Areas\Portal\PortalAreaRegistration.cs" />
     <Compile Include="Areas\EntityList\Controllers\CalendarController.cs" />
-    <Compile Include="Areas\EntityList\Controllers\ODataEntitySetController.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Areas\EntityList\Controllers\MapController.cs" />
     <Compile Include="Areas\EntityList\Controllers\PackageRepositoryController.cs" />
     <Compile Include="Areas\EntityList\EntityListAreaRegistration.cs" />

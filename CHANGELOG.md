@@ -37,3 +37,4 @@ Docs
 Code
 
 - Removed legacy managed-code analysis, StyleCop analyzers, and shared ruleset configuration from all projects.
+- Removed the entity list OData feed endpoint (`/_odata`).
