@@ -38,3 +38,4 @@ Code
 
 - Removed legacy managed-code analysis, StyleCop analyzers, and shared ruleset configuration from all projects.
 - Removed the entity list OData feed endpoint (`/_odata`).
+- Removed customer journey tracking, which posted portal interaction telemetry to a Microsoft internal Dynamics Customer Insights (DCI) hub provisioned only by Microsoft's portal hosting. This also removes the `FCB.CustomerJourneyTracking` feature flag and the `PortalTracking` and `PortalTracking.*` app settings.

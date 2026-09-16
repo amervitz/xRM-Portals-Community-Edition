@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -13,7 +13,6 @@ namespace Site.Areas.KnowledgeManagement.Controllers
 	using System.Web;
 	using System.Web.Routing;
 
-	using Adxstudio.Xrm.Diagnostics;
 	using Adxstudio.Xrm;
 	using Adxstudio.Xrm.AspNet.Cms;
 	using Adxstudio.Xrm.Cms;
@@ -129,12 +128,7 @@ namespace Site.Areas.KnowledgeManagement.Controllers
 			{
 				return RedirectToAccessDeniedPage();
 			}
-			
-			//Log Customer Journey Tracking
-			if (FeatureCheckHelper.IsFeatureEnabled(FeatureNames.CustomerJourneyTracking))
-			{
-				PortalTrackingTrace.TraceInstance.Log(Constants.Article, article.Id.ToString(), article.GetAttributeValue<string>("title"));
-			}
+
 			return GetArticleView(article, page, langCode);
 		}
 

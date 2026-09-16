@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -10,8 +10,6 @@ namespace Adxstudio.Xrm.Search
     using System.Diagnostics;
     using System.Linq;
     using System.Web;
-	using Adxstudio.Xrm.Core.Flighting;
-	using Adxstudio.Xrm.Diagnostics;
 	using Adxstudio.Xrm.Cms;
     using Adxstudio.Xrm.Search.Facets;
     using Adxstudio.Xrm.Search.Index;
@@ -111,15 +109,6 @@ namespace Adxstudio.Xrm.Search
                 pageNumber,
                 pageSize,
 				results);
-
-
-			// sprinkle these calls in for whichever events we want to trace
-			if (FeatureCheckHelper.IsFeatureEnabled(FeatureNames.CustomerJourneyTracking))
-			{
-				var queryStringArray = query.QueryText.Split('(', ')');
-				string queryString = queryStringArray.Length > 1 ? queryStringArray[1] : query.QueryText;
-				PortalTrackingTrace.TraceInstance.Log(Constants.Search, queryString, string.Empty);
-        }
 
 			return userResults;
 		}

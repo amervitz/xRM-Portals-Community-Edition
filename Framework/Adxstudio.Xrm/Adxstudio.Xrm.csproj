@@ -496,9 +496,6 @@
     <Compile Include="Decorators\ICollectionInspector.cs" />
     <Compile Include="Decorators\ItemDecorator.cs" />
     <Compile Include="Decorators\CookieInspector.cs" />
-    <Compile Include="Diagnostics\Constants.cs" />
-    <Compile Include="Diagnostics\PortalTracking\PortalDetail.cs" />
-    <Compile Include="Diagnostics\PortalTracking\PortalTrackingTrace.cs" />
     <Compile Include="Diagnostics\Trace\ApplicationLifecycleEventCategory.cs" />
     <Compile Include="Diagnostics\Trace\Extensions.cs" />
     <Compile Include="EventHubBasedInvalidation\EntityTrackingInfo.cs" />

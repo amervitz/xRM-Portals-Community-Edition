@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -22,8 +22,6 @@ using Site.Pages;
 using System.Web.Configuration;
 using System.Configuration;
 using Adxstudio.Xrm;
-using Adxstudio.Xrm.Core.Flighting;
-using Adxstudio.Xrm.Diagnostics;
 
 namespace Site.Areas.Forums.Pages
 {
@@ -78,17 +76,6 @@ namespace Site.Areas.Forums.Pages
 			}
 
 			FileUploadSizeValidator.ErrorMessage = AnnotationErrorMessage;
-
-			// sprinkle these calls in for whichever events we want to trace
-			//Log Customer Journey Tracking
-			if (FeatureCheckHelper.IsFeatureEnabled(FeatureNames.CustomerJourneyTracking))
-			{
-				if (!string.IsNullOrEmpty(_portal.Value.Entity.Id.ToString()) &&
-				    !string.IsNullOrEmpty(_portal.Value.Entity.GetAttributeValue<string>("adx_name")))
-				{
-					PortalTrackingTrace.TraceInstance.Log(Constants.Forum, _portal.Value.Entity.Id.ToString(), _portal.Value.Entity.GetAttributeValue<string>("adx_name"));
-				}
-			}
 		}
 
 		protected void CreateForumThreadDataAdapter(object sender, ObjectDataSourceEventArgs args)

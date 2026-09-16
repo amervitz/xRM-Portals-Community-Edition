@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -18,7 +18,6 @@ namespace Adxstudio.Xrm.Core.Flighting
 		public const string TelemetryFeatureUsage = "FCB.TelemetryFeatureUsage";
 		public const string CmsEnabledSearching = "FCB.CmsEnabledSearching";
 		public const string CALProductSearchPostFiltering = "FCB.CALProductSearchPostFiltering";
-		public const string CustomerJourneyTracking = "FCB.CustomerJourneyTracking";
 		public const string EntityPermissionFetchUnionHint = "FCB.EntityPermissionFetchUnionHint";
 		public const string PortalAllowStaleData = "FCB.PortalAllowStaleData";
 		public const string WebProxyClientFailover = "FCB.WebProxyClientFailover";

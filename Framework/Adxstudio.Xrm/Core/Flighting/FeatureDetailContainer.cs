@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -54,7 +54,6 @@ namespace Adxstudio.Xrm.Core.Flighting
 			this.AddGlobalFeature(FeatureNames.TelemetryFeatureUsage, true);
 			this.AddGlobalFeature(FeatureNames.PortalFacetedNavigation, true);
 			this.AddGlobalFeature(FeatureNames.CmsEnabledSearching, true);
-			this.AddGlobalFeature(FeatureNames.CustomerJourneyTracking, "PortalTracking".ResolveAppSetting().ToBoolean().GetValueOrDefault());
 			this.AddGlobalFeature(FeatureNames.EntityPermissionFetchUnionHint, true);
 			this.AddGlobalFeature(FeatureNames.PortalAllowStaleData, "PortalAllowStaleData".ResolveAppSetting().ToBoolean().GetValueOrDefault());
 			this.AddGlobalFeature(FeatureNames.WebProxyClientFailover, "PortalWebProxyClientFailover".ResolveAppSetting().ToBoolean().GetValueOrDefault());

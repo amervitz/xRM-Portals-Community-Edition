@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -15,7 +15,6 @@ namespace Site.Areas.Ideas.Controllers
 	using Microsoft.Xrm.Client.Security;
 	using Adxstudio.Xrm.Cms;
 	using Adxstudio.Xrm.Core.Flighting;
-	using Adxstudio.Xrm.Diagnostics;
 	using Adxstudio.Xrm.Data;
 	using Adxstudio.Xrm.Globalization;
 	using Adxstudio.Xrm.Ideas;
@@ -202,13 +201,6 @@ namespace Site.Areas.Ideas.Controllers
 			if (FeatureCheckHelper.IsFeatureEnabled(FeatureNames.TelemetryFeatureUsage))
 			{
 				PortalFeatureTrace.TraceInstance.LogFeatureUsage(FeatureTraceCategory.Idea, this.HttpContext, "read_idea_forum", ideaForumViewModel.Ideas.Count(), ideaForum.ToEntityReference(), "read");
-			}
-			
-			// sprinkle these calls in for whichever events we want to trace
-			//Log Customer Journey Tracking
-			if (FeatureCheckHelper.IsFeatureEnabled(FeatureNames.CustomerJourneyTracking))
-			{
-				PortalTrackingTrace.TraceInstance.Log(Constants.Forum, ideaForum.Id.ToString(), currentIdeaForum.Title);
 			}
 
 			return View("IdeaForum", ideaForumViewModel);
