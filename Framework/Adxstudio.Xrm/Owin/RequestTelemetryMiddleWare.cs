@@ -11,7 +11,6 @@ namespace Adxstudio.Xrm.Owin
 	using Microsoft.Owin;
 	using Adxstudio.Xrm.Core.Telemetry;
 	using Adxstudio.Xrm.Decorators;
-	using Adxstudio.Xrm.Diagnostics.Metrics;
 	using Adxstudio.Xrm.Performance;
 	using Adxstudio.Xrm.Performance.AggregateEvent;
 
@@ -84,7 +83,6 @@ namespace Adxstudio.Xrm.Owin
 			{
 				var requestStartTime = (DateTime)startTime;
 				var elapsedTime = DateTime.UtcNow - requestStartTime;
-				MdmMetrics.RequestExecutionTimeMetric.LogValue((long)elapsedTime.TotalMilliseconds);
 
 				var ag = PerformanceAggregateLogger.GetPerformanceAggregate();
 				if (ag != null)

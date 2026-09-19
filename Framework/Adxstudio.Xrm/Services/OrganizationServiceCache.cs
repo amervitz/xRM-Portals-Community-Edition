@@ -31,7 +31,6 @@ namespace Adxstudio.Xrm.Services
 	using Adxstudio.Xrm.Core.Flighting;
 	using Adxstudio.Xrm.Threading;
 	using Adxstudio.Xrm.Caching;
-	using Adxstudio.Xrm.Diagnostics.Metrics;
 	using Adxstudio.Xrm.Diagnostics.Trace;
 	using Adxstudio.Xrm.EventHubBasedInvalidation;
 	using Adxstudio.Xrm.Performance;
@@ -394,7 +393,6 @@ namespace Adxstudio.Xrm.Services
 			}
 
 			stopwatch.Stop();
-			MdmMetrics.CacheMissedMetric.LogValue(cacheMissedMetricValue);
 
 			if (cacheMissedMetricValue == 0)
 			{
@@ -459,7 +457,6 @@ namespace Adxstudio.Xrm.Services
 				() =>
 				{
 					ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("{0}", cacheKey));
-					MdmMetrics.CacheMissedMetric.LogValue(1);
 
 					result = InnerExecute(query, execute, selector);
 
@@ -475,7 +472,6 @@ namespace Adxstudio.Xrm.Services
 			var cacheKey = GetCacheKey(query, selectorCacheKey, out queryText);
 
 			ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("{0}", cacheKey));
-			MdmMetrics.CacheMissedMetric.LogValue(1);
 
 			return InnerExecute(query, execute, selector);
 		}

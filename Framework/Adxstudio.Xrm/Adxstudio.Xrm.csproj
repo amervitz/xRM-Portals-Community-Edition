@@ -196,21 +196,6 @@
       <HintPath>..\..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Events.dll')" Include="Microsoft.Cloud.InstrumentationFramework.Events, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Events.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Health.dll')" Include="Microsoft.Cloud.InstrumentationFramework.Health, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Health.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Metrics.dll')" Include="Microsoft.Cloud.InstrumentationFramework.Metrics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Metrics.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=8.2.0.749, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.PowerPlatform.Dataverse.Client.1.2.27\lib\net48\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
@@ -654,10 +639,6 @@
     <Compile Include="Core\Flighting\IFeatureDetail.cs" />
     <Compile Include="Core\Flighting\IFeatureDetailContainer.cs" />
     <Compile Include="Core\Telemetry\AuthenticationEvents.cs" />
-    <Compile Include="Diagnostics\Metrics\AdxMetrics.cs" />
-    <Compile Include="Diagnostics\Metrics\IfxMetricsReporter.cs" />
-    <Compile Include="Diagnostics\Metrics\MdmMetrics.cs" />
-    <Compile Include="Diagnostics\Metrics\MetricsReportingEvents.cs" />
     <Compile Include="Diagnostics\Trace\ADXTrace.cs" />
     <Compile Include="Diagnostics\Trace\TraceEnums.cs" />
     <Compile Include="EventHubBasedInvalidation\InvalidationHandler.cs" />
@@ -2058,9 +2039,6 @@
   <PropertyGroup Condition="Exists('..\..\DllImports\Telerik.Web.UI.dll')">
     <DefineConstants>$(DefineConstants);TELERIKWEBUI;SELFHOSTED</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Metrics.dll')">
-    <DefineConstants>$(DefineConstants);CLOUDINSTRUMENTATION;SELFHOSTED</DefineConstants>
-  </PropertyGroup>
   <ItemGroup>
     <!-- specify the assemblies that are known to lack a strong name -->
     <UnstrongName Include="Owin.Security.Providers.dll">
@@ -2094,5 +2072,4 @@
   <Import Project="$(AdxstudioFrameworkPath)\Adxstudio.Xrm.Build\SetStrongName.targets" />
   <Import Project="..\..\packages\SafeNuGet.1.0.10\build\SafeNuGet.targets" Condition="Exists('..\..\packages\SafeNuGet.1.0.10\build\SafeNuGet.targets')" />
   <Import Project="..\..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.targets" Condition="Exists('..\..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.targets')" />
-  <Import Project="..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\build\Microsoft.Cloud.InstrumentationFramework.targets" Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\build\Microsoft.Cloud.InstrumentationFramework.targets')" />
 </Project>

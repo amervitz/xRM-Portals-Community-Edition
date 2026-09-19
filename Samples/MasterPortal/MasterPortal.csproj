@@ -26,7 +26,6 @@
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <TargetFrameworkProfile />
-    <NativeDllPath>..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\build\native\lib</NativeDllPath>
     <UseGlobalApplicationHostFile />
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\Solutions\MasterPortalSolution\</SolutionDir>
@@ -56,56 +55,6 @@
     <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <ItemGroup Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Metrics.dll')">
-    <Content Include="$(NativeDllPath)\IfxEvents.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\IfxEvents.lib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\IfxHealth.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\IfxHealth.lib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\IfxMetrics.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\IfxMetrics.lib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\msvcp120.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\msvcr120.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\Tfx.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\Tfx.lib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\TfxPerfCounter.man">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="$(NativeDllPath)\vccorlib120.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-  </ItemGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
       <SpecificVersion>False</SpecificVersion>
@@ -212,18 +161,6 @@
     </Reference>
     <Reference Include="Microsoft.Azure.ActiveDirectory.GraphClient">
       <HintPath>..\..\packages\Microsoft.Azure.ActiveDirectory.GraphClient.2.1.0\lib\portable-net4+sl5+win+wpa+wp8\Microsoft.Azure.ActiveDirectory.GraphClient.dll</HintPath>
-    </Reference>
-    <Reference Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Metrics.dll')" Include="Microsoft.Cloud.InstrumentationFramework.Metrics">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Metrics.dll</HintPath>
-    </Reference>
-    <Reference Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Events.dll')" Include="Microsoft.Cloud.InstrumentationFramework.Events">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Events.dll</HintPath>
-    </Reference>
-    <Reference Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Health.dll')" Include="Microsoft.Cloud.InstrumentationFramework.Health">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Health.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Crm.Sdk.Proxy">
       <HintPath>..\..\packages\Microsoft.PowerPlatform.Dataverse.Client.1.2.27\lib\net48\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
@@ -3236,9 +3173,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="Exists('..\..\DllImports\Telerik.Web.UI.dll')">
     <DefineConstants>$(DefineConstants);TELERIKWEBUI;SELFHOSTED</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="Exists('..\..\packages\Microsoft.Cloud.InstrumentationFramework.3.0.4.146\lib\net40\Microsoft.Cloud.InstrumentationFramework.Metrics.dll')">
-    <DefineConstants>$(DefineConstants);CLOUDINSTRUMENTATION;SELFHOSTED</DefineConstants>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

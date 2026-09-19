@@ -11,7 +11,6 @@ namespace Adxstudio.Xrm.Web
 	using System.Text;
 	using Adxstudio.Xrm.Configuration;
 	using Adxstudio.Xrm.Core.Telemetry.EventSources;
-	using Adxstudio.Xrm.Diagnostics.Metrics;
 	using Adxstudio.Xrm.Diagnostics.Trace;
 
 	[EventSource(Guid = "14318B53-CEB4-420D-A9F9-78CA594C751B", Name = InternalName)]
@@ -81,8 +80,6 @@ namespace Adxstudio.Xrm.Web
 				this.ProductionOrTrial,
 				this.SessionId,
 				this.ElapsedTime());
-
-			MdmMetrics.WebGenericErrorExceptionMetric.LogValue(1);
 
 			return this.GetActivityId();
 		}
@@ -189,8 +186,6 @@ namespace Adxstudio.Xrm.Web
 				this.ProductionOrTrial,
 				this.SessionId,
 				this.ElapsedTime());
-
-			MdmMetrics.WebUnhandledExceptionMetric.LogValue(1);
 
 			return this.GetActivityId();
 		}

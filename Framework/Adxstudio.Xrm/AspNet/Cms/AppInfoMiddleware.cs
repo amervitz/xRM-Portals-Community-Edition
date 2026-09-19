@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using Microsoft.Owin;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Adxstudio.Xrm.Diagnostics.Metrics;
 
 namespace Adxstudio.Xrm.AspNet.Cms
 {
@@ -56,7 +55,6 @@ namespace Adxstudio.Xrm.AspNet.Cms
 			if (Options.Enabled && Equals(context.Request.Path, Options.CallbackPath))
 			{
 				LazyInitializer.EnsureInitialized(ref _info, GetInfo);
-                MdmMetrics.PortalHeartbeat.LogValue(1);
                 context.Response.ContentType = "application/json";
 				await context.Response.WriteAsync(_info);
 			}

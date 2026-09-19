@@ -14,7 +14,6 @@ namespace Adxstudio.Xrm.Services
 	using System.ServiceModel.Description;
 	using System.ServiceModel.Dispatcher;
 	using Adxstudio.Xrm.AspNet.Cms;
-	using Adxstudio.Xrm.Diagnostics.Metrics;
 	using Adxstudio.Xrm.Diagnostics.Trace;
 	using Adxstudio.Xrm.Performance;
 	using Adxstudio.Xrm.Web;
@@ -134,7 +133,6 @@ namespace Adxstudio.Xrm.Services
 			{
 				stopwatch.Stop();
 
-				MdmMetrics.CrmOrganizationRequestExecutionTimeMetric.LogValue(stopwatch.ElapsedMilliseconds);
 				ServicesEventSource.Log.Create(entity, stopwatch.ElapsedMilliseconds);
 			}
 
@@ -161,7 +159,6 @@ namespace Adxstudio.Xrm.Services
 			{
 				stopwatch.Stop();
 
-				MdmMetrics.CrmOrganizationRequestExecutionTimeMetric.LogValue(stopwatch.ElapsedMilliseconds);
 				ServicesEventSource.Log.Update(entity, stopwatch.ElapsedMilliseconds);
 			}
 
@@ -186,7 +183,6 @@ namespace Adxstudio.Xrm.Services
 			{
 				stopwatch.Stop();
 
-				MdmMetrics.CrmOrganizationRequestExecutionTimeMetric.LogValue(stopwatch.ElapsedMilliseconds);
 				ServicesEventSource.Log.Delete(entityName, id, stopwatch.ElapsedMilliseconds);
 			}
 
@@ -211,7 +207,6 @@ namespace Adxstudio.Xrm.Services
 			{
 				stopwatch.Stop();
 
-				MdmMetrics.CrmOrganizationRequestExecutionTimeMetric.LogValue(stopwatch.ElapsedMilliseconds);
 				ServicesEventSource.Log.Associate(entityName, entityId, relationship, relatedEntities, stopwatch.ElapsedMilliseconds);
 			}
 		}
@@ -231,7 +226,6 @@ namespace Adxstudio.Xrm.Services
 			{
 				stopwatch.Stop();
 
-				MdmMetrics.CrmOrganizationRequestExecutionTimeMetric.LogValue(stopwatch.ElapsedMilliseconds);
 				ServicesEventSource.Log.Disassociate(entityName, entityId, relationship, relatedEntities, stopwatch.ElapsedMilliseconds);
 			}
 		}
@@ -382,7 +376,6 @@ namespace Adxstudio.Xrm.Services
 			{
 				stopwatch.Stop();
 
-				MdmMetrics.CrmOrganizationRequestExecutionTimeMetric.LogValue(stopwatch.ElapsedMilliseconds);
 				ServicesEventSource.Log.OrganizationRequest(innerRequest, stopwatch.ElapsedMilliseconds, false);
 
 				if (cached != null && cached.Telemetry != null)

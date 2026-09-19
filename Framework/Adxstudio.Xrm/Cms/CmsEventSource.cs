@@ -11,7 +11,6 @@ namespace Adxstudio.Xrm.Cms
 	using System.Threading;
 	using Adxstudio.Xrm.AspNet.Cms;
 	using Adxstudio.Xrm.Core.Telemetry.EventSources;
-	using Adxstudio.Xrm.Diagnostics.Metrics;
 	using Adxstudio.Xrm.EventHubBasedInvalidation;
 	using Microsoft.Xrm.Client;
 	using Microsoft.Xrm.Sdk;
@@ -207,8 +206,6 @@ namespace Adxstudio.Xrm.Cms
 				this.ProductionOrTrial,
 				this.SessionId,
 				this.ElapsedTime());
-
-			MdmMetrics.CmsHomeSiteMarkerNotFoundMetric.LogValue(1);
 		}
 
 		[Event((int)EventName.HomeSiteMarkerNotFound, Message = "Website Name : {0} Website Id : {1} PortalUrl : {2} PortalVersion : {3} PortalProductionOrTrial : {4} SessionId : {5} ElapsedTime : {6}", Level = EventLevel.Critical, Version = 3)]
@@ -235,8 +232,6 @@ namespace Adxstudio.Xrm.Cms
 				this.ProductionOrTrial,
 				this.SessionId,
 				this.ElapsedTime());
-
-			MdmMetrics.CmsWebsiteBindingNotFoundMetric.LogValue(1);
 		}
 
 		/// <summary>
@@ -252,8 +247,6 @@ namespace Adxstudio.Xrm.Cms
 				this.ProductionOrTrial,
 				this.SessionId,
 				this.ElapsedTime());
-
-			MdmMetrics.CmsWebsiteBindingNotFoundMetric.LogValue(1);
 		}
 
 		[Event((int)EventName.WebsiteBindingNotFound, Message = "Website Name : {0} PortalUrl : {1} PortalVersion : {2} PortalProductionOrTrial : {3} SessionId : {4} ElapsedTime :5}", Level = EventLevel.Critical, Version = 3)]
