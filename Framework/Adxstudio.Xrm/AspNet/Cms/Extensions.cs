@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -93,11 +93,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 		public static void UsePortalBus<TMessage>(this IAppBuilder app, WebAppSettings webAppSettings, EventHubJobSettings eventHubJobSettings)
 		{
-			if (webAppSettings.AzureWebRoleEnabled)
-			{
-				UseRoleEnvironmentPortalBus(app, new ServiceDefinitionPortalBusOptions<TMessage>());
-			}
-			else if (webAppSettings.AppDataCachingEnabled && !eventHubJobSettings.IsEnabled)
+			if (webAppSettings.AppDataCachingEnabled && !eventHubJobSettings.IsEnabled)
 			{
 				UseAppDataPortalBus(app, new AppDataPortalBusOptions<TMessage>(webAppSettings));
 			}
@@ -123,18 +119,6 @@ namespace Adxstudio.Xrm.AspNet.Cms
 				WebEventSource.Log.GenericErrorException(new Exception($"PortalBus error: InstanceId: {options.InstanceId}", e));
 				throw;
 			}
-		}
-
-		public static void UseServiceDefinitionPortalBus<TMessage>(this IAppBuilder app, ServiceDefinitionPortalBusOptions<TMessage> options)
-		{
-			app.Use<PortalBusMiddleware<TMessage>>(app, options);
-			PortalBusManager<TMessage>.Subscribe(new ServiceDefinitionPortalBusProvider<TMessage>(app, options));
-		}
-
-		public static void UseRoleEnvironmentPortalBus<TMessage>(this IAppBuilder app, ServiceDefinitionPortalBusOptions<TMessage> options)
-		{
-			app.Use<PortalBusMiddleware<TMessage>>(app, options);
-			PortalBusManager<TMessage>.Subscribe(new RoleEnvironmentPortalBusProvider<TMessage>(app, options));
 		}
 
 		public static void UsePortalsAuthentication<TUser>(this IAppBuilder app, StartupSettingsManager<TUser> manager)

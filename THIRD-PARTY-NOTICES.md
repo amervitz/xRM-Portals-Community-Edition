@@ -204,7 +204,6 @@ which Microsoft distributes these Third Party Materials.
 * DocumentFormat.OpenXml.dll
 * Microsoft.SharePoint.Client.dll
 * Microsoft.SharePoint.Client.Runtime.dll
-* Microsoft.WindowsAzure.ServiceRuntime.dll
 * Microsoft.Xrm.Tooling.Connector.dll
 
 ---

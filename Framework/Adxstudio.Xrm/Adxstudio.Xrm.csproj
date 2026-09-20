@@ -320,10 +320,6 @@
       <HintPath>..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime">
-      <HintPath>..\..\DllImports\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\WindowsAzure.Storage.7.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
@@ -590,8 +586,6 @@
     <Compile Include="AspNet\PortalBus\PortalBusManager.cs" />
     <Compile Include="AspNet\PortalBus\PortalBusProvider.cs" />
     <Compile Include="AspNet\PortalBus\PortalBusMiddleware.cs" />
-    <Compile Include="AspNet\PortalBus\RoleEnvironmentPortalBusProvider.cs" />
-    <Compile Include="AspNet\PortalBus\ServiceDefinitionPortalBusProvider.cs" />
     <Compile Include="Blogs\BlogSecurityInfo.cs" />
     <Compile Include="Caching\CacheEventSource.cs" />
     <Compile Include="Category\Category.cs" />
@@ -1427,12 +1421,6 @@
     <Compile Include="Search\Index\CrmEntityIndexBuilder.cs" />
     <Compile Include="Search\SimpleHtmlHighlightedFragmentProvider.cs" />
     <Compile Include="Search\WebCrmEntityIndex.cs" />
-    <Compile Include="Search\WindowsAzure\EntityIndexInfo.cs" />
-    <Compile Include="Search\WindowsAzure\EntitySearchResult.cs" />
-    <Compile Include="Search\WindowsAzure\EntitySearchResultPage.cs" />
-    <Compile Include="Search\WindowsAzure\ISearchService.cs" />
-    <Compile Include="Search\WindowsAzure\RoleInstanceEndpointPortalSearchProvider.cs" />
-    <Compile Include="Search\WindowsAzure\SearchService.cs" />
     <Compile Include="Collections\Generic\TopPaginator.cs" />
     <Compile Include="Security\ApplicationCachingCrmEntitySecurityProvider.cs" />
     <Compile Include="Security\CacheSupportingCrmEntitySecurityProvider.cs" />
@@ -1535,7 +1523,6 @@
     <Compile Include="Web\Handlers\Utility.cs" />
     <Compile Include="Web\Handlers\WebResourceHandler.cs" />
     <Compile Include="Web\HostNameSettingDisplayMode.cs" />
-    <Compile Include="Web\Modules\AzureErrorNotifierModule.cs" />
     <Compile Include="Web\Modules\ErrorNotifierModule.cs" />
     <Compile Include="Web\Modules\OutputCacheModule.cs" />
     <Compile Include="Web\Mvc\AreaRegistrationContextExtensions.cs" />
@@ -1934,7 +1921,6 @@
     <Compile Include="Web\UrlHistoryMatch.cs" />
     <Compile Include="Web\UrlHistoryRedirectProvider.cs" />
     <Compile Include="Web\UrlMapping.cs" />
-    <Compile Include="WindowsAzure\ServiceRuntime\Configuration\ServiceDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Adxstudio.Xrm.snk" />

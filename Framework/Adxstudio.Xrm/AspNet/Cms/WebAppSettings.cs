@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT License. See License.txt in the project root for license information.
 */
@@ -46,11 +46,6 @@ namespace Adxstudio.Xrm.AspNet.Cms
 		public bool AzureWebAppEnabled { get; set; }
 
 		/// <summary>
-		/// Tests that the application is running as an Azure Web Role.
-		/// </summary>
-		public bool AzureWebRoleEnabled { get; set; }
-
-		/// <summary>
 		/// Tests that the application is running as an Azure Web App and requires App_Data based remote cache invalidation.
 		/// </summary>
 		public bool AppDataCachingEnabled { get; set; }
@@ -64,7 +59,6 @@ namespace Adxstudio.Xrm.AspNet.Cms
 			this.InstanceId = GetInstanceId();
 			this.SiteName = GetWebsiteName();
 			this.AzureWebAppEnabled = GetAzureWebAppEnabled();
-			this.AzureWebRoleEnabled = GetAzureWebRoleEnabled();
 			this.AppDataCachingEnabled = GetAppDataCachingEnabled();
 		}
 
@@ -88,17 +82,6 @@ namespace Adxstudio.Xrm.AspNet.Cms
 		{
 			var websiteMode = GetAppSettingOrEnvironmentVariable("WEBSITE_SKU");
 			return websiteMode != null;
-		}
-
-		/// <summary>
-		/// Tests that the application is running as an Azure Web Role.
-		/// </summary>
-		/// <returns>The flag.</returns>
-		private static bool GetAzureWebRoleEnabled()
-		{
-			return !string.IsNullOrWhiteSpace(GetAppSettingOrEnvironmentVariable("RoleDeploymentId"))
-				&& !string.IsNullOrWhiteSpace(GetAppSettingOrEnvironmentVariable("RoleInstanceId"))
-				&& !string.IsNullOrWhiteSpace(GetAppSettingOrEnvironmentVariable("RoleRoot"));
 		}
 
 		/// <summary>
