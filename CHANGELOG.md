@@ -32,6 +32,12 @@ Docs
 - Updated build and runtime documentation for .NET Framework 4.8.1.
 - Updated migration guidance to refer to Microsoft Power Pages.
 
+### Fixed
+
+Code
+
+- Fixed cloud blob web files failing to download when `adx_cloudblobaddress` holds a fully qualified address. xRM Portals only understood a path relative to the storage account, which it concatenated onto the account's endpoint, so the fully qualified address format used by Power Pages produced a malformed URL. Both forms are now understood, so blob addresses used by either version are served.
+
 ### Removed
 
 Code

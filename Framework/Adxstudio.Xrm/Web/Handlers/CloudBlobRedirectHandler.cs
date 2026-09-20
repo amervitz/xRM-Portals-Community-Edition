@@ -82,7 +82,11 @@ namespace Adxstudio.Xrm.Web.Handlers
 			}
 
 			var blobClient = storageAccount.CreateCloudBlobClient();
-			var blob = blobClient.GetBlobReferenceFromServer(new Uri(blobClient.BaseUri + _blobAddress));
+			// Power Pages uses a fully qualified blob address ("https://account.blob.core.windows.net/container/file.txt"),
+			// while xRM Portals uses one relative to the endpoint ("container/file.txt"). BaseUri appears twice to accept both:
+			// the inner constructor resolves either form, ignoring the base when the address is already absolute,
+			// and AbsolutePath then re-anchors just the container and file name to the configured account.
+			var blob = blobClient.GetBlobReferenceFromServer(new Uri(blobClient.BaseUri, new Uri(blobClient.BaseUri, _blobAddress).AbsolutePath));
 
 			var accessSignature = blob.GetSharedAccessSignature(new SharedAccessBlobPolicy
 			{
