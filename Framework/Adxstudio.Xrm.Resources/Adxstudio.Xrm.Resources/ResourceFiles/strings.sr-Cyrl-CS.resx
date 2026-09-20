@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Није могуће уметање дуплираног кључа.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Није могуће преузети путању диск јединице у облаку за добављача претраге „{0}”.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Вредност конфигурације Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize мора бити важећи цео број.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Вредност конфигурације Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress не сме бити нула или празно поље.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Вредност конфигурације Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize мора бити важећи цео број.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Грешка: Пристанак: Неважеће време истека:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Приказ календара захтева да име поља за почетни датум (adx_calendar_startdatefieldname) буде наведено за ову листу ентитета ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Вредност конфигурације Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString не сме бити нула или празно поље.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>Продавница не примењује IUserSecurityStampStore&lt;TUser&gt;.</value>

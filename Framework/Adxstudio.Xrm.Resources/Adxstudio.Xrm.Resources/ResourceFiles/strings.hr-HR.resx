@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Nije moguće umetnuti rezervni ključ.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Nije moguće dohvatiti putanju pogona oblaka za davatelja pretraživanja „{0}”.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Vrijednost konfiguracije Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize mora biti valjani cijeli broj.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Vrijednost konfiguracije Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress ne smije biti null ili prazna.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Vrijednost konfiguracije Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize mora biti valjani cijeli broj.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Pogreška: ConsentToken: nevaljano vrijeme isteka:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Prikaz kalendara zahtijeva da se naziv polja početnog datuma (adx_calendar_startdatefieldname) navede za ovaj popis entiteta ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Vrijednost konfiguracije Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString ne smije biti null ili prazna.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>Trgovina ne implementira IUserSecurityStampStore&lt;TUser&gt;.</value>

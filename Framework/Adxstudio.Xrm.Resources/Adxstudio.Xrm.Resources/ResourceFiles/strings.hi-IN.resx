@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>डुप्लिकेट कुंजी को सम्मिलित नहीं किया जा सकता.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>खोज प्रदाता "{0}" के लिए क्लाउड ड्राइव पथ पुनर्प्राप्त करने में असमर्थ.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>कॉन्फ़िगरेशन मान Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize मान्‍य पूर्णांक होना चाहिए.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>कॉन्फ़िगरेशन मान Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress नल या रिक्त नहीं हो सकता.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>कॉन्फ़िगरेशन मान Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize मान्‍य पूर्णांक होना चाहिए.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>त्रुटि: सहमति: अमान्य समाप्ति समय:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>कैलेंडर दृश्य के लिए आवश्यक है कि इस निकाय सूची ({0}:{1}) के लिए प्रारंभ दिनांक फ़ील्ड नाम (adx_calendar_startdatefieldname) निर्दिष्ट किया जाए.</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>कॉन्फ़िगरेशन मान Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString नल या रिक्त नहीं हो सकता.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>स्टोर IUserSecurityStampStore&lt;TUser&gt; लागू नहीं करता है.</value>

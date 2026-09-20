@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Dubletnøgle kan ikke indsættes.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Stien til skydrevet for søgemaskinen "{0}" kan ikke hentes.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Konfigurationsværdien Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize skal være et gyldigt heltal.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Konfigurationsværdien Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress kan ikke være null eller tom.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Konfigurationsværdien Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize skal være et gyldigt heltal.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Fejl: Consent: Ugyldigt udløbstidspunkt:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Kalendervisning kræver, at der angives et startdatofeltnavn (adx_calendar_startdatefieldname) for denne objektliste ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Konfigurationsværdien Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString kan ikke være null eller tom.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>Lagringen implementerer ikke IUserSecurityStampStore&lt;TUser&gt;.</value>

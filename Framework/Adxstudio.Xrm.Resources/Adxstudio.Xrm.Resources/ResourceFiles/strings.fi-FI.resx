@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Avaimen kaksoiskappaletta ei voi lisätä.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Hakupalveluntarjoajan {0} pilviaseman polkua ei voitu noutaa.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Määritysarvon Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize on oltava kelvollinen kokonaisluku.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Määritysarvo Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress ei voi olla tyhjäarvo eikä tyhjä.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Määritysarvon Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize on oltava kelvollinen kokonaisluku.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Virhe: hyväksyntä: tyhjäarvoinen vanhenemisaika:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Kalenterinäkymä edellyttää, että aloituspäivämääräkentän nimi (adx_calendar_startdatefieldname) on määritetty tälle entiteettiluettelolle ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Määritysarvo Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString ei voi olla tyhjäarvo eikä tyhjä.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>IUserSecurityStampStore&lt;TUser&gt; ei ole otettu käyttöön säilössä.</value>

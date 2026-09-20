@@ -1897,42 +1897,6 @@ namespace Adxstudio.Xrm.Resources.ResourceFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to retrieve the cloud drive path for search provider &quot;{0}&quot;..
-        /// </summary>
-        public static string Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception {
-            get {
-                return ResourceManager.GetString("Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configuration value Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize must be a valid integer..
-        /// </summary>
-        public static string CloudDriveCacheSize_MustBe_Integer {
-            get {
-                return ResourceManager.GetString("CloudDriveCacheSize_MustBe_Integer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configuration value Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress cannot be null or empty..
-        /// </summary>
-        public static string CloudDrivePageBlobAddress_CannotBeNullOrEmpty {
-            get {
-                return ResourceManager.GetString("CloudDrivePageBlobAddress_CannotBeNullOrEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configuration value Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize must be a valid integer..
-        /// </summary>
-        public static string CloudDriveSize_MustBe_Integer {
-            get {
-                return ResourceManager.GetString("CloudDriveSize_MustBe_Integer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Children.
         /// </summary>
         public static string Cms_Sitemapchildren_Update_Label {
@@ -12840,15 +12804,6 @@ namespace Adxstudio.Xrm.Resources.ResourceFiles {
         public static string Stop_Tracking {
             get {
                 return ResourceManager.GetString("Stop_Tracking", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configuration value Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString cannot be null or empty..
-        /// </summary>
-        public static string StorageConnectionString_CannotBeNull {
-            get {
-                return ResourceManager.GetString("StorageConnectionString_CannotBeNull", resourceCulture);
             }
         }
         

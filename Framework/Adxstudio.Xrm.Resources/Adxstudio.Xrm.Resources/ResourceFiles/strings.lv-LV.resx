@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Nevar ievietot atslēgas dublikātu.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Nevar izgūt mākoņa diska ceļu meklēšanas nodrošinātājam “{0}”.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Konfigurācijas vērtībai Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize ir jābūt derīgam veselam skaitlim.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Konfigurācijas vērtība Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress nedrīkst būt Null vai tukša.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Konfigurācijas vērtībai Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize ir jābūt derīgam veselam skaitlim.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Kļūda: piekrišana: Null beigu laiks:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Kalendāra skatam nepieciešams norādīt sākuma datuma lauka nosaukumu (adx_calendar_startdatefieldname) šim entītijas sarakstam ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Konfigurācijas vērtība Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString nevar būt Null vai tukša.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>Krātuve neīsteno IUserSecurityStampStore&lt;TUser&gt;.</value>

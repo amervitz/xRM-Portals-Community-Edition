@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Negalima įterpti pasikartojančio rakto.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Nepavyksta nuskaityti ieškos paslaugų teikėjo {0} debesies disko kelio.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Konfigūracijos reikšmė Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize turi būti tinkamas sveikasis skaičius.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Konfigūracijos reikšmė Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress negali būti nulis arba neapibrėžta.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Konfigūracijos reikšmė Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize turi būti tinkamas sveikasis skaičius.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Klaida: Consent: netinkamas galiojimo laikas:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Kalendoriaus rodiniui reikia, kad būtų nurodytas šio objektų sąrašo pradžios datos lauko pavadinimas (adx_calendar_startdatefieldname) ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Konfigūracijos reikšmė Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString negali būti nulis arba neapibrėžta.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>Saugykla neįdiegia IUserSecurityStampStore&lt;TUser&gt;.</value>

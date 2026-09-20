@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>ไม่สามารถแทรกคีย์ซ้ำ</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>ไม่สามารถเรียกข้อมูลพาธของไดรฟ์คลาวด์สำหรับผู้ให้บริการค้นหา "{0}"</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>ค่าการกำหนดค่า Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize ต้องเป็นจำนวนเต็มที่ถูกต้อง</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>ค่าการกำหนดค่า Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress ต้องไม่เป็น null หรือว่างเปล่า</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>ค่าการกำหนดค่า Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize ต้องเป็นจำนวนเต็มที่ถูกต้อง</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>ข้อผิดพลาด: ความยินยอม: เวลาหมดอายุไม่ถูกต้อง:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>มุมมองปฏิทินกำหนดให้ต้องระบุชื่อฟิลด์วันที่เริ่มต้น (adx_calendar_startdatefieldname) สำหรับรายการเอนทิตีนี้ ({0}:{1})</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>ค่าการกำหนดค่า Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString ต้องไม่เป็น null หรือว่างเปล่า</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>ที่เก็บข้อมูลไม่ได้ใช้งาน IUserSecurityStampStore&lt;TUser</value>

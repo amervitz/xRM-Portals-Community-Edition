@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>중복 키를 삽입할 수 없습니다.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>검색 공급자 "{0}"의 클라우드 드라이브 경로를 검색할 수 없습니다.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>구성 값 Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize는 올바른 정수여야 합니다.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>구성 값 Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress는 null이거나 비어 있을 수 없습니다.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>구성 값 Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize는 올바른 정수여야 합니다.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>오류: Consent: 잘못된 만료 시간입니다.</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>일정 보기에는 엔터티 목록({0}:{1})에 대해 지정된 시작 날짜 필드 이름(adx_calendar_startdatefieldname)이 있어야 합니다.</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>구성 값 Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString은 null이거나 비어 있을 수 없습니다.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>저장소에서 IUserSecurityStampStore&lt;TUser&gt;를 구현하지 않습니다.</value>

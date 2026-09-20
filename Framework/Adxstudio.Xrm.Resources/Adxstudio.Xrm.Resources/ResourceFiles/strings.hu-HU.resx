@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Duplikált kulcs nem illeszthető be.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Nem olvasható be a felhőbeli meghajtó útvonala a(z) {0} keresésszolgáltató esetében.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Az Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize beállítás értékének egy érvényes egész számnak kell lennie.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Az Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress beállítás értéke nem lehet null vagy üres.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Az Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize beállítás értékének egy érvényes egész számnak kell lennie.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Hiba: Consent: Érvénytelen lejárati idő:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Naptárnézet esetén kötelező megadni a Kezdő dátum mező nevét (adx_calendar_startdatefieldname) ehhez az entitáslistához: ({0}:{1})</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Az Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString beállítás értéke nem lehet null vagy üres.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>A tárban nincs megvalósítva az IUserSecurityStampStore&lt;TUser&gt;.</value>

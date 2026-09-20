@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Không thể chèn khóa trùng lặp.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Không thể truy xuất đường dẫn tới ổ đĩa đám mây cho nhà cung cấp dịch vụ tìm kiếm "{0}".</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Giá trị cấu hình Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize phải là một số nguyên hợp lệ.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Giá trị cấu hình Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress không thể để rỗng hoặc trống.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Giá trị cấu hình Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize phải là một số nguyên hợp lệ.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Lỗi: Consent: Thời gian hết hạn không hợp lệ:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Dạng xem lịch yêu cầu Tên Trường Ngày Bắt đầu (adx_calendar_startdatefieldname) phải được chỉ định cho danh sách thực thể này ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Giá trị cấu hình Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString không thể để rỗng hoặc trống.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>Lưu trữ không thực hiện IUserSecurityStampStore&lt;TUser&gt;.</value>

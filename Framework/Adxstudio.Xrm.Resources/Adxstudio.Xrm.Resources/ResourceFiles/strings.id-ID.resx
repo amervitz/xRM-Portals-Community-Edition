@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Tidak dapat menyisipkan kunci duplikat.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Tidak dapat mengambil jalur drive cloud untuk penyedia pencarian "{0}".</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Nilai konfigurasi Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize harus berupa integer yang valid.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Nilai konfigurasi Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress tidak boleh null atau kosong.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Nilai konfigurasi Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize harus berupa integer yang valid.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Kesalahan: Izin: Waktu kedaluwarsa tidak valid:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Tampilan kalender mengharuskan Nama Bidang Tanggal Mulai (adx_calendar_startdatefieldname) ditentukan untuk daftar entitas ini ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Nilai konfigurasi Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString tidak boleh null atau kosong.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>Penyimpanan tidak mengimplementasi IUserSecurityStampStore&lt;TUser&gt;.</value>

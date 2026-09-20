@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Вставити повторення ключа неможливо.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Не вдалося знайти шлях до хмарного сховища для постачальника послуг пошуку "{0}".</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Значення конфігурації Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize повинно бути дійсним цілим числом.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Значення конфігурації Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress не може бути невизначеним значенням або порожнім.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Значення конфігурації Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize повинно бути дійсним цілим числом.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Помилка: Consent: Недійсний термін дії:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Для перегляду календаря необхідно вказати ім’я поля дати початку (adx_calendar_startdatefieldname) для цього списку сутностей ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Значення конфігурації Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString не може бути невизначеним значенням або порожнім.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>Магазин не використовує IUserSecurityStampStore&lt;TUser&gt;.</value>

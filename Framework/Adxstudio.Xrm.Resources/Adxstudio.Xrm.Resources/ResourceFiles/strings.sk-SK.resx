@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Nemožno vložiť duplicitný kľúč.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Nepodarilo sa načítať cestu jednotky v cloude pre poskytovateľa vyhľadávania {0}.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Hodnota konfigurácie Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize musí byť platné celé číslo.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Hodnota konfigurácie Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress nemôže byť null ani byť prázdna.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Hodnota konfigurácie Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize musí byť platné celé číslo.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Chyba: Súhlas: Neplatný čas uplynutia platnosti:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Zobrazenie kalendára vyžaduje, aby bol názov poľa pre dátum začatia (adx_calendar_startdatefieldname) zadaný pre tento zoznam entít ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Hodnota konfigurácie Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString nemôže byť null ani byť prázdna.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>V ukladacom priestore sa neimplementuje IUserSecurityStampStore&lt;TUser&gt;.</value>

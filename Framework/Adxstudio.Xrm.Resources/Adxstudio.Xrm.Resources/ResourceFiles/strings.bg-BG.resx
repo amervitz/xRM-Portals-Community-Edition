@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Не може да се вмъкне дублиращ ключ.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Не може да се извлече пътят до дисковото устройство в облак за доставчика за търсене „{0}“.</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>Конфигурационната стойност Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize трябва да е валидно цяло число.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>Конфигурационната стойност Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress не може да е нула или празна.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>Конфигурационната стойност Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize трябва да е валидно цяло число.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Грешка: Consent: Невалидно време на изтичане:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>Изгледът на календар изисква да е указано име на полето за начална дата (adx_calendar_startdatefieldname) за този списък с обекти ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>Конфигурационната стойност Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString не може да е нула или празна.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>Хранилището не реализира IUserSecurityStampStore&lt;TUser&gt;.</value>

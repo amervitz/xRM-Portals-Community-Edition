@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>無法插入重複索引鍵。</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>無法擷取搜尋提供者 "{0}" 的雲端磁碟機路徑。</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>設定值 Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize 必須是有效整數。</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>設定值 Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress 不可以是 null 或空白。</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>設定值 Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize 必須是有效整數。</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>錯誤: 同意: 無效的到期時間:</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>行事曆檢視表需要為此實體清單 ({0}:{1}) 指定開始日期欄位名稱 (adx_calendar_startdatefieldname)。</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>設定值 Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString 不可以是 null 或空白。</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>存放區不實作 IUserSecurityStampStore&lt;TUser&gt;。</value>

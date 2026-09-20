@@ -198,18 +198,6 @@
   <data name="Cannot_Insert_Duplicate_Key" xml:space="preserve">
     <value>Impossible d'insérer une clé en double.</value>
   </data>
-  <data name="Cloud_Drive_Path_For_Search_Provider_Retrieve_Exception" xml:space="preserve">
-    <value>Impossible de récupérer le chemin du lecteur cloud pour chaque fournisseur de recherche "{0}".</value>
-  </data>
-  <data name="CloudDriveCacheSize_MustBe_Integer" xml:space="preserve">
-    <value>La valeur de configuration Adxstudio.Xrm.Search.WindowsAzure.CloudDriveCacheSize doit être un entier valide.</value>
-  </data>
-  <data name="CloudDrivePageBlobAddress_CannotBeNullOrEmpty" xml:space="preserve">
-    <value>La valeur de configuration Adxstudio.Xrm.Search.WindowsAzure.CloudDrivePageBlobAddress ne peut pas être vide ni avoir la valeur Null.</value>
-  </data>
-  <data name="CloudDriveSize_MustBe_Integer" xml:space="preserve">
-    <value>La valeur de configuration Adxstudio.Xrm.Search.WindowsAzure.CloudDriveSize doit être un entier valide.</value>
-  </data>
   <data name="Consent_Invalid_Expiry_Time_Exception" xml:space="preserve">
     <value>Erreur : Consent : Heure d'expiration non valide :</value>
   </data>
@@ -404,9 +392,6 @@
   </data>
   <data name="Start_Date_Field_Name_NotSpecified" xml:space="preserve">
     <value>La vue Calendrier requiert que le nom du champ de date de début (adx_calendar_startdatefieldname) soit spécifié pour cette liste d'entités ({0}:{1}).</value>
-  </data>
-  <data name="StorageConnectionString_CannotBeNull" xml:space="preserve">
-    <value>La valeur de configuration Adxstudio.Xrm.Search.WindowsAzure.StorageConnectionString ne peut pas être vide ni avoir la valeur Null.</value>
   </data>
   <data name="Store_Not_Implement_IUserSecurityStampStore_Exception" xml:space="preserve">
     <value>Le stockage ne met pas en œuvre IUserSecurityStampStore&lt;TUser&gt;.</value>
