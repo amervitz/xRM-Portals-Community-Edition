@@ -41,7 +41,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 		private static readonly ConfigurationProperty _propReturnUrlKey;
 		private static readonly ConfigurationProperty _propInvitationCodeKey;
 		private static readonly ConfigurationProperty _propChallengeAnswerKey;
-		private static readonly ConfigurationProperty _propLiveIdTokenKey;
 		private static readonly ConfigurationProperty _propResultCodeKey;
 
 		private static readonly ConfigurationProperty _propDefaultReturnPath;
@@ -49,8 +48,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 		private static readonly ConfigurationProperty _propRegistrationPath;
 		private static readonly ConfigurationProperty _propConfirmationPath;
 		private static readonly ConfigurationProperty _propErrorPath;
-		private static readonly ConfigurationProperty _propAccountTransferPath;
-		private static readonly ConfigurationProperty _propUnregisteredUserPath;
 
 		private static readonly ConfigurationProperty _propInvitationCodeDuration;
 
@@ -82,7 +79,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 			_propReturnUrlKey = new ConfigurationProperty("returnUrlKey", typeof(string), null, ConfigurationPropertyOptions.None);
 			_propInvitationCodeKey = new ConfigurationProperty("invitationCodeKey", typeof(string), null, ConfigurationPropertyOptions.None);
 			_propChallengeAnswerKey = new ConfigurationProperty("challengeAnswerKey", typeof(string), null, ConfigurationPropertyOptions.None);
-			_propLiveIdTokenKey = new ConfigurationProperty("liveIdTokenKey", typeof(string), null, ConfigurationPropertyOptions.None);
 			_propResultCodeKey = new ConfigurationProperty("resultCodeKey", typeof(string), null, ConfigurationPropertyOptions.None);
 
 			_propDefaultReturnPath = new ConfigurationProperty("defaultReturnPath", typeof(string), null, ConfigurationPropertyOptions.None);
@@ -90,8 +86,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 			_propRegistrationPath = new ConfigurationProperty("registrationPath", typeof(string), null, ConfigurationPropertyOptions.None);
 			_propConfirmationPath = new ConfigurationProperty("confirmationPath", typeof(string), null, ConfigurationPropertyOptions.None);
 			_propErrorPath = new ConfigurationProperty("errorPath", typeof(string), null, ConfigurationPropertyOptions.None);
-			_propAccountTransferPath = new ConfigurationProperty("accountTransferPath", typeof(string), null, ConfigurationPropertyOptions.None);
-			_propUnregisteredUserPath = new ConfigurationProperty("unregisteredUserPath", typeof(string), null, ConfigurationPropertyOptions.None);
 
 			_propInvitationCodeDuration = new ConfigurationProperty("invitationCodeDuration", typeof(TimeSpan?), null, ConfigurationPropertyOptions.None);
 
@@ -123,7 +117,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 				_propReturnUrlKey,
 				_propInvitationCodeKey,
 				_propChallengeAnswerKey,
-				_propLiveIdTokenKey,
 				_propResultCodeKey,
 
 				_propDefaultReturnPath,
@@ -131,8 +124,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 				_propRegistrationPath,
 				_propConfirmationPath,
 				_propErrorPath,
-				_propAccountTransferPath,
-				_propUnregisteredUserPath,
 
 				_propInvitationCodeDuration,
 
@@ -288,15 +279,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 		}
 
 		/// <summary>
-		/// The query string name for the Live ID token.
-		/// </summary>
-		public string LiveIdTokenKey
-		{
-			get { return (string)base[_propLiveIdTokenKey]; }
-			set { base[_propLiveIdTokenKey] = value; }
-		}
-
-		/// <summary>
 		/// The query string name for the invitation code.
 		/// </summary>
 		public string InvitationCodeKey
@@ -375,24 +357,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 		{
 			get { return (string)base[_propErrorPath]; }
 			set { base[_propErrorPath] = value; }
-		}
-
-		/// <summary>
-		/// When the LiveIdAccountTransferHandler (rather than the default LiveIdWebAuthenticationHandler) is wired up as the Windows Live ID authentication sign-in response handler (LiveID.axd), users are redirected to this account transfer page. This page should prompt the user to continue to the next step of signing into an AppFabric ACS account.
-		/// </summary>
-		public string AccountTransferPath
-		{
-			get { return (string)base[_propAccountTransferPath]; }
-			set { base[_propAccountTransferPath] = value; }
-		}
-
-		/// <summary>
-		/// When the LiveIdAccountTransferHandler is unable to find the Windows Live ID account that a user is attempting to transfer, the user is redirected to this path.
-		/// </summary>
-		public string UnregisteredUserPath
-		{
-			get { return (string)base[_propUnregisteredUserPath]; }
-			set { base[_propUnregisteredUserPath] = value; }
 		}
 
 		/// <summary>

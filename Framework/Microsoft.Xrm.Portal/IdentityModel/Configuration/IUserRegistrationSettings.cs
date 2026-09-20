@@ -107,11 +107,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 		string ChallengeAnswerKey { get; }
 
 		/// <summary>
-		/// The query string name for the Live ID token.
-		/// </summary>
-		string LiveIdTokenKey { get; }
-
-		/// <summary>
 		/// The query string name for the result code.
 		/// </summary>
 		string ResultCodeKey { get; }
@@ -140,16 +135,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 		/// The location the user is redirected to when the federation authentication handler throws an exception. If no value is provided, the user is redirected to the 'defaultReturnPath'.
 		/// </summary>
 		string ErrorPath { get; }
-
-		/// <summary>
-		/// When the LiveIdAccountTransferHandler (rather than the default LiveIdWebAuthenticationHandler) is wired up as the Windows Live ID authentication sign-in response handler (LiveID.axd), users are redirected to this account transfer page. This page should prompt the user to continue to the next step of signing into an AppFabric ACS account.
-		/// </summary>
-		string AccountTransferPath { get; }
-
-		/// <summary>
-		/// When the LiveIdAccountTransferHandler is unable to find the Windows Live ID account that a user is attempting to transfer, the user is redirected to this path.
-		/// </summary>
-		string UnregisteredUserPath { get; }
 
 		/// <summary>
 		/// When a confirmation email workflow is generated, this value specifies the duration that the invitation code is considered valid.

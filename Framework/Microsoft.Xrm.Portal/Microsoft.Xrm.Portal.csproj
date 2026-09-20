@@ -136,7 +136,6 @@
     <Compile Include="IdentityModel\Web\FederationRequestValidator.cs" />
     <Compile Include="IdentityModel\Web\Handlers\FederationAuthenticationException.cs" />
     <Compile Include="IdentityModel\Web\Handlers\FederationAuthenticationHandler.cs" />
-    <Compile Include="IdentityModel\Web\Handlers\LiveIdAccountTransferHandler.cs" />
     <Compile Include="IdentityModel\Web\Modules\CrmFederationAuthenticationModule.cs" />
     <Compile Include="IdentityModel\Web\Modules\WSFederationAuthenticationModuleExtensions.cs" />
     <Compile Include="IPortalContext.cs" />
@@ -188,7 +187,6 @@
     <Compile Include="Web\EmbeddedResourceVirtualPathProvider.cs" />
     <Compile Include="Web\Handlers\AnnotationHandler.cs" />
     <Compile Include="Web\Handlers\CacheInvalidationHandler.cs" />
-    <Compile Include="Web\Handlers\LiveIdWebAuthenticationHandler.cs" />
     <Compile Include="Web\HiddenFromSiteMapCrmSiteMapNodeValidator.cs" />
     <Compile Include="Web\ICrmEntityAttachmentInfo.cs" />
     <Compile Include="Web\ICrmEntityContentFormatter.cs" />
@@ -211,9 +209,6 @@
     <Compile Include="Web\SecurityCrmSiteMapNodeValidator.cs" />
     <Compile Include="Web\Security\CrmContactRoleProvider.cs" />
     <Compile Include="Web\Security\CrmRoleProvider.cs" />
-    <Compile Include="Web\Security\LiveIdMembershipProvider.cs" />
-    <Compile Include="Web\Security\LiveId\LiveIdUser.cs" />
-    <Compile Include="Web\Security\LiveId\WindowsLiveLogin.cs" />
     <Compile Include="Web\Security\Utility.cs" />
     <Compile Include="Web\UI\Adapters\FormRewriterControlAdapter.cs" />
     <Compile Include="Web\UI\AsyncDataSource.cs" />
@@ -277,7 +272,6 @@
     <Compile Include="Web\UI\WebControls\EntityRightsView.cs" />
     <Compile Include="Web\UI\WebControls\EntityRightsViewDesigner.cs" />
     <Compile Include="Web\UI\WebControls\IRegisterClientSideDependenciesProvider.cs" />
-    <Compile Include="Web\UI\WebControls\LiveIdLoginStatus.cs" />
     <Compile Include="Web\UI\WebControls\Property.cs" />
     <Compile Include="Web\UI\WebControls\RegisterClientSideDependenciesProvider.cs" />
     <Compile Include="Web\UI\WebControls\SavedQueryDataSource.cs" />

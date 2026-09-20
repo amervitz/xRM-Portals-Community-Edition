@@ -18,7 +18,6 @@ using Microsoft.Xrm.Portal.Configuration;
 using Microsoft.Xrm.Portal.IdentityModel.Configuration;
 using Microsoft.Xrm.Portal.IdentityModel.Web.Modules;
 using Microsoft.Xrm.Portal.Web;
-using Microsoft.Xrm.Portal.Web.Security.LiveId;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk.Messages;
@@ -88,11 +87,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Handlers
 		protected string ChallengeAnswerKey
 		{
 			get { return SelectRegistrationSetting(setting => setting.ChallengeAnswerKey, "answer"); }
-		}
-
-		protected string LiveIdTokenKey
-		{
-			get { return SelectRegistrationSetting(setting => setting.LiveIdTokenKey, "live-id-token"); }
 		}
 
 		protected string ResultCodeKey
@@ -296,22 +290,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Handlers
 
 					if (!RegistrationSettings.Enabled) return true;
 
-					// check if this is a Live ID account transfer
-
-					if (signInContext.ContainsKey(LiveIdTokenKey))
-					{
-						return TryTransferFromLiveId(
-							context,
-							fam,
-							signInContext,
-							serviceContext,
-							sessionSecurityToken,
-							identityProvider,
-							userName,
-							email,
-							displayName);
-					}
-
 					if (TryRegisterNewContact(
 						context,
 						fam,
@@ -379,71 +357,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Handlers
 					resultCode))
 				{
 					return true;
-				}
-			}
-
-			return false;
-		}
-
-		protected virtual bool TryTransferFromLiveId(
-			HttpContext context,
-			WSFederationAuthenticationModule fam,
-			IDictionary<string, string> signInContext,
-			OrganizationServiceContext serviceContext,
-			SessionSecurityToken sessionSecurityToken,
-			string identityProvider,
-			string userName,
-			string email,
-			string displayName)
-		{
-			var liveIdToken = signInContext.FirstNotNullOrEmpty(LiveIdTokenKey);
-
-			TraceInformation("TryTransferFromLiveId", "liveIdToken={0}", liveIdToken);
-
-			if (!string.IsNullOrWhiteSpace(liveIdToken))
-			{
-				var windowsLiveLogin = new WindowsLiveLogin(true);
-				var user = windowsLiveLogin.ProcessToken(liveIdToken);
-
-				TraceInformation("TryTransferFromLiveId", "user.Id={0}", user.Id);
-
-				var existingContact = FindContactByUserName(
-					context,
-					fam,
-					signInContext,
-					serviceContext,
-					null,
-					user.Id);
-
-				TraceInformation("TryTransferFromLiveId", "existingContact={0}", existingContact);
-
-				if (existingContact != null)
-				{
-					if (TryUpdateTransferedContact(
-						context,
-						fam,
-						signInContext,
-						serviceContext,
-						existingContact,
-						identityProvider,
-						userName,
-						email,
-						displayName))
-					{
-						var logonEnabled = existingContact.GetAttributeValue<bool>(AttributeMapLogonEnabled);
-
-						TraceInformation("TryTransferFromLiveId", "logonEnabled={0}", logonEnabled);
-
-						if (logonEnabled)
-						{
-							// successfully found an existing contact
-
-							if (TryAuthenticateExistingContact(context, fam, signInContext, serviceContext, identityProvider, userName, existingContact, sessionSecurityToken))
-							{
-								return true;
-							}
-						}
-					}
 				}
 			}
 
@@ -1150,45 +1063,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Handlers
 			entity.Attributes[AttributeMapUsername] = userName;
 			entity.Attributes[AttributeMapInvitationCode] = string.Empty;
 			entity.Attributes[AttributeMapInvitationCodeExpiryDate] = null;
-
-			if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(AttributeMapEmail) && !entity.Attributes.ContainsKey(AttributeMapEmail))
-			{
-				entity.Attributes[AttributeMapEmail] = email;
-			}
-
-			if (!string.IsNullOrWhiteSpace(displayName) && !string.IsNullOrWhiteSpace(AttributeMapDisplayName) && !entity.Attributes.ContainsKey(AttributeMapDisplayName))
-			{
-				entity.Attributes[AttributeMapDisplayName] = displayName;
-			}
-
-			serviceContext.UpdateObject(entity);
-			var results = serviceContext.SaveChanges();
-
-			if (results.HasError)
-			{
-				throw results.First().Error;
-			}
-
-			return true;
-		}
-
-		protected virtual bool TryUpdateTransferedContact(
-			HttpContext context,
-			WSFederationAuthenticationModule fam,
-			IDictionary<string, string> signInContext,
-			OrganizationServiceContext serviceContext,
-			Entity entity,
-			string identityProvider,
-			string userName,
-			string email,
-			string displayName)
-		{
-			TraceInformation("TryUpdateTransferedContact", "identityProvider={0}, userName={1}, email={2}, displayName={3}", identityProvider, userName, email, displayName);
-
-			// overwrite the old username
-
-			entity.Attributes[AttributeMapIdentityProvider] = identityProvider;
-			entity.Attributes[AttributeMapUsername] = userName;
 
 			if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(AttributeMapEmail) && !entity.Attributes.ContainsKey(AttributeMapEmail))
 			{

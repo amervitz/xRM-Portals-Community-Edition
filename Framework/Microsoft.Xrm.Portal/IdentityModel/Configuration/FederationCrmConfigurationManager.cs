@@ -46,7 +46,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 	/// 
 	///   <httpHandlers>
 	///    <add path="Federation.axd" verb="*" type="Microsoft.Xrm.Portal.IdentityModel.Web.Handlers.FederationAuthenticationHandler, Microsoft.Xrm.Portal" />
-	///    <add path="LiveID.axd" verb="*" type="Microsoft.Xrm.Portal.IdentityModel.Web.Handlers.LiveIdAccountTransferHandler, Microsoft.Xrm.Portal" />
 	///   </httpHandlers>
 	/// 
 	///   <pages>
@@ -65,7 +64,6 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 	/// 
 	///   <handlers>
 	///    <add name="Federation" verb="*" path="Federation.axd" preCondition="integratedMode" type="Microsoft.Xrm.Portal.IdentityModel.Web.Handlers.FederationAuthenticationHandler, Microsoft.Xrm.Portal" />
-	///    <add name="LiveId" verb="*" path="LiveID.axd" preCondition="integratedMode" type="Microsoft.Xrm.Portal.IdentityModel.Web.Handlers.LiveIdAccountTransferHandler, Microsoft.Xrm.Portal" />
 	///   </handlers>
 	/// 
 	///  </system.webServer>
@@ -134,15 +132,12 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 	///    returnUrlKey="returnurl"
 	///    invitationCodeKey="invitation"
 	///    challengeAnswerKey="answer"
-	///    liveIdTokenKey="live-id-token"
 	///    resultCodeKey="result-code"
 	///    defaultReturnPath="~/"
 	///    profilePath="" [~/profile]
 	///    registrationPath="" [~/register]
 	///    confirmationPath="" [~/register?result-code=confirm]
 	///    errorPath=""
-	///    accountTransferPath="" [~/account-transfer]
-	///    unregisteredUserPath="" [~/register?result-code=unregistered]
 	///    />
 	///  </microsoft.xrm.portal.identityModel>
 	/// 

@@ -42,3 +42,4 @@ Code
 - Removed the Microsoft-internal IFx/MDM metrics pipeline (`AdxMetrics`, `MdmMetrics`, `IfxMetricsReporter`, and `MetricsReportingEvents`), which reported portal metrics to Microsoft's internal Geneva monitoring via IFx (the Microsoft Cloud Instrumentation Framework client API) into MDM (its multidimensional metrics backend), and was unreachable dead code because the framework package is not referenced by the project.
 - Removed the unused `FCB.Web2Case` and `FCB.Categories` feature flags, which had no remaining feature checks in the codebase.
 - Removed Azure Cloud Services (classic) hosting support, because Azure Cloud Services (classic) was retired on 1 September 2024.
+- Removed Windows Live ID Web Authentication, which targeted a long-decommissioned sign-in protocol.
