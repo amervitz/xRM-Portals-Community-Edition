@@ -10,10 +10,8 @@ namespace Adxstudio.Xrm.Core.Flighting
 	/// </summary>
 	public static class FeatureNames
 	{
-		public const string Web2Case = "FCB.Web2Case";
 		public const string Feedback = "FCB.Feedback";
 		public const string EventHubCacheInvalidation = "FCB.EventHubCacheInvalidation";
-		public const string Categories = "FCB.Categories";
 		public const string PortalFacetedNavigation = "FCB.PortalFacetedNavigation";
 		public const string TelemetryFeatureUsage = "FCB.TelemetryFeatureUsage";
 		public const string CmsEnabledSearching = "FCB.CmsEnabledSearching";

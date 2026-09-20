@@ -40,3 +40,4 @@ Code
 - Removed the entity list OData feed endpoint (`/_odata`).
 - Removed customer journey tracking, which posted portal interaction telemetry to a Microsoft internal Dynamics Customer Insights (DCI) hub provisioned only by Microsoft's portal hosting. This also removes the `FCB.CustomerJourneyTracking` feature flag and the `PortalTracking` and `PortalTracking.*` app settings.
 - Removed the Microsoft-internal IFx/MDM metrics pipeline (`AdxMetrics`, `MdmMetrics`, `IfxMetricsReporter`, and `MetricsReportingEvents`), which reported portal metrics to Microsoft's internal Geneva monitoring via IFx (the Microsoft Cloud Instrumentation Framework client API) into MDM (its multidimensional metrics backend), and was unreachable dead code because the framework package is not referenced by the project.
+- Removed the unused `FCB.Web2Case` and `FCB.Categories` feature flags, which had no remaining feature checks in the codebase.

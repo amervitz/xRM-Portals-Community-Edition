@@ -47,10 +47,8 @@ namespace Adxstudio.Xrm.Core.Flighting
 		/// </summary>
 		void InitializeFeatureMetadata()
 		{
-			this.AddGlobalFeature(FeatureNames.Web2Case, true);
 			this.AddGlobalFeature(FeatureNames.Feedback, true);
 			this.AddGlobalFeature(FeatureNames.EventHubCacheInvalidation, true);
-			this.AddGlobalFeature(FeatureNames.Categories, true);
 			this.AddGlobalFeature(FeatureNames.TelemetryFeatureUsage, true);
 			this.AddGlobalFeature(FeatureNames.PortalFacetedNavigation, true);
 			this.AddGlobalFeature(FeatureNames.CmsEnabledSearching, true);
