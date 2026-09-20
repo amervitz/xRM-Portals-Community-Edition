@@ -18,7 +18,7 @@ namespace Site.Areas.Chat.Models
         public Guid Id { get; set; }
 
         /// <summary>
-        /// In case of ADX portal, it will be ìcontactî.
+        /// In case of ADX portal, it will be ‚Äúcontact‚Äù.
         /// </summary>
         public int CustomerType { get; set; }
 

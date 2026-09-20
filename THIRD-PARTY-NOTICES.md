@@ -1,7 +1,7 @@
 # Third Party Notices for Self-Hosted Portals Add-on for Microsoft Dynamics 365 
 
-The Microsoft offerings identified above (ìMicrosoft Offeringsî) incorporate
-the third party copyrighted materials listed below (ìThird Party Materialsî).
+The Microsoft offerings identified above (‚ÄúMicrosoft Offerings‚Äù) incorporate
+the third party copyrighted materials listed below (‚ÄúThird Party Materials‚Äù).
 While Microsoft is not the original author of the Third Party Materials,
 Microsoft licenses these Third Party Materials to you under the terms set
 forth in the agreements governing the Microsoft Offerings, except in those
@@ -37,7 +37,7 @@ these Third Party Materials.
 * Datejs v.1.0 Alpha-1 - Copyright (c) 2006-2010, Coolite Inc. All rights
   reserved.
 * es5-shim - Copyright 2009-2014 Kristopher Michael Kowal and contributors
-* FormData - Copyright (c) 2010 FranÁois de Metz
+* FormData - Copyright (c) 2010 Fran√ßois de Metz
 * Handlebars.js v.1.3.0 - Copyright (C) 2011 by Yehuda Katz
 * Javascript Date Format v.1.2.3 - Copyright (c) 2007-2009 Steven Levithan
 * jQuery v1.10.2 and 1.11.1 - Copyright (c) jQuery Foundation and other 
@@ -55,7 +55,7 @@ these Third Party Materials.
 * jQuery Templates Plugin - Copyright 2011, Software Freedom Conservancy, Inc.
 * jQuery UI v.1.10.4 - Copyright jQuery Foundation and other contributors,
   https://jquery.org/
-* jQuery Validation Plugin	 v.1.13.1 - Copyright (c) 2014 Jˆrn Zaefferer
+* jQuery Validation Plugin	 v.1.13.1 - Copyright (c) 2014 J√∂rn Zaefferer
 * jquery-migrate v.1.2.1 - Copyright jQuery Foundation, Inc. and other
   contributors, https://jquery.org/
 * Timeago v.0.10.0 - Copyright (c) 2008-2015 Ryan McGeary
@@ -157,7 +157,7 @@ which Microsoft distributes these Third Party Materials.
   reserved.
 * BoboBrowse.Net - Copyright (c) 2005-2015 John Wang
 * Bootstrap v3.0.3 - Copyright 2013 Twitter, Inc
-* Common Infrastructure Libraries for .NET - Copyright © 2002-2009 the
+* Common Infrastructure Libraries for .NET - Copyright ¬© 2002-2009 the
   original author or authors.
 * DotLiquid
 * NuGet - Copyright (c) .NET Foundation. All rights reserved.

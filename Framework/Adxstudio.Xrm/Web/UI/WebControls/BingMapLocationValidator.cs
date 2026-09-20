@@ -31,9 +31,9 @@ namespace Adxstudio.Xrm.Web.UI.WebControls
 		public string BingMapKey { get; set; }
 
 		/// <summary>
-		/// (Optional) The user’s current position. A point on the earth specified as a latitude and longitude. When you specify this parameter, the user’s location is taken into account and the results returned may be more relevant to the user. Example: userLocation=51.504360719046616,-0.12600176611298197
+		/// (Optional) The userâ€™s current position. A point on the earth specified as a latitude and longitude. When you specify this parameter, the userâ€™s location is taken into account and the results returned may be more relevant to the user. Example: userLocation=51.504360719046616,-0.12600176611298197
 		/// </summary>
-		[Description("(Optional) The user’s current position. A point on the earth specified as a latitude and longitude. When you specify this parameter, the user’s location is taken into account and the results returned may be more relevant to the user. Example: userLocation=51.504360719046616,-0.12600176611298197")]
+		[Description("(Optional) The userâ€™s current position. A point on the earth specified as a latitude and longitude. When you specify this parameter, the userâ€™s location is taken into account and the results returned may be more relevant to the user. Example: userLocation=51.504360719046616,-0.12600176611298197")]
 		public string UserLocation { get; set; }
 
 		/// <summary>

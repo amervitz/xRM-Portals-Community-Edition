@@ -17,7 +17,7 @@ namespace Site
 			string languageLetterCode = culture.TwoLetterISOLanguageName;
 			int lcid = ContextLanguageInfo.ResolveCultureLcid(culture.LCID);
 
-			if (lcid == 1044) //norwegian (bokmål)
+			if (lcid == 1044) //norwegian (bokmÃ¥l)
 			{
 				languageLetterCode = "no";
 			}

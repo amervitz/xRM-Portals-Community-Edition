@@ -6,7 +6,7 @@
 namespace Adxstudio.Xrm.Web.UI.WebForms
 {
 	/// <summary>
-	/// Additional behavior modification logic to augment or override the functionality of form fields that is not possible with CRM’s entity and form metadata.
+	/// Additional behavior modification logic to augment or override the functionality of form fields that is not possible with CRMâ€™s entity and form metadata.
 	/// </summary>
 	public static class WebFormMetadata
 	{

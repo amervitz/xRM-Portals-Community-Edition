@@ -213,7 +213,7 @@ namespace Adxstudio.Xrm.Services
 		/// <returns>
 		/// The cache entry that is identified by <paramref name="key"/>.
 		/// </returns>
-		/// <param name="key">A unique identifier for the cache entry to get. </param><param name="regionName">Optional. A named region in the cache to which the cache was added, if regions are implemented. Because regions are not implemented in .NET Framework 4, the default is null.</param>
+		/// <param name="key">A unique identifier for the cache entry to get. </param><param name="regionName">Optional. A named region in the cache to which the cache was added, if regions are implemented. Because regions are not implemented in .NET FrameworkÂ 4, the default is null.</param>
 		public override CacheItem GetCacheItem(string key, string regionName = null)
 		{
 			return Cache.GetCacheItem(key, regionName);
