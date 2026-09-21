@@ -244,7 +244,7 @@ namespace Adxstudio.Xrm.Cms
 
 			foreach (var relationship in this.Relationships)
 			{
-				var regardingEntity = entity.GetAttributeValue<EntityReference>(relationship.ForeignIdAttributeName);
+				var regardingEntity = entity?.GetAttributeValue<EntityReference>(relationship.ForeignIdAttributeName);
 				if (string.Equals(regardingEntity?.LogicalName, relationship.ForeignEntityLogicalname))
 				{
 					// Found matching relationship, include.

@@ -203,7 +203,6 @@ namespace Adxstudio.Xrm.Notes
 		public IAnnotationResult CreateAnnotation(IAnnotation note, IAnnotationSettings settings = null)
 		{
 			var serviceContext = _dependencies.GetServiceContext();
-			var serviceContextForWrite = _dependencies.GetServiceContextForWrite();
 
 			if (settings == null)
 			{
@@ -318,10 +317,14 @@ namespace Adxstudio.Xrm.Notes
 						Size = (ulong)azureFile.FileSize,
 						Url = azureFile.BlockBlob.Uri.AbsoluteUri
 					};
-					entity.SetAttributeValue("documentbody",
-						Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(fileMetadata, Formatting.Indented))));
-					serviceContextForWrite.UpdateObject(entity);
-					serviceContextForWrite.SaveChanges();
+
+					var updatedNote = new Entity("annotation")
+					{
+						Id = entity.Id,
+						["documentbody"] = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(fileMetadata, Formatting.Indented)))
+					};
+
+					(serviceContext as IOrganizationService).ExecuteUpdate(updatedNote, RequestFlag.ByPassCacheInvalidation);
 
 					// NB: This is basically a hack to support replication. Keys are gathered up and stored during replication, and the
 					// actual blob replication is handled here.
@@ -494,8 +497,11 @@ namespace Adxstudio.Xrm.Notes
 					{
 						var container = GetBlobContainer(storageAccount, _containerName);
 
-						var oldName = note.Entity.GetAttributeValue<string>("filename");
-						var oldBlob = container.GetBlockBlobReference("{0:N}/{1}".FormatWith(entity.Id.ToString(), oldName));
+						var storedName = note.Entity.GetAttributeValue<string>("filename");
+						var oldName = storedName?.EndsWith(".azure.txt") == true
+							? storedName.Substring(0, storedName.Length - ".azure.txt".Length)
+							: storedName;
+						var oldBlob = container.GetBlockBlobReference("{0:N}/{1}".FormatWith(entity.Id, oldName));
 						oldBlob.DeleteIfExists();
 
 						azureFile.BlockBlob = UploadBlob(azureFile, container, note.AnnotationId);

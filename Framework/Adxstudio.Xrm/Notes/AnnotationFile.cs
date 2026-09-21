@@ -61,7 +61,7 @@ namespace Adxstudio.Xrm.Notes
 
 		public Stream GetFileStream()
 		{
-			return _getStream();
+			return _getStream == null ? null : _getStream();
 		}
 
 		public void SetAnnotation(Func<Entity> func)

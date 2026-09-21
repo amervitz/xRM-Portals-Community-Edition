@@ -37,6 +37,10 @@ Docs
 Code
 
 - Fixed cloud blob web files failing to download when `adx_cloudblobaddress` holds a fully qualified address. xRM Portals only understood a path relative to the storage account, which it concatenated onto the account's endpoint, so the fully qualified address format used by Power Pages produced a malformed URL. Both forms are now understood, so blob addresses used by either version are served.
+- Fixed note attachments failing to save to Azure Blob Storage. After uploading the blob, the annotation was updated through a service context it was never attached to, which threw. The blob metadata is now written through the organization service, matching the create, and sends only the changed attribute.
+- Fixed the previous blob not being removed when a note's Azure Blob Storage attachment is replaced. The blob was looked up under a hyphenated record id and under the stored file name, neither of which matches how the blob was written.
+- Fixed deleting a note throwing a `NullReferenceException` during content map refresh. A deleted record is retrieved as null, which the annotation relationship check dereferenced.
+- Fixed editing a note in the notes or timeline control throwing a `NullReferenceException` when the attachment is left unchanged. No file is posted in that case, so the check for whether a new attachment was supplied threw instead of reporting that there was none.
 
 ### Removed
 
