@@ -140,7 +140,6 @@ window.ResourceManager = {
  'Display_Date_Label' : "<%=HttpUtility.JavaScriptStringEncode(ResourceManager.GetString("Display_Date_Label"))%>",
  'Display_Page_Child_Links_Label' : "<%=HttpUtility.JavaScriptStringEncode(ResourceManager.GetString("Display_Page_Child_Links_Label"))%>",
  'Editorial_Comments_Label' : "<%=HttpUtility.JavaScriptStringEncode(ResourceManager.GetString("Editorial_Comments_Label"))%>",
- 'Enable_Tracking_Label' : "<%=HttpUtility.JavaScriptStringEncode(ResourceManager.GetString("Enable_Tracking_Label"))%>",
  'End_Time_Label' : "<%=HttpUtility.JavaScriptStringEncode(ResourceManager.GetString("End_Time_DefaultText"))%>",
  'Entity_List_Label' : "<%=HttpUtility.JavaScriptStringEncode(ResourceManager.GetString("Entity_List_Label"))%>",
  'Expiration_Date_Label' : "<%=HttpUtility.JavaScriptStringEncode(ResourceManager.GetString("Expiration_Date_Label"))%>",

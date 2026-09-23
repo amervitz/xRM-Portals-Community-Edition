@@ -31,7 +31,6 @@ namespace Adxstudio.Xrm.Configuration
 		private static readonly ConfigurationProperty _propSearch;
 		private static readonly ConfigurationProperty _propOutputObjectCacheName;
 		private static readonly ConfigurationProperty _propCdnEnabled;
-		private static readonly ConfigurationProperty _propAsyncTrackingEnabled;
 		private static readonly ConfigurationProperty _propContentMap;
 		private static readonly ConfigurationPropertyCollection _properties;
 
@@ -44,7 +43,6 @@ namespace Adxstudio.Xrm.Configuration
 			_propSearch = new ConfigurationProperty("search", typeof(SearchElement), new SearchElement(), ConfigurationPropertyOptions.None);
 			_propOutputObjectCacheName = new ConfigurationProperty("outputObjectCacheName", typeof(string), _defaultOutputObjectCacheName, ConfigurationPropertyOptions.None);
 			_propCdnEnabled = new ConfigurationProperty("cdnEnabled", typeof(bool), true, ConfigurationPropertyOptions.None);
-			_propAsyncTrackingEnabled = new ConfigurationProperty("asyncTrackingEnabled", typeof(bool), true, ConfigurationPropertyOptions.None);
 			_propContentMap = new ConfigurationProperty("contentMap", typeof(ContentMapElement), new ContentMapElement(), ConfigurationPropertyOptions.None);
 
 			_properties = new ConfigurationPropertyCollection
@@ -56,7 +54,6 @@ namespace Adxstudio.Xrm.Configuration
 				_propSearch,
 				_propOutputObjectCacheName,
 				_propCdnEnabled,
-				_propAsyncTrackingEnabled,
 				_propContentMap,
 			};
 		}
@@ -147,16 +144,6 @@ namespace Adxstudio.Xrm.Configuration
 		{
 			get { return (bool)base[_propCdnEnabled]; }
 			set { base[_propCdnEnabled] = value; }
-		}
-
-		/// <summary>
-		/// Enables or disables entity view tracking.
-		/// </summary>
-		[ConfigurationProperty("asyncTrackingEnabled", DefaultValue = true)]
-		public bool AsyncTrackingEnabled
-		{
-			get { return (bool)base[_propAsyncTrackingEnabled]; }
-			set { base[_propAsyncTrackingEnabled] = value; }
 		}
 
 		/// <summary>

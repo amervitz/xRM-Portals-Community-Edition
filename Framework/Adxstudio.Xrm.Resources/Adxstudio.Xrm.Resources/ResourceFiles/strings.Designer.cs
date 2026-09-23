@@ -5542,15 +5542,6 @@ namespace Adxstudio.Xrm.Resources.ResourceFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enable Tracking.
-        /// </summary>
-        public static string Enable_Tracking_Label {
-            get {
-                return ResourceManager.GetString("Enable_Tracking_Label", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Encoding.
         /// </summary>
         public static string Encoding_Label {

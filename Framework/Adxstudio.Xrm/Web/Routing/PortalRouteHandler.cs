@@ -78,8 +78,6 @@ namespace Adxstudio.Xrm.Web.Routing
 
 			if (portal == null) return null;
 
-			AsyncTracking.TrackRequest(requestContext.HttpContext);
-
 			var isInvalidNode = portal.Entity == null || portal.Path == null;
 
 			// there's nothing else we can really do--we'll exit with a bare-bones 404.

@@ -2775,9 +2775,6 @@
   <data name="Enable_Ratings_Label" xml:space="preserve">
     <value>Iespējot novērtējumus</value>
   </data>
-  <data name="Enable_Tracking_Label" xml:space="preserve">
-    <value>Iespējot izsekošanu</value>
-  </data>
   <data name="Entity_Form_Label" xml:space="preserve">
     <value>Entītijas veidlapa</value>
   </data>

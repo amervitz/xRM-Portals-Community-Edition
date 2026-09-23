@@ -6,7 +6,6 @@
 using System;
 using System.Configuration;
 using System.Web;
-using Adxstudio.Xrm.Cms;
 using Adxstudio.Xrm.Resources;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -17,21 +16,13 @@ namespace Adxstudio.Xrm.Web.Handlers
 	internal class CloudBlobRedirectHandler : IHttpHandler
 	{
 		private readonly string _blobAddress;
-		private readonly bool _enableTracking;
-		private readonly EntityReference _entity;
 
-		public CloudBlobRedirectHandler(Entity entity, string portalName = null)
+		public CloudBlobRedirectHandler(Entity entity)
 		{
 			if (entity == null) throw new ArgumentNullException("entity");
 
-			PortalName = portalName;
-
 			_blobAddress = entity.GetAttributeValue<string>("adx_cloudblobaddress");
-			_entity = entity.ToEntityReference();
-			_enableTracking = entity.GetAttributeValue<bool?>("adx_enabletracking").GetValueOrDefault();
 		}
-
-		protected string PortalName { get; private set; }
 
 		public void ProcessRequest(HttpContext context)
 		{
@@ -46,8 +37,6 @@ namespace Adxstudio.Xrm.Web.Handlers
 				return;
 			}
 
-			var dataAdapterDependencies = new PortalConfigurationDataAdapterDependencies(PortalName, context.Request.RequestContext);
-
 			CloudStorageAccount storageAccount;
 
 			if (!TryGetCloudStorageAccount(context, out storageAccount))
@@ -57,28 +46,6 @@ namespace Adxstudio.Xrm.Web.Handlers
 				context.Response.Write(ResourceManager.GetString("Failed_To_Configure_Cloud_Storage_Account"));
 
 				return;
-			}
-
-			if (_enableTracking)
-			{
-				var log = new Entity("adx_webfilelog");
-
-				log["adx_name"] = _blobAddress;
-				log["adx_date"] = DateTime.UtcNow;
-				log["adx_ipaddress"] = context.Request.UserHostAddress;
-				log["adx_webfileid"] = _entity;
-
-				var user = dataAdapterDependencies.GetPortalUser();
-				
-				if (user != null && user.LogicalName == "contact")
-				{
-					log["adx_contactid"] = user;
-				}
-
-				var serviceContext = dataAdapterDependencies.GetServiceContextForWrite();
-
-				serviceContext.AddObject(log);
-				serviceContext.SaveChanges();
 			}
 
 			var blobClient = storageAccount.CreateCloudBlobClient();
@@ -134,11 +101,11 @@ namespace Adxstudio.Xrm.Web.Handlers
 			return entity != null && !string.IsNullOrEmpty(entity.GetAttributeValue<string>("adx_cloudblobaddress"));
 		}
 
-		public static bool TryGetCloudBlobHandler(Entity entity, out IHttpHandler handler, string portalName = null)
+		public static bool TryGetCloudBlobHandler(Entity entity, out IHttpHandler handler)
 		{
 			if (IsCloudBlob(entity))
 			{
-				handler = new CloudBlobRedirectHandler(entity, portalName);
+				handler = new CloudBlobRedirectHandler(entity);
 
 				return true;
 			}

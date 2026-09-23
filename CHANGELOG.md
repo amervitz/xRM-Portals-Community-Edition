@@ -53,3 +53,4 @@ Code
 - Removed the unused `FCB.Web2Case` and `FCB.Categories` feature flags, which had no remaining feature checks in the codebase.
 - Removed Azure Cloud Services (classic) hosting support, because Azure Cloud Services (classic) was retired on 1 September 2024.
 - Removed Windows Live ID Web Authentication, which targeted a long-decommissioned sign-in protocol.
+- Removed web page and web file tracking, matching Power Pages, where the feature is no longer available since version 9.3.4.x. Requests for web pages and web files with **Enable Tracking** set no longer create `adx_webpagelog` or `adx_webfilelog` records, and the field is no longer shown when editing either on the portal. This also removes the `asyncTrackingEnabled` attribute of the `adxstudio.xrm` configuration section, which must be deleted from any `Web.config` that sets it.

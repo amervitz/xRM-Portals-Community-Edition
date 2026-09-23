@@ -1459,7 +1459,6 @@
     <Compile Include="Threading\HttpSingleton.cs" />
     <Compile Include="Threading\NamedLock.cs" />
     <Compile Include="Threading\MonitorLockProvider.cs" />
-    <Compile Include="Web\AsyncTracking.cs" />
     <Compile Include="Web\BlogSiteMapProvider.cs" />
     <Compile Include="Web\CanonicalUrlRedirectProvider.cs" />
     <Compile Include="Web\Compilation\CdnUrlExpressionBuilder.cs" />

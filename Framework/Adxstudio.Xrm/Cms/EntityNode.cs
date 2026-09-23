@@ -354,7 +354,6 @@ namespace Adxstudio.Xrm.Cms
 			new EntityNodeColumn("adx_customjavascript", BaseSolutionVersions.NaosAndOlderVersions),
 			new EntityNodeColumn("adx_displaydate", BaseSolutionVersions.NaosAndOlderVersions),
 			new EntityNodeColumn("adx_displayorder", BaseSolutionVersions.NaosAndOlderVersions),
-			new EntityNodeColumn("adx_enabletracking", BaseSolutionVersions.NaosAndOlderVersions),
 			new EntityNodeColumn("adx_expirationdate", BaseSolutionVersions.NaosAndOlderVersions),
 			new EntityNodeColumn("adx_hiddenfromsitemap", BaseSolutionVersions.NaosAndOlderVersions),
 			new EntityNodeColumn("adx_image", BaseSolutionVersions.NaosAndOlderVersions),
@@ -400,7 +399,6 @@ namespace Adxstudio.Xrm.Cms
 		public string CreatedByUsername { get { return GetValue<string>("adx_createdbyusername"); } }
 		public DateTime? DisplayDate { get { return GetValue<DateTime?>("adx_displaydate"); } }
 		public int? DisplayOrder { get { return GetValue<int?>("adx_displayorder"); } }
-		public bool? EnableTracking { get { return GetValue<bool?>("adx_enabletracking"); } }
 		public DateTime? ExpirationDate { get { return GetValue<DateTime?>("adx_expirationdate"); } }
 		public bool? HiddenFromSiteMap { get { return GetValue<bool?>("adx_hiddenfromsitemap"); } }
 		public string ImageUrl { get { return GetValue<string>("adx_imageurl"); } }
@@ -530,7 +528,6 @@ namespace Adxstudio.Xrm.Cms
 			d["DisplayOrder"] = DisplayOrder;
 			d["EntityForm"] = EntityForm == null ? null : new JObject(new { EntityForm.Id, EntityForm.LogicalName });
 			d["EntityList"] = EntityList == null ? null : new JObject(new { EntityList.Id, EntityList.LogicalName });
-			d["EnableTracking"] = EnableTracking;
 			d["ExpirationDate"] = ExpirationDate;
 			d["HiddenFromSiteMap"] = HiddenFromSiteMap;
 			d["ImageUrl"] = ImageUrl;
@@ -784,7 +781,6 @@ namespace Adxstudio.Xrm.Cms
 			new EntityNodeColumn("adx_createdbyusername", BaseSolutionVersions.NaosAndOlderVersions),
 			new EntityNodeColumn("adx_displaydate", BaseSolutionVersions.NaosAndOlderVersions),
 			new EntityNodeColumn("adx_displayorder", BaseSolutionVersions.NaosAndOlderVersions),
-			new EntityNodeColumn("adx_enabletracking", BaseSolutionVersions.NaosAndOlderVersions),
 			new EntityNodeColumn("adx_expirationdate", BaseSolutionVersions.NaosAndOlderVersions),
 			new EntityNodeColumn("adx_hiddenfromsitemap", BaseSolutionVersions.NaosAndOlderVersions),
 			new EntityNodeColumn("adx_masterwebfileid", BaseSolutionVersions.NaosAndOlderVersions),
@@ -816,7 +812,6 @@ namespace Adxstudio.Xrm.Cms
 		public string CreatedByUsername { get { return GetValue<string>("adx_createdbyusername"); } }
 		public DateTime? DisplayDate { get { return GetValue<DateTime?>("adx_displaydate"); } }
 		public int? DisplayOrder { get { return GetValue<int?>("adx_displayorder"); } }
-		public bool? EnableTracking { get { return GetValue<bool?>("adx_enabletracking"); } }
 		public DateTime? ExpirationDate { get { return GetValue<DateTime?>("adx_expirationdate"); } }
 		public bool? HiddenFromSiteMap { get { return GetValue<bool?>("adx_hiddenfromsitemap"); } }
 		public string ModifiedByIPAddress { get { return GetValue<string>("adx_modifiedbyipaddress"); } }
@@ -866,7 +861,6 @@ namespace Adxstudio.Xrm.Cms
 			d["CreatedByUsername"] = CreatedByUsername;
 			d["DisplayDate"] = DisplayDate;
 			d["DisplayOrder"] = DisplayOrder;
-			d["EnableTracking"] = EnableTracking;
 			d["ExpirationDate"] = ExpirationDate;
 			d["HiddenFromSiteMap"] = HiddenFromSiteMap;
 			d["ModifiedByIPAddress"] = ModifiedByIPAddress;

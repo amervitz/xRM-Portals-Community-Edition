@@ -77,22 +77,12 @@ namespace Adxstudio.Xrm.Web.Modules
 			RouteTable.Routes.UseWithWriteLock(routes =>
 			{
 				base.Init(application);
-
-				if (AsyncTrackingEnabled)
-				{
-					application.AddOnReleaseRequestStateAsync(AsyncTracking.BeginRequestAsync, AsyncTracking.EndRequestAsync);
-				}
 			});
 		}
 
 		protected virtual bool CdnEnabled
 		{
 			get { return AdxstudioCrmConfigurationManager.GetCrmSection().CdnEnabled; }
-		}
-
-		protected virtual bool AsyncTrackingEnabled
-		{
-			get { return AdxstudioCrmConfigurationManager.GetCrmSection().AsyncTrackingEnabled; }
 		}
 
 		protected override void Register(

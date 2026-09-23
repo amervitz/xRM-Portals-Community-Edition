@@ -2775,9 +2775,6 @@
   <data name="Enable_Ratings_Label" xml:space="preserve">
     <value>Activați evaluările</value>
   </data>
-  <data name="Enable_Tracking_Label" xml:space="preserve">
-    <value>Activați urmărirea</value>
-  </data>
   <data name="Entity_Form_Label" xml:space="preserve">
     <value>Formular de entitate</value>
   </data>

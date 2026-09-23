@@ -2775,9 +2775,6 @@
   <data name="Enable_Ratings_Label" xml:space="preserve">
     <value>Activar valoracións</value>
   </data>
-  <data name="Enable_Tracking_Label" xml:space="preserve">
-    <value>Activar rastrexo</value>
-  </data>
   <data name="Entity_Form_Label" xml:space="preserve">
     <value>Formulario de entidade</value>
   </data>

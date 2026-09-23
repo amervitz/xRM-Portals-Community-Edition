@@ -174,7 +174,6 @@ XRM.onActivate(function() {
       { name: 'adx_webform', label: window.ResourceManager['Web_Form_Label'], type: 'select', excludeEmptyData: false, required: false, uri: null, optionEntityName: 'adx_webform', optionText: 'adx_name', optionValue: 'adx_webformid', expansion: true  },
       { name: 'adx_editorialcomments', label: window.ResourceManager['Editorial_Comments_Label'], type: 'textarea', height: 200, maxlength: 2000 },
       { name: 'adx_excludefromsearch', label: window.ResourceManager['Exclude_From_Search_Label'], type: 'checkbox', checkedByDefault: false  },
-      { name: 'adx_enabletracking', label: window.ResourceManager['Enable_Tracking_Label'], type: 'checkbox', checkedByDefault: false  },
       { name: 'adx_meta_description', label: window.ResourceManager['Description_Label'], type: 'text', maxlength: 255 },
       { name: 'adx_customjavascript', label: window.ResourceManager['Custom_JavaScript_Label'], type: 'iframe', xrmsrc: 'js/editable/source_js.html', height: 240  },
       { name: 'adx_customcss', label: window.ResourceManager['Custom_CSS_Label'], type: 'iframe', xrmsrc: 'js/editable/source_css.html', height: 240 },

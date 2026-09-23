@@ -31,7 +31,6 @@ XRM.onActivate(function() {
       { name: 'adx_expirationdate', label: window.ResourceManager['Expiration_Date_Label'], type: 'datetime', excludeEmptyData: true  },
       { name: 'adx_hiddenfromsitemap', label: window.ResourceManager['Hidden_From_Sitemap_Label'], type: 'checkbox'  },
       { name: 'adx_summary', label: window.ResourceManager['Summary_Label'], type: 'html', ckeditorSettings: { height: 240 }  },
-      { name: 'adx_enabletracking', label: window.ResourceManager['Enable_Tracking_Label'], type: 'checkbox', checkedByDefault: false  },
       { name: 'adx_cloudblobaddress', label: window.ResourceManager['Cloud_Blob_Address_Label'], type: 'text'  },
       { name: 'adx_contentdisposition', label: window.ResourceManager['Content_Disposition_Label'], type: 'picklist'  },
       { name: 'adx_parentpageid', label: window.ResourceManager['Parent_Page_Label'], type: 'parent', excludeEmptyData: true, required: true, uri: null, optionEntityName: 'adx_webpage', disableAtRoot: true, defaultToCurrent: true, defaultToRoot: true }
@@ -41,7 +40,7 @@ XRM.onActivate(function() {
       full: true,
       columns: [
         { cssClass: 'xrm-dialog-column-main', fields: ['adx_name', 'adx_webfile-attachment', 'adx_summary', 'adx_cloudblobaddress'] },
-        { cssClass: 'xrm-dialog-column-side', fields: ['adx_parentpageid', 'adx_partialurl', 'adx_publishingstateid', 'adx_displaydate', 'adx_releasedate', 'adx_expirationdate', 'adx_contentdisposition', 'adx_hiddenfromsitemap', 'adx_enabletracking'] }
+        { cssClass: 'xrm-dialog-column-side', fields: ['adx_parentpageid', 'adx_partialurl', 'adx_publishingstateid', 'adx_displaydate', 'adx_releasedate', 'adx_expirationdate', 'adx_contentdisposition', 'adx_hiddenfromsitemap'] }
       ]
     }
   };
