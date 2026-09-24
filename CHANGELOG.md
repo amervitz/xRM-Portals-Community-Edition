@@ -24,6 +24,7 @@ Code
 - Retargeted all projects to .NET Framework 4.8.1.
 - Updated CRM SDK dependencies and binding redirects for both clients, preserving the portal's connection and caching wrappers.
 - Made profile marketing lists optional through the `Profile/ShowMarketingListsPanel` site setting (defaults to `false`) because the `adx_website_list` relationship may not exist.
+- Updated Common.Logging and Common.Logging.Core, dependencies of BoboBrowse.Net (the faceted search library built on Lucene.Net), from 3.0.0 to 3.4.1, with binding redirects from the 3.0.0.0 assemblies BoboBrowse.Net is compiled against.
 
 Docs
 
