@@ -17,7 +17,8 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 	using global::Owin;
 	using Microsoft.Owin;
 	using Microsoft.Owin.BuilderProperties;
-	using Microsoft.Practices.TransientFaultHandling;
+	using Polly;
+	using Adxstudio.Xrm.Threading;
 	using Newtonsoft.Json;
 
 	/// <summary>
@@ -29,16 +30,16 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 		public string AppDataPath { get; set; }
 		public string InstanceId { get; set; }
 		public TimeSpan Timeout { get; set; }
-		public RetryPolicy RetryPolicy { get; set; }
+		public ResiliencePipeline ResiliencePipeline { get; set; }
 
 		public AppDataPortalBusOptions(WebAppSettings webAppSettings)
 		{
-			var retryStrategy = new Incremental(5, new TimeSpan(0, 0, 1), new TimeSpan(0, 0, 1));
+			var retryStrategy = RetryPolicies.Incremental(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
 
 			this.AppDataPath = "~/App_Data/Adxstudio.Xrm.AspNet.PortalBus/" + typeof(TMessage).Name;
 			this.InstanceId = webAppSettings.InstanceId;
 			this.Timeout = TimeSpan.FromMinutes(5);
-			this.RetryPolicy = retryStrategy.CreateRetryPolicy();
+			this.ResiliencePipeline = retryStrategy.CreateRetryPolicy();
 		}
 	}
 
@@ -80,10 +81,10 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 		{
 			var subscriptionPath = Path.Combine(this.AppDataFullPath, this.Options.InstanceId);
 
-			if (this.Options.RetryPolicy.DirectoryExists(subscriptionPath))
+			if (this.Options.ResiliencePipeline.DirectoryExists(subscriptionPath))
 			{
 				ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Delete: subscriptionPath={0}", subscriptionPath));
-				this.Options.RetryPolicy.DirectoryDelete(subscriptionPath, true);
+				this.Options.ResiliencePipeline.DirectoryDelete(subscriptionPath, true);
 			}
 		}
 
@@ -100,7 +101,7 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 
 			try
 			{
-				var watcher = this.Options.RetryPolicy.CreateFileSystemWatcher(subscriptionPath);
+				var watcher = this.Options.ResiliencePipeline.CreateFileSystemWatcher(subscriptionPath);
 				watcher.Renamed += (sender, args) => buffer.Post(args.FullPath);
 				watcher.Error += async (sender, args) => await this.OnSubscriptionErrorAsync(args.GetException()).WithCurrentCulture();
 			}
@@ -108,10 +109,10 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 			{
 				WebEventSource.Log.GenericErrorException(e);
 
-				if (this.Options.RetryPolicy.DirectoryExists(subscriptionPath))
+				if (this.Options.ResiliencePipeline.DirectoryExists(subscriptionPath))
 				{
 					ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Delete: subscriptionPath={0}", subscriptionPath));
-					this.Options.RetryPolicy.DirectoryDelete(subscriptionPath, true);
+					this.Options.ResiliencePipeline.DirectoryDelete(subscriptionPath, true);
 				}
 
 				throw;
@@ -126,14 +127,14 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 		{
 			var subscriptionPath = Path.Combine(this.AppDataFullPath, this.Options.InstanceId);
 
-			if (this.Options.RetryPolicy.DirectoryExists(subscriptionPath))
+			if (this.Options.ResiliencePipeline.DirectoryExists(subscriptionPath))
 			{
 				ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Exists: subscriptionPath={0}", subscriptionPath));
 			}
 			else
 			{
 				ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Create: subscriptionPath={0}", subscriptionPath));
-				this.Options.RetryPolicy.DirectoryCreate(subscriptionPath);
+				this.Options.ResiliencePipeline.DirectoryCreate(subscriptionPath);
 			}
 
 			return subscriptionPath;
@@ -155,7 +156,7 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 		{
 			try
 			{
-				if (!this.Options.RetryPolicy.FileExists(messagePath)) return;
+				if (!this.Options.ResiliencePipeline.FileExists(messagePath)) return;
 
 				var context = this.GetOwinContext();
 				var message = this.Deserialize(messagePath) as IPortalBusMessage;
@@ -169,7 +170,7 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 
 				// clean up the file
 
-				this.Options.RetryPolicy.FileDelete(messagePath);
+				this.Options.ResiliencePipeline.FileDelete(messagePath);
 			}
 			catch (Exception e)
 			{
@@ -179,7 +180,7 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 
 		protected virtual TMessage Deserialize(string messagePath)
 		{
-			using (var reader = this.Options.RetryPolicy.OpenText(messagePath))
+			using (var reader = this.Options.ResiliencePipeline.OpenText(messagePath))
 			using (var jr = new JsonTextReader(reader))
 			{
 				return _serializer.Deserialize<TMessage>(jr);
@@ -192,13 +193,13 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 
 		protected override async Task SendRemoteAsync(IOwinContext context, TMessage message)
 		{
-			if (!this.Options.RetryPolicy.DirectoryExists(this.AppDataFullPath))
+			if (!this.Options.ResiliencePipeline.DirectoryExists(this.AppDataFullPath))
 			{
 				return;
 			}
 
-			var directory = this.Options.RetryPolicy.GetDirectory(this.AppDataFullPath);
-			var subscriptions = this.Options.RetryPolicy.GetDirectories(directory, "*")
+			var directory = this.Options.ResiliencePipeline.GetDirectory(this.AppDataFullPath);
+			var subscriptions = this.Options.ResiliencePipeline.GetDirectories(directory, "*")
 				.Where(subscription => !string.Equals(subscription.Name, this.Options.InstanceId));
 
 			foreach (var subscription in subscriptions)
@@ -211,10 +212,10 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 		{
 			// clean up expired files
 
-			var directory = this.Options.RetryPolicy.GetDirectory(subscriptionPath);
+			var directory = this.Options.ResiliencePipeline.GetDirectory(subscriptionPath);
 
 			var expired =
-				this.Options.RetryPolicy.GetFiles(directory, "*.msg")
+				this.Options.ResiliencePipeline.GetFiles(directory, "*.msg")
 				.Where(file => file.LastAccessTimeUtc + timeout < DateTime.UtcNow)
 				.ToArray();
 
@@ -222,7 +223,7 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 			{
 				try
 				{
-					this.Options.RetryPolicy.FileDelete(file);
+					this.Options.ResiliencePipeline.FileDelete(file);
 				}
 				catch (Exception e)
 				{
@@ -236,7 +237,7 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 
 			// write to a temporary file
 
-			using (var fs = this.Options.RetryPolicy.Open(tempPath, FileMode.CreateNew))
+			using (var fs = this.Options.ResiliencePipeline.Open(tempPath, FileMode.CreateNew))
 			using (var sw = new StreamWriter(fs))
 			using (var jw = new JsonTextWriter(sw))
 			{
@@ -247,7 +248,7 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 
 			// rename to the destination file
 
-			this.Options.RetryPolicy.FileMove(tempPath, messagePath);
+			this.Options.ResiliencePipeline.FileMove(tempPath, messagePath);
 
 			ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("messagePath={0}", messagePath));
 			

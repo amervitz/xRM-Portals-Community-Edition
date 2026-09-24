@@ -6,10 +6,10 @@
 namespace Adxstudio.Xrm.EventHubBasedInvalidation
 {
 	using System;
-	using Microsoft.ServiceBus.Messaging;
+	using Azure.Messaging.ServiceBus;
 
 	/// <summary>
-	/// CrmSubscriptionMessage wrapping a BrokeredMessage indicating a CRM Entity Record change
+	/// CrmSubscriptionMessage wrapping a ServiceBusReceivedMessage indicating a CRM Entity Record change
 	/// </summary>
 	public class EntityRecordMessage : CrmSubscriptionMessage
 	{
@@ -31,12 +31,12 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		public int ObjectType { get; set; }
 
 		/// <summary>
-		/// Deserialize the BrokeredMessage message body into a EntityRecordMessage
+		/// Deserialize the ServiceBusReceivedMessage message body into a EntityRecordMessage
 		/// </summary>
-		/// <param name="message">BrokeredMessage message body</param>
-		/// <param name="brokeredMessage">BrokeredMessage message</param>
+		/// <param name="message">ServiceBusReceivedMessage message body</param>
+		/// <param name="brokeredMessage">ServiceBusReceivedMessage message</param>
 		/// <returns>ICrmSubscriptionMessage</returns>
-		internal static ICrmSubscriptionMessage DeserializeMessage(string message, BrokeredMessage brokeredMessage)
+		internal static ICrmSubscriptionMessage DeserializeMessage(string message, ServiceBusReceivedMessage brokeredMessage)
 		{
 			EntityRecordMessage entityRecordMessage = (EntityRecordMessage)CrmSubscriptionMessage.DeserializeMessage(message, typeof(EntityRecordMessage));
 

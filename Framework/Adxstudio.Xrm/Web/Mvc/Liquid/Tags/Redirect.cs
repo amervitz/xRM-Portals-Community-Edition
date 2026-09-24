@@ -9,7 +9,6 @@ namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 	using System.Collections.Generic;
 	using System.IO;
 	using DotLiquid;
-	using DotLiquid.Util;
 	using Microsoft.Xrm.Sdk;
 	using DotLiquid.Exceptions;
 	using Adxstudio.Xrm.Services;
@@ -38,7 +37,7 @@ namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 		{
 			this.attributes = new Dictionary<string, string>(Template.NamingConvention.StringComparer);
 
-			R.Scan(markup, DotLiquid.Liquid.TagAttributes, (key, value) => this.attributes[key] = value);
+			TagSyntax.ScanAttributes(markup, (key, value) => this.attributes[key] = value);
 
 			base.Initialize(tagName, markup, tokens);
 		}

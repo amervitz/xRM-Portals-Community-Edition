@@ -11,7 +11,6 @@ using System.ServiceModel;
 using System.Text.RegularExpressions;
 using DotLiquid;
 using DotLiquid.Exceptions;
-using DotLiquid.Util;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 
@@ -30,7 +29,7 @@ namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 			if (syntaxMatch.Success)
 			{
 				_attributes = new Dictionary<string, string>(Template.NamingConvention.StringComparer);
-				R.Scan(markup, DotLiquid.Liquid.TagAttributes, (key, value) => _attributes[key] = value);
+				TagSyntax.ScanAttributes(markup, (key, value) => _attributes[key] = value);
 			}
 			else
 			{

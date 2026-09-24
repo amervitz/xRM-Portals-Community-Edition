@@ -25,7 +25,6 @@ namespace Adxstudio.Xrm.Web.UI.CrmEntityFormView
 	using Adxstudio.Xrm.Resources;
 	using Adxstudio.Xrm.Web.UI.WebControls;
 
-	using Microsoft.Practices.EnterpriseLibrary.Common.Utility;
 	using Microsoft.Xrm.Client;
 	using Microsoft.Xrm.Portal.Web.UI.CrmEntityFormView;
 	using Microsoft.Xrm.Sdk;
@@ -160,8 +159,13 @@ namespace Adxstudio.Xrm.Web.UI.CrmEntityFormView
 			divContainer.Attributes["class"] = "content hide addressCompositeControlContainer";
 			divContainer.ID = contentId.ToString();
 
-			var addRangeControls =
-				new Action<IEnumerable<Control>>(controls => { controls.ForEach(x => divContainer.Controls.Add(x)); });
+			var addRangeControls = new Action<IEnumerable<Control>>(controls =>
+			{
+				foreach (var control in controls)
+				{
+					divContainer.Controls.Add(control);
+				}
+			});
 
 			container.Controls.Add(divContainer);
 

@@ -12,7 +12,7 @@ using Microsoft.Xrm.Portal.Cms;
 using Microsoft.Xrm.Portal.Configuration;
 using Microsoft.Xrm.Portal.Runtime;
 using Microsoft.Xrm.Portal.Web.Providers;
-using Microsoft.Security.Application;
+using Encoder = System.Web.Security.AntiXss.AntiXssEncoder;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Sdk.Client;

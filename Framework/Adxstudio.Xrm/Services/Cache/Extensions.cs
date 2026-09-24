@@ -50,27 +50,25 @@ namespace Adxstudio.Xrm.Services.Cache
 			var cacheManager = new EventHubJobManager(createContext(), cacheEventHubJobSettings);
 			var searchManager = new EventHubJobManager(createContext(), searchEventHubJobSettings);
 
-			if (cacheManager.SubscriptionClient != null)
+			if (cacheManager.ServiceBusReceiver != null)
 			{
 				// warm up the client
-				ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Subscription = '{0}' Topic = '{1}'", cacheManager.Subscription.Name, cacheManager.Subscription.TopicPath));
+				ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Subscription = '{0}' Topic = '{1}'", cacheManager.Subscription.SubscriptionName, cacheManager.Subscription.TopicName));
 			}
 
-			var registry = new Registry();
-
-			registry.Schedule(
+			app.StartSchedule(
 				() =>
 				{
 					new EventHubJob(cacheManager).Execute();
 					new EventHubJob(searchManager).Execute();
 					new CacheInvalidationJob(cacheInvalidationJobSettings, createContext(), websiteId).Execute();
-				})
-				.Reentrant(cacheEventHubJobSettings.Reentrant)
-				.ToRunNow().AndEvery(cacheEventHubJobSettings.JobInterval).Seconds();
+				}, run => run.Now().AndEvery(cacheEventHubJobSettings.JobInterval).Seconds(), cacheEventHubJobSettings.Reentrant);
 
-			JobManager.Initialize(registry);
-
-			app.CreatePerOwinContext(() => cacheManager);
+			new AppProperties(app.Properties).OnAppDisposing.Register(() =>
+			{
+				((IDisposable)cacheManager).Dispose();
+				((IDisposable)searchManager).Dispose();
+			});
 
 			WebAppConfigurationProvider.AppStartTime = cacheInvalidationJobSettings.StartedOn.ToString("MM/dd/yyyy HH:mm:ss");
 		}
@@ -93,12 +91,8 @@ namespace Adxstudio.Xrm.Services.Cache
 				if (settings.AsyncWarmupEnabled)
 				{
 					// run warmup job as a scheduled job
-					var registry = new Registry();
-
-					registry.Schedule(() => { new WarmupCacheJob(createContext(), settings).Execute(); })
-						.ToRunOnceIn(settings.AsyncWarmupDelay).Seconds();
-
-					JobManager.Initialize(registry);
+					app.StartSchedule(() => new WarmupCacheJob(createContext(), settings).Execute(),
+						run => run.OnceIn(settings.AsyncWarmupDelay).Seconds());
 				}
 				else
 				{
@@ -130,13 +124,8 @@ namespace Adxstudio.Xrm.Services.Cache
 
 				if (settings.PersistOnSchedule)
 				{
-					var registry = new Registry();
-
-					registry.Schedule(() => { new PersistCachedRequestsJob(GetCache("Xrm"), settings).Execute(); })
-						.Reentrant(settings.Reentrant)
-						.ToRunNow().AndEvery(settings.JobInterval).Seconds();
-
-					JobManager.Initialize(registry);
+					app.StartSchedule(() => new PersistCachedRequestsJob(GetCache("Xrm"), settings).Execute(),
+						run => run.Now().AndEvery(settings.JobInterval).Seconds(), settings.Reentrant);
 				}
 			}
 		}
@@ -157,15 +146,47 @@ namespace Adxstudio.Xrm.Services.Cache
 			}
 		}
 
-		/// <summary>
-		/// Helper for applying the reentrant setting to a schedule.
-		/// </summary>
-		/// <param name="schedule">The schedule.</param>
-		/// <param name="reentrant">The setting.</param>
-		/// <returns>The chained schedule.</returns>
-		private static Schedule Reentrant(this Schedule schedule, bool reentrant)
+		private static void StartSchedule(this IAppBuilder app, Action job, Action<RunSpecifier> specifier, bool reentrant = false)
 		{
-			return reentrant ? schedule : schedule.NonReentrant();
+			Action run = () =>
+			{
+				try
+				{
+					job();
+				}
+				catch (Exception exception)
+				{
+					// The scheduler has no error handling of its own, so a job that throws would
+					// otherwise fault on a background thread with nothing recording why.
+					WebEventSource.Log.GenericErrorException(exception);
+				}
+			};
+
+			// A Schedule never runs concurrently with itself, so a reentrant job is handed to a
+			// background work item and the schedule is free to start the next run immediately.
+			// Queuing is itself refused once the host is shutting down, so it runs inline in that
+			// case rather than dropping the job silently.
+			var schedule = new Schedule(() =>
+			{
+				if (!reentrant)
+				{
+					run();
+					return;
+				}
+
+				try
+				{
+					System.Web.Hosting.HostingEnvironment.QueueBackgroundWorkItem(_ => run());
+				}
+				catch (InvalidOperationException)
+				{
+					run();
+				}
+			}, specifier);
+
+			var disposing = new AppProperties(app.Properties).OnAppDisposing;
+			if (disposing.CanBeCanceled) disposing.Register(schedule.Stop);
+			schedule.Start();
 		}
 
 		/// <summary>

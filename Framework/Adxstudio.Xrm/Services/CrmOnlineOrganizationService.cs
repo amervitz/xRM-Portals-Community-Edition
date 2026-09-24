@@ -9,9 +9,8 @@ namespace Adxstudio.Xrm.Services
 	using System.Collections.Generic;
 	using System.Collections.Specialized;
 	using System.Linq;
-	using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
-	using Microsoft.Practices.EnterpriseLibrary.WindowsAzure.TransientFaultHandling;
-	using Microsoft.Practices.TransientFaultHandling;
+	using Polly;
+	using Adxstudio.Xrm.Threading;
 	using Microsoft.Xrm.Client;
 	using Microsoft.Xrm.Client.Services;
 	using Microsoft.Xrm.Sdk;
@@ -22,7 +21,7 @@ namespace Adxstudio.Xrm.Services
 	/// An <see cref="IOrganizationService"/> that includes transient fault handling capabilities.
 	/// </summary>
 	/// <remarks>
-	/// Configuration format. The 'retryStrategyName' is the name of a strategy defined by the Transient Fault Handling Application Block configuration.
+	/// Configuration format. The first retry is immediate and each later retry waits 'retryInterval'.
 	/// <code>
 	/// <![CDATA[
 	/// <configuration>
@@ -38,7 +37,6 @@ namespace Adxstudio.Xrm.Services
 	///     type="Adxstudio.Xrm.Services.CrmOnlineOrganizationService, Adxstudio.Xrm"
 	///     retryCount="3"
 	///     retryInterval="00:00:00" [HH:MM:SS]
-	///     retryStrategyName=""
 	///     />
 	///   </services>
 	///  </microsoft.xrm.client>
@@ -51,14 +49,14 @@ namespace Adxstudio.Xrm.Services
 	public class CrmOnlineOrganizationService : CachedOrganizationService
 	{
 		/// <summary>
-		/// The <see cref="RetryPolicy"/> used to handle read request faults.
+		/// The <see cref="ResiliencePipeline"/> used to handle read request faults.
 		/// </summary>
-		public RetryPolicy ReadRetryPolicy { get; set; }
+		public ResiliencePipeline ReadRetryPolicy { get; set; }
 
 		/// <summary>
-		/// The <see cref="RetryPolicy"/> used to handle non-read request faults.
+		/// The <see cref="ResiliencePipeline"/> used to handle non-read request faults.
 		/// </summary>
-		public RetryPolicy DefaultRetryPolicy { get; set; }
+		public ResiliencePipeline DefaultRetryPolicy { get; set; }
 
 		public CrmOnlineOrganizationService(string connectionStringName) : base(connectionStringName)
 		{
@@ -114,7 +112,7 @@ namespace Adxstudio.Xrm.Services
 			var policy = DefaultRetryPolicy;
 
 			return policy != null
-				? policy.ExecuteAction(() => base.Create(entity))
+				? policy.Execute(() => base.Create(entity))
 				: base.Create(entity);
 		}
 
@@ -123,7 +121,7 @@ namespace Adxstudio.Xrm.Services
 			var policy = ReadRetryPolicy;
 
 			return policy != null
-				? policy.ExecuteAction(() => base.Retrieve(entityName, id, columnSet))
+				? policy.Execute(() => base.Retrieve(entityName, id, columnSet))
 				: base.Retrieve(entityName, id, columnSet);
 		}
 
@@ -133,7 +131,7 @@ namespace Adxstudio.Xrm.Services
 
 			if (policy != null)
 			{
-				policy.ExecuteAction(() => base.Update(entity));
+				policy.Execute(() => base.Update(entity));
 			}
 			else
 			{
@@ -147,7 +145,7 @@ namespace Adxstudio.Xrm.Services
 
 			if (policy != null)
 			{
-				policy.ExecuteAction(() => base.Delete(entityName, id));
+				policy.Execute(() => base.Delete(entityName, id));
 			}
 			else
 			{
@@ -160,7 +158,7 @@ namespace Adxstudio.Xrm.Services
 			var policy = IsReadRequest(request) ? ReadRetryPolicy : DefaultRetryPolicy;
 
 			return policy != null
-				? policy.ExecuteAction(() => base.Execute(request))
+				? policy.Execute(() => base.Execute(request))
 				: base.Execute(request);
 		}
 
@@ -170,7 +168,7 @@ namespace Adxstudio.Xrm.Services
 
 			if (policy != null)
 			{
-				policy.ExecuteAction(() => base.Associate(entityName, entityId, relationship, relatedEntities));
+				policy.Execute(() => base.Associate(entityName, entityId, relationship, relatedEntities));
 			}
 			else
 			{
@@ -184,7 +182,7 @@ namespace Adxstudio.Xrm.Services
 
 			if (policy != null)
 			{
-				policy.ExecuteAction(() => base.Disassociate(entityName, entityId, relationship, relatedEntities));
+				policy.Execute(() => base.Disassociate(entityName, entityId, relationship, relatedEntities));
 			}
 			else
 			{
@@ -197,28 +195,27 @@ namespace Adxstudio.Xrm.Services
 			var policy = ReadRetryPolicy;
 
 			return policy != null
-				? policy.ExecuteAction(() => base.RetrieveMultiple(query))
+				? policy.Execute(() => base.RetrieveMultiple(query))
 				: base.RetrieveMultiple(query);
 		}
 
-		protected virtual ITransientErrorDetectionStrategy GetReadTransientErrorDetectionStrategy(string name, NameValueCollection config)
+		protected virtual Func<Exception, bool> GetReadTransientErrorDetectionStrategy(string name, NameValueCollection config)
 		{
-			return new CrmOnlineReadTransientErrorDetectionStrategy();
+			return new CrmOnlineReadTransientErrorDetectionStrategy().IsTransient;
 		}
 
-		protected virtual ITransientErrorDetectionStrategy GetDefaultTransientErrorDetectionStrategy(string name, NameValueCollection config)
+		protected virtual Func<Exception, bool> GetDefaultTransientErrorDetectionStrategy(string name, NameValueCollection config)
 		{
-			return new CrmOnlineTransientErrorDetectionStrategy();
+			return new CrmOnlineTransientErrorDetectionStrategy().IsTransient;
 		}
 
-		protected virtual RetryStrategy GetRetryStrategy(string name, NameValueCollection config)
+		protected virtual IEnumerable<TimeSpan> GetRetryStrategy(string name, NameValueCollection config)
 		{
 			var retryStrategyName = config["retryStrategyName"];
 
 			if (!string.IsNullOrWhiteSpace(retryStrategyName))
 			{
-				var retryManager = EnterpriseLibraryContainer.Current.GetInstance<RetryManager>();
-				return retryManager.GetRetryStrategy(retryStrategyName);
+				throw new System.Configuration.ConfigurationErrorsException("The retryStrategyName setting is no longer supported because the Transient Fault Handling Application Block has been removed. Configure retryCount and retryInterval on the organization service instead.");
 			}
 
 			int count;
@@ -227,12 +224,12 @@ namespace Adxstudio.Xrm.Services
 			TimeSpan interval;
 			var retryInterval = TimeSpan.TryParse(config["retryInterval"], out interval) ? interval : TimeSpan.Zero;
 
-			return new FixedInterval(retryCount, retryInterval);
+			return RetryPolicies.FixedInterval(retryCount, retryInterval);
 		}
 
-		protected virtual RetryPolicy GetRetryPolicy(ITransientErrorDetectionStrategy detectionStrategy, RetryStrategy retryStrategy)
+		protected virtual ResiliencePipeline GetRetryPolicy(Func<Exception, bool> detectionStrategy, IEnumerable<TimeSpan> retryStrategy)
 		{
-			return new RetryPolicy(detectionStrategy, retryStrategy);
+			return RetryPolicies.Create(detectionStrategy, retryStrategy);
 		}
 
 		protected virtual bool IsReadRequest(object request)

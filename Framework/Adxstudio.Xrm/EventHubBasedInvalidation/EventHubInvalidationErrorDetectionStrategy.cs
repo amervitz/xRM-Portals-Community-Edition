@@ -7,12 +7,11 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 {
 	using System;
 	using System.IO;
-	using Microsoft.Practices.TransientFaultHandling;
 
 	/// <summary>
 	/// Error detection strategy for retry policy for Event Hub based Cache / search-Index invalidation.
 	/// </summary>
-	public class EventHubInvalidationErrorDetectionStrategy : ITransientErrorDetectionStrategy
+	public class EventHubInvalidationErrorDetectionStrategy
 	{
 		/// <summary>
 		/// Flags transient errors.

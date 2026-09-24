@@ -13,7 +13,6 @@ using Adxstudio.Xrm.Resources;
 using Adxstudio.Xrm.Search;
 using DotLiquid;
 using DotLiquid.Exceptions;
-using DotLiquid.Util;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Portal.Configuration;
 using Adxstudio.Xrm.AspNet.Cms;
@@ -36,7 +35,7 @@ namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 				_variableName = syntaxMatch.Groups["variable"].Value.Trim();
 				_attributes = new Dictionary<string, string>(Template.NamingConvention.StringComparer);
 
-				R.Scan(markup, DotLiquid.Liquid.TagAttributes, (key, value) => _attributes[key] = value);
+				TagSyntax.ScanAttributes(markup, (key, value) => _attributes[key] = value);
 			}
 			else
 			{

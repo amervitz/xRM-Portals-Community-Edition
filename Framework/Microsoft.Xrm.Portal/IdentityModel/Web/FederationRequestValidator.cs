@@ -6,7 +6,7 @@
 using System;
 using System.Web;
 using System.Web.Util;
-using Microsoft.IdentityModel.Protocols.WSFederation;
+using System.IdentityModel.Services;
 
 namespace Microsoft.Xrm.Portal.IdentityModel.Web
 {
@@ -25,9 +25,9 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web
 			validationFailureIndex = 0;
 
 			if (requestValidationSource == RequestValidationSource.Form
-				&& collectionKey.Equals(WSFederationConstants.Parameters.Result, StringComparison.Ordinal))
+				&& collectionKey.Equals("wresult", StringComparison.Ordinal))
 			{
-				var message = WSFederationMessage.CreateFromFormPost(context.Request) as SignInResponseMessage;
+				var message = WSFederationMessage.CreateFromFormPost(new HttpRequestWrapper(context.Request)) as SignInResponseMessage;
 
 				if (message != null)
 				{

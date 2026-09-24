@@ -7,7 +7,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 {
 	using System;
 	using System.Collections.Generic;
-	using System.IdentityModel.Tokens;
+	using Microsoft.IdentityModel.Tokens;
 	using System.Linq;
 	using System.Net.Http;
 	using System.Security.Claims;
@@ -15,12 +15,14 @@ namespace Adxstudio.Xrm.AspNet.Cms
 	using System.Text.RegularExpressions;
 	using System.Threading;
 	using System.Threading.Tasks;
+	using System.Web;
 	using Adxstudio.Xrm.AspNet.Identity;
 	using Adxstudio.Xrm.Owin.Security.Saml2;
-	using ITfoxtec.Saml2.Util;
+	using ITfoxtec.Identity.Saml2.Util;
 	using Microsoft.AspNet.Identity;
 	using Microsoft.AspNet.Identity.Owin;
-	using Microsoft.IdentityModel.Protocols;
+	using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+	using Microsoft.IdentityModel.Protocols.WsFederation;
 	using Microsoft.Owin;
 	using Microsoft.Owin.Security;
 	using Microsoft.Owin.Security.Cookies;
@@ -448,6 +450,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 				return new OpenIdConnectAuthenticationOptionsExtended
 				{
+					CookieManager = new AuthenticationCookieManager(),
 					AuthenticationType = authority.AbsoluteUri,
 					AuthenticationMode = AuthenticationMode.Passive,
 					Authority = authority.AbsoluteUri,
@@ -490,6 +493,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var options = new CookieAuthenticationOptions
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				AuthenticationType = authenticationType ?? DefaultAuthenticationTypes.ApplicationCookie,
 				LoginPath = loginPath ?? _loginPath,
 				Provider = new CookieAuthenticationProvider
@@ -507,7 +511,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 			if (cookieSecure != null) options.CookieSecure = cookieSecure.GetValueOrDefault();
 			if (slidingExpiration != null) options.SlidingExpiration = slidingExpiration.GetValueOrDefault();
 			if (logoutPath != null) options.LogoutPath = logoutPath.GetValueOrDefault();
-			if (!string.IsNullOrWhiteSpace(returnUrlParameter)) options.CookieDomain = returnUrlParameter;
+			if (!string.IsNullOrWhiteSpace(returnUrlParameter)) options.ReturnUrlParameter = returnUrlParameter;
 
 			options.ExpireTimeSpan = expireTimeSpan.GetValueOrDefault(TimeSpan.FromDays(1));
 
@@ -615,6 +619,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			return new CookieAuthenticationOptions
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				AuthenticationType = authenticationType ?? DefaultAuthenticationTypes.TwoFactorCookie,
 				ExpireTimeSpan = expire.GetValueOrDefault(TimeSpan.FromMinutes(5)),
 			};
@@ -835,6 +840,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var microsoft = new MicrosoftAccountAuthenticationOptionsExtended
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				ClientId = options.Id,
 				ClientSecret = options.Secret,
 				ExternalLogoutEnabled = options.ExternalLogoutEnabled,
@@ -871,6 +877,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var twitter = new TwitterAuthenticationOptionsExtended
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				ConsumerKey = options.Id,
 				ConsumerSecret = options.Secret,
 				BackchannelCertificateValidator = new CertificateSubjectKeyIdentifierValidator(new[]
@@ -908,6 +915,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var facebook = new FacebookAuthenticationOptionsExtended
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				AppId = options.Id,
 				AppSecret = options.Secret,
 				ExternalLogoutEnabled = options.ExternalLogoutEnabled,
@@ -948,6 +956,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var google = new GoogleOAuth2AuthenticationOptionsExtended
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				ClientId = options.Id,
 				ClientSecret = options.Secret,
 				ExternalLogoutEnabled = options.ExternalLogoutEnabled,
@@ -1144,6 +1153,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var options = new OpenIdConnectAuthenticationOptionsExtended
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				ClientId = clientId,
 				MetadataAddress = metadataAddress,
 				Authority = authority,
@@ -1202,8 +1212,9 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var errorHandlerPath = _externalAuthenticationFailedPath;
 			var errorHandlerUrl = errorHandlerPath.ToString();
+			var errorDescription = notification.ProtocolMessage?.ErrorDescription;
 			
-			if (notification.ProtocolMessage.ErrorDescription != null && notification.ProtocolMessage.ErrorDescription.Contains(AzureADB2CPasswordResetPolicyErrorCode))
+			if (errorDescription != null && errorDescription.Contains(AzureADB2CPasswordResetPolicyErrorCode))
 			{
 				// Handle the error code that Azure AD B2C throws when trying to reset a password from the login page because password reset is not supported by a "sign-up or sign-in policy"
 
@@ -1225,7 +1236,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 				
 				notification.Response.Redirect(passwordResetUrl.PathWithQueryString);
 			}
-			else if (notification.ProtocolMessage.ErrorDescription != null && notification.ProtocolMessage.ErrorDescription.Contains(AzureADB2CUserCancelledErrorCode))
+			else if (errorDescription != null && errorDescription.Contains(AzureADB2CUserCancelledErrorCode))
 			{
 				// Handle the error code that AD B2C emits when a users cancels sign-up or cancels password reset or cancels profile edit
 
@@ -1295,9 +1306,9 @@ namespace Adxstudio.Xrm.AspNet.Cms
 			{
 				var issuerPath = notification.ProtocolMessage.IssuerAddress;
 				var issuerUri = new Uri(issuerPath);
-				var query = issuerUri.ParseQueryString();
-				notification.ProtocolMessage.Scope = OpenIdConnectScopes.OpenId;
-				notification.ProtocolMessage.ResponseType = OpenIdConnectResponseTypes.IdToken;
+				var query = HttpUtility.ParseQueryString(issuerUri.Query);
+				notification.ProtocolMessage.Scope = OpenIdConnectScope.OpenId;
+				notification.ProtocolMessage.ResponseType = OpenIdConnectResponseType.IdToken;
 				if (!string.IsNullOrWhiteSpace(options.DefaultPolicyId))
 				{
 					notification.ProtocolMessage.IssuerAddress = Regex.Replace(notification.ProtocolMessage.IssuerAddress, options.DefaultPolicyId, policy, RegexOptions.IgnoreCase);

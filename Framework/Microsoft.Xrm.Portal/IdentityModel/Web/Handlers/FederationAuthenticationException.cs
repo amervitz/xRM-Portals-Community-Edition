@@ -5,7 +5,7 @@
 
 using System;
 using System.Runtime.Serialization;
-using Microsoft.IdentityModel.Protocols;
+using System.IdentityModel.Services;
 
 namespace Microsoft.Xrm.Portal.IdentityModel.Web.Handlers
 {

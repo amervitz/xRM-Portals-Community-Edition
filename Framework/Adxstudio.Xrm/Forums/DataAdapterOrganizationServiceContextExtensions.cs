@@ -11,7 +11,7 @@ using System.Xml.XPath;
 using Adxstudio.Xrm.Data;
 using Adxstudio.Xrm.Services.Query;
 using Adxstudio.Xrm.Tagging;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Azure.Storage.Blobs;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
@@ -311,7 +311,7 @@ namespace Adxstudio.Xrm.Forums
 			return count;
 		}
 
-		public static IForumPostInfo FetchForumPostInfo(this OrganizationServiceContext serviceContext, Guid forumPostId, Guid websiteId, CloudBlobContainer cloudStorageContainer = null)
+		public static IForumPostInfo FetchForumPostInfo(this OrganizationServiceContext serviceContext, Guid forumPostId, Guid websiteId, BlobContainerClient cloudStorageContainer = null)
 		{
 			var infos = FetchForumPostInfos(serviceContext, new[] { forumPostId }, websiteId, cloudStorageContainer);
 
@@ -319,7 +319,7 @@ namespace Adxstudio.Xrm.Forums
 			return infos.TryGetValue(forumPostId, out info) ? info : new UnknownForumPostInfo();
 		}
 
-		public static IDictionary<Guid, IForumPostInfo> FetchForumPostInfos(this OrganizationServiceContext serviceContext, IEnumerable<Guid> forumPostIds, Guid websiteId, CloudBlobContainer cloudStorageContainer = null)
+		public static IDictionary<Guid, IForumPostInfo> FetchForumPostInfos(this OrganizationServiceContext serviceContext, IEnumerable<Guid> forumPostIds, Guid websiteId, BlobContainerClient cloudStorageContainer = null)
 		{
 			if (!forumPostIds.Any())
 			{

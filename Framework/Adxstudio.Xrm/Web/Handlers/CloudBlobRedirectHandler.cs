@@ -7,8 +7,8 @@ using System;
 using System.Configuration;
 using System.Web;
 using Adxstudio.Xrm.Resources;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Azure.Storage.Blobs;
+using Azure.Storage.Sas;
 using Microsoft.Xrm.Sdk;
 
 namespace Adxstudio.Xrm.Web.Handlers
@@ -37,9 +37,9 @@ namespace Adxstudio.Xrm.Web.Handlers
 				return;
 			}
 
-			CloudStorageAccount storageAccount;
+			BlobServiceClient storageAccount;
 
-			if (!TryGetCloudStorageAccount(context, out storageAccount))
+			if (!TryGetBlobServiceClient(context, out storageAccount))
 			{
 				context.Response.StatusCode = 404;
 				context.Response.ContentType = "text/plain";
@@ -48,20 +48,17 @@ namespace Adxstudio.Xrm.Web.Handlers
 				return;
 			}
 
-			var blobClient = storageAccount.CreateCloudBlobClient();
 			// Power Pages uses a fully qualified blob address ("https://account.blob.core.windows.net/container/file.txt"),
-			// while xRM Portals uses one relative to the endpoint ("container/file.txt"). BaseUri appears twice to accept both:
-			// the inner constructor resolves either form, ignoring the base when the address is already absolute,
+			// while xRM Portals uses one relative to the endpoint ("container/file.txt"). The endpoint appears twice to accept both:
+			// the inner constructor resolves either form, ignoring the endpoint when the address is already absolute,
 			// and AbsolutePath then re-anchors just the container and file name to the configured account.
-			var blob = blobClient.GetBlobReferenceFromServer(new Uri(blobClient.BaseUri, new Uri(blobClient.BaseUri, _blobAddress).AbsolutePath));
+			var endpoint = new Uri(storageAccount.Uri.AbsoluteUri.TrimEnd('/') + "/");
+			var blobAddress = new BlobUriBuilder(new Uri(endpoint, new Uri(endpoint, _blobAddress).AbsolutePath));
+			var blob = storageAccount.GetBlobContainerClient(blobAddress.BlobContainerName).GetBlobClient(blobAddress.BlobName);
 
-			var accessSignature = blob.GetSharedAccessSignature(new SharedAccessBlobPolicy
-			{
-				Permissions = SharedAccessBlobPermissions.Read,
-				SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(55)
-			});
+			var downloadUri = blob.GenerateSasUri(BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddMinutes(55));
 			
-			context.Response.Redirect(blob.Uri + accessSignature);
+			context.Response.Redirect(downloadUri.AbsoluteUri);
 		}
 
 		public bool IsReusable
@@ -69,31 +66,12 @@ namespace Adxstudio.Xrm.Web.Handlers
 			get { return false; }
 		}
 
-		protected virtual bool TryGetCloudStorageAccount(HttpContext context, out CloudStorageAccount storageAccount)
+		protected virtual bool TryGetBlobServiceClient(HttpContext context, out BlobServiceClient storageAccount)
 		{
-			storageAccount = null;
 			var website = context.GetWebsite();
 			var settingValue = website.Settings.Get<string>("WebFiles/CloudStorageAccount");
-
-			if (!string.IsNullOrEmpty(settingValue) && CloudStorageAccount.TryParse(settingValue, out storageAccount))
-			{
-				return true;
-			}
-
-			const string configurationKey = "Adxstudio.Xrm.Cms.WebFiles.CloudStorageAccount";
-
-			try
-			{
-				storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings.Get(configurationKey));
-
-				return storageAccount != null;
-			}
-			catch (InvalidOperationException)
-			{
-				var appSetting = ConfigurationManager.AppSettings[configurationKey];
-
-				return !string.IsNullOrEmpty(appSetting) && CloudStorageAccount.TryParse(appSetting, out storageAccount);
-			}
+			return Notes.AnnotationDataAdapter.TryCreateStorageClient(settingValue, out storageAccount)
+				|| Notes.AnnotationDataAdapter.TryCreateStorageClient(ConfigurationManager.AppSettings["Adxstudio.Xrm.Cms.WebFiles.CloudStorageAccount"], out storageAccount);
 		}
 
 		public static bool IsCloudBlob(Entity entity)

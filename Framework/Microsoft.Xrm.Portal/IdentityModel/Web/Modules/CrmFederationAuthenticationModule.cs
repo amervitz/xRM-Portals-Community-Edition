@@ -4,7 +4,7 @@
 */
 
 using System.Web;
-using Microsoft.IdentityModel.Web;
+using System.IdentityModel.Services;
 
 namespace Microsoft.Xrm.Portal.IdentityModel.Web.Modules
 {
@@ -21,7 +21,7 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Modules
 
 		public CrmFederationAuthenticationModule(HttpApplication application)
 		{
-			ServiceConfiguration = FederatedAuthentication.ServiceConfiguration;
+			FederationConfiguration = FederatedAuthentication.FederationConfiguration;
 			Initialize(application);
 		}
 
@@ -32,7 +32,7 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Modules
 
 		protected override void InitializeModule(HttpApplication application)
 		{
-			InitializePropertiesFromConfiguration(ServiceConfiguration.Name);
+			InitializePropertiesFromConfiguration();
 		}
 	}
 }

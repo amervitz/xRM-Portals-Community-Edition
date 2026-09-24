@@ -4,11 +4,10 @@
 */
 
 using System;
-using Microsoft.Practices.TransientFaultHandling;
 
 namespace Adxstudio.Xrm.Services
 {
-	public class CrmOnlineTransientErrorDetectionStrategy : ITransientErrorDetectionStrategy
+	public class CrmOnlineTransientErrorDetectionStrategy
 	{
 		public virtual bool IsTransient(Exception ex)
 		{

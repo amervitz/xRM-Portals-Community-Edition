@@ -6,8 +6,9 @@
 using System;
 using System.Net.Http;
 using Adxstudio.Xrm.Resources;
-using ITfoxtec.Saml2.Tokens;
+using ITfoxtec.Identity.Saml2.Tokens;
 using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.WsFederation;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security.Infrastructure;
@@ -27,8 +28,6 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 			: base(next, app, options)
 		{
 			_logger = app.CreateLogger<Saml2AuthenticationMiddleware>();
-
-			Options.SecurityTokenHandlers.AddOrReplace(new Saml2ResponseSecurityTokenHandler());
 
 			var configurationManager = options.ConfigurationManager as ConfigurationManager<WsFederationConfiguration>;
 

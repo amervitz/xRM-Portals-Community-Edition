@@ -6,7 +6,7 @@
 namespace Adxstudio.Xrm.EventHubBasedInvalidation
 {
 	using System;
-	using Microsoft.ServiceBus.Messaging;
+	using Azure.Messaging.ServiceBus;
 	using Newtonsoft.Json;
 
 	/// <summary>
@@ -22,11 +22,11 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		}
 
 		/// <summary>
-		/// Deserializes the JSON message from a BrokeredMessage
+		/// Deserializes the JSON message from a ServiceBusReceivedMessage
 		/// </summary>
-		/// <param name="messageBody">BrokeredMessage message body to deserialize</param>
+		/// <param name="messageBody">ServiceBusReceivedMessage message body to deserialize</param>
 		/// <param name="t">Type to deserialize into</param>
-		/// <returns>ICrmSubscriptionMessage initialized from the BrokeredMessage message body</returns>
+		/// <returns>ICrmSubscriptionMessage initialized from the ServiceBusReceivedMessage message body</returns>
 		protected static ICrmSubscriptionMessage DeserializeMessage(string messageBody, Type t)
 		{
 			try
@@ -44,8 +44,8 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// <summary>
 		/// Populates this message from the properties of the brokered message
 		/// </summary>
-		/// <param name="message">BrokeredMessage to pull properties from</param>
-		protected void AppendProperties(BrokeredMessage message)
+		/// <param name="message">ServiceBusReceivedMessage to pull properties from</param>
+		protected void AppendProperties(ServiceBusReceivedMessage message)
 		{
 			this.EnqueuedTopicTimeUtc = this.TryGetDateTime(message, BrokeredMessageConstants.EnqueuedTopicTimeUtc);
 			this.EnqueuedEventhubTimeUtc = this.TryGetDateTime(message, BrokeredMessageConstants.EnqueuedEventhubTimeUtc);
@@ -59,13 +59,13 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// <param name="message">message to pull the property from</param>
 		/// <param name="property">Property to pull out of the message</param>
 		/// <returns>DateTime object from the message property or default DateTime</returns>
-		private DateTime TryGetDateTime(BrokeredMessage message, string property)
+		private DateTime TryGetDateTime(ServiceBusReceivedMessage message, string property)
 		{
-			if (message.Properties.ContainsKey(property))
+			if (message.ApplicationProperties.ContainsKey(property))
 			{
 				try
 				{
-					return (DateTime)message.Properties[property];
+					return (DateTime)message.ApplicationProperties[property];
 				}
 				catch
 				{

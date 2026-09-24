@@ -7,7 +7,8 @@ namespace Adxstudio.Xrm.Services.Cache
 {
 	using System;
 	using Adxstudio.Xrm.Configuration;
-	using Microsoft.Practices.TransientFaultHandling;
+	using Polly;
+	using Adxstudio.Xrm.Threading;
 
 	/// <summary>
 	/// Settings for the <see cref="PersistCachedRequestsJob"/>.
@@ -82,7 +83,7 @@ namespace Adxstudio.Xrm.Services.Cache
 		/// <summary>
 		/// Retry policy for App_Data IO operations.
 		/// </summary>
-		public RetryPolicy AppDataRetryPolicy { get; set; }
+		public ResiliencePipeline AppDataRetryPolicy { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WarmupCacheSettings" /> class.
@@ -95,7 +96,7 @@ namespace Adxstudio.Xrm.Services.Cache
 			var persistOnAppDisposing = "PortalPersistCachedRequestsOnAppDisposing".ResolveAppSetting().ToBoolean().GetValueOrDefault(true);
 			var persistOnSchedule = "PortalPersistCachedRequestsOnSchedule".ResolveAppSetting().ToBoolean().GetValueOrDefault();
 			var jobInterval = "PortalPersistCachedRequestsJobInterval".ResolveAppSetting().ToTimeSpan().GetValueOrDefault(DefaultJobInterval);
-			var retryStrategy = new Incremental(5, new TimeSpan(0, 0, 1), new TimeSpan(0, 0, 1));
+			var retryStrategy = RetryPolicies.Incremental(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
 
 			this.AppDataPath = "~/App_Data/Adxstudio.Xrm.Services.Cache.Warmup/";
 			this.FilenameFormat = "cache_{0}.request";

@@ -4,7 +4,7 @@
 */
 
 using System;
-using Microsoft.Security.Application;
+using Encoder = System.Web.Security.AntiXss.AntiXssEncoder;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Client.Metadata;
 using Microsoft.Xrm.Portal.Configuration;

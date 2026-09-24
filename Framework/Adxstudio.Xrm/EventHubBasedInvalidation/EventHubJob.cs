@@ -40,22 +40,27 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		protected override void ExecuteInternal(Guid id)
 		{
 			bool isSearchSubscription = this.Manager.Settings.SubscriptionType == EventHubSubscriptionType.SearchSubscription;
-			if (this.Manager.SubscriptionClient != null)
+			if (this.Manager.ServiceBusReceiver != null)
 			{
 				lock (JobLock)
 				{
 					try
 					{
-						ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Subscription = '{0}' Topic = '{1}'", this.Manager.Subscription.Name, this.Manager.Subscription.TopicPath));
+						ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Subscription = '{0}' Topic = '{1}'", this.Manager.Subscription.SubscriptionName, this.Manager.Subscription.TopicName));
 
 						// take N at a time
-						var messages = this.Manager.SubscriptionClient
-							.ReceiveBatch(this.Manager.Settings.ReceiveBatchMessageCount, this.Manager.Settings.ReceiveBatchServerWaitTime)
+						var messages = this.Manager.ServiceBusReceiver
+							.ReceiveMessagesAsync(this.Manager.Settings.ReceiveBatchMessageCount,
+								this.Manager.Settings.ReceiveBatchServerWaitTime > TimeSpan.Zero ? this.Manager.Settings.ReceiveBatchServerWaitTime : TimeSpan.FromMilliseconds(100))
+							.ConfigureAwait(false).GetAwaiter().GetResult()
 							.Where(message => message != null);
 
 						foreach (var message in messages)
 						{
-							message.Complete();
+							// Settle the message before processing it. Cache invalidation messages are not
+							// worth redelivering: a message that fails to process will fail again, and with
+							// the subscription's MaxDeliveryCount it would block the queue behind it.
+							this.Manager.ServiceBusReceiver.CompleteMessageAsync(message).ConfigureAwait(false).GetAwaiter().GetResult();
 
 							var crmSubscriptionMessage = CrmSubscriptionMessageFactory.Create(message);
 

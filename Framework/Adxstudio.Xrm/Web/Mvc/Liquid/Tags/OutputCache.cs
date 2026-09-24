@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using DotLiquid;
-using DotLiquid.Util;
 
 namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 {
@@ -20,7 +19,7 @@ namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 		{
 			_attributes = new Dictionary<string, string>(Template.NamingConvention.StringComparer);
 
-			R.Scan(markup, DotLiquid.Liquid.TagAttributes, (key, value) => _attributes[key] = value);
+			TagSyntax.ScanAttributes(markup, (key, value) => _attributes[key] = value);
 
 			base.Initialize(tagName, markup, tokens);
 		}

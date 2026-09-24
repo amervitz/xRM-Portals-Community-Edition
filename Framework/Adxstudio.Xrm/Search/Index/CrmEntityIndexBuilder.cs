@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
-using Microsoft.Practices.TransientFaultHandling;
+using Adxstudio.Xrm.Threading;
 using Fetch = Adxstudio.Xrm.Services.Query;
 using Adxstudio.Xrm.Cms;
 using Adxstudio.Xrm.Configuration;
@@ -448,9 +448,9 @@ namespace Adxstudio.Xrm.Search.Index
 
 			try
 			{
-				var retryPolicy = new RetryPolicy(new LockObtainTransientErrorDetectionStrategy(), 25, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(2));
+				var retryPolicy = RetryPolicies.Create(new LockObtainTransientErrorDetectionStrategy().IsTransient, RetryPolicies.Incremental(25, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(2)));
 
-				using (var writer = retryPolicy.ExecuteAction(() => new IndexWriter(_index.Directory, _index.Analyzer, create, IndexWriter.MaxFieldLength.UNLIMITED)))
+				using (var writer = retryPolicy.Execute(() => new IndexWriter(_index.Directory, _index.Analyzer, create, IndexWriter.MaxFieldLength.UNLIMITED)))
 				{
 					try
 					{
@@ -500,7 +500,7 @@ namespace Adxstudio.Xrm.Search.Index
 			};
 		}
 
-		private class LockObtainTransientErrorDetectionStrategy : ITransientErrorDetectionStrategy
+		private class LockObtainTransientErrorDetectionStrategy
 		{
 			public bool IsTransient(Exception e)
 			{

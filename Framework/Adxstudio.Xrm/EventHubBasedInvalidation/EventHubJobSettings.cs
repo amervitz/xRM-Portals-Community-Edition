@@ -7,7 +7,7 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 {
 	using System;
 	using System.Configuration;
-	using Microsoft.ServiceBus.Messaging;
+	using Azure.Messaging.ServiceBus.Administration;
 	using Adxstudio.Xrm.Core.Flighting;
 
 	/// <summary>
@@ -33,7 +33,7 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		/// <summary>
 		/// The subscription settings. For search we create one instance per webapp and for cache we create one subscription per instance of the webapp.
 		/// </summary>
-		public SubscriptionDescription Subscription { get; set; }
+		public CreateSubscriptionOptions Subscription { get; set; }
 
 		/// <summary>
 		/// The flag indicating that the subscription should be re-created at application startup."
@@ -60,8 +60,8 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 				return FeatureCheckHelper.IsFeatureEnabled(FeatureNames.EventHubCacheInvalidation)
 					&& this.Subscription != null
 					&& !string.IsNullOrWhiteSpace(this.ConnectionString)
-					&& !string.IsNullOrWhiteSpace(this.Subscription.Name)
-					&& !string.IsNullOrWhiteSpace(this.Subscription.TopicPath);
+					&& !string.IsNullOrWhiteSpace(this.Subscription.SubscriptionName)
+					&& !string.IsNullOrWhiteSpace(this.Subscription.TopicName);
 			}
 		}
 
@@ -91,10 +91,10 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 
 			if (!string.IsNullOrWhiteSpace(topicPath) && !string.IsNullOrWhiteSpace(subscriptionName))
 			{
-				this.Subscription = new SubscriptionDescription(topicPath, subscriptionName)
+				this.Subscription = new CreateSubscriptionOptions(topicPath, subscriptionName)
 				{
 					EnableDeadLetteringOnFilterEvaluationExceptions = true,
-					EnableDeadLetteringOnMessageExpiration = false,
+					DeadLetteringOnMessageExpiration = false,
 					EnableBatchedOperations = true,
 					MaxDeliveryCount = 4000, // for debugging
 

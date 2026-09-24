@@ -11,6 +11,8 @@ namespace Site
 	using Adxstudio.Xrm.AspNet.Identity;
 	using Microsoft.AspNet.Identity;
 	using Microsoft.Owin;
+	using Microsoft.Owin.Security;
+	using Microsoft.Owin.Security.Cookies;
 	using Owin;
 	using Site.Areas.Account.Models;
 
@@ -42,19 +44,40 @@ namespace Site
 			// Enable the application to use a cookie to store information for the signed in user
 			// and to use a cookie to temporarily store information about a user logging in with a third party login provider
 			// Configure the sign in cookie
-			app.UseKentorOwinCookieSaver();
 			app.UseCookieAuthentication(settingsManager.ApplicationCookie);
-			app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+			app.SetDefaultSignInAsAuthenticationType(DefaultAuthenticationTypes.ExternalCookie);
+			app.UseCookieAuthentication(new CookieAuthenticationOptions
+			{
+				AuthenticationType = DefaultAuthenticationTypes.ExternalCookie,
+				AuthenticationMode = AuthenticationMode.Passive,
+				CookieName = CookieAuthenticationDefaults.CookiePrefix + DefaultAuthenticationTypes.ExternalCookie,
+				ExpireTimeSpan = System.TimeSpan.FromMinutes(5),
+				CookieManager = new AuthenticationCookieManager(),
+			});
 
 			app.CreatePerOwinContext<CrmUser>(ApplicationUser.Create);
 
 			// Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
-			app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, settingsManager.TwoFactorCookie.ExpireTimeSpan);
+			app.UseCookieAuthentication(new CookieAuthenticationOptions
+			{
+				AuthenticationType = DefaultAuthenticationTypes.TwoFactorCookie,
+				AuthenticationMode = AuthenticationMode.Passive,
+				CookieName = CookieAuthenticationDefaults.CookiePrefix + DefaultAuthenticationTypes.TwoFactorCookie,
+				ExpireTimeSpan = settingsManager.TwoFactorCookie.ExpireTimeSpan,
+				CookieManager = new AuthenticationCookieManager(),
+			});
 
 			// Enables the application to remember the second login verification factor such as phone or email.
 			// Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
 			// This is similar to the RememberMe option when you log in.
-			app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+			app.UseCookieAuthentication(new CookieAuthenticationOptions
+			{
+				AuthenticationType = DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie,
+				AuthenticationMode = AuthenticationMode.Passive,
+				CookieName = CookieAuthenticationDefaults.CookiePrefix + DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie,
+				ExpireTimeSpan = System.TimeSpan.FromDays(14),
+				CookieManager = new AuthenticationCookieManager(),
+			});
 
 			app.UsePortalsAuthentication(settingsManager);
 		}

@@ -16,8 +16,10 @@ namespace Adxstudio.Xrm.Notes
 	using System.Web.Mvc;
 	using System.IO;
 	using Microsoft.Crm.Sdk.Messages;
-	using Microsoft.WindowsAzure.Storage;
-	using Microsoft.WindowsAzure.Storage.Blob;
+	using Azure;
+	using Azure.Storage.Blobs;
+	using Azure.Storage.Blobs.Models;
+	using Azure.Storage.Sas;
 	using Microsoft.Xrm.Client;
 	using Microsoft.Xrm.Portal.Configuration;
 	using Microsoft.Xrm.Sdk;
@@ -64,11 +66,24 @@ namespace Adxstudio.Xrm.Notes
 			_containerName = GetStorageContainerName(dependencies.GetServiceContext());
 		}
 
-		public static CloudStorageAccount GetStorageAccount(OrganizationServiceContext context)
+		public static bool TryCreateStorageClient(string connectionString, out BlobServiceClient client)
+		{
+			client = null;
+			if (string.IsNullOrWhiteSpace(connectionString)) return false;
+			try
+			{
+				client = new BlobServiceClient(connectionString);
+				return true;
+			}
+			catch (ArgumentException) { return false; }
+			catch (FormatException) { return false; }
+		}
+
+		public static BlobServiceClient GetStorageAccount(OrganizationServiceContext context)
 		{
 			var cloudStorageDetails = context.GetSettingValueByName(StorageAccountSetting);
-			CloudStorageAccount storageAccount;
-			CloudStorageAccount.TryParse(cloudStorageDetails, out storageAccount);
+			BlobServiceClient storageAccount;
+			TryCreateStorageClient(cloudStorageDetails, out storageAccount);
 			return storageAccount;
 		}
 
@@ -501,7 +516,7 @@ namespace Adxstudio.Xrm.Notes
 						var oldName = storedName?.EndsWith(".azure.txt") == true
 							? storedName.Substring(0, storedName.Length - ".azure.txt".Length)
 							: storedName;
-						var oldBlob = container.GetBlockBlobReference("{0:N}/{1}".FormatWith(entity.Id, oldName));
+						var oldBlob = container.GetBlobClient("{0:N}/{1}".FormatWith(entity.Id, oldName));
 						oldBlob.DeleteIfExists();
 
 						azureFile.BlockBlob = UploadBlob(azureFile, container, note.AnnotationId);
@@ -628,12 +643,17 @@ namespace Adxstudio.Xrm.Notes
 				var blobFile = file as AzureAnnotationFile;
 				if (storageAccount != null)
 				{
-					blobFile.BlockBlob = GetBlockBlob(storageAccount, id, blobFileName);
-					if (blobFile.BlockBlob.Exists())
+					BlobProperties properties;
+					blobFile.BlockBlob = GetBlockBlob(storageAccount, id, blobFileName, out properties);
+					blobFile.BlobProperties = properties;
+
+					// A non-null set of properties is what it means for the blob to exist, so the
+					// attributes already fetched answer that without a further request.
+					if (properties != null)
 					{
 						blobFile.FileName = blobFileName;
-						blobFile.FileSize = new FileSize(blobFile.BlockBlob == null ? 0 : Convert.ToUInt64(blobFile.BlockBlob.Properties.Length));
-						blobFile.MimeType = blobFile.BlockBlob.Properties.ContentType;
+						blobFile.FileSize = new FileSize(Convert.ToUInt64(properties.ContentLength));
+						blobFile.MimeType = properties.ContentType;
 					}
 				}
 			}
@@ -651,16 +671,25 @@ namespace Adxstudio.Xrm.Notes
 			return file;
 		}
 
-		private CloudBlockBlob GetBlockBlob(CloudStorageAccount storageAccount, Guid id, string fileName)
+		private BlobClient GetBlockBlob(BlobServiceClient storageAccount, Guid id, string fileName, out BlobProperties properties)
 		{
+			properties = null;
 			if (storageAccount != null)
 			{
 				var container = GetBlobContainer(storageAccount, _containerName);
-				var blockBlob = container.GetBlockBlobReference("{0:N}/{1}".FormatWith(id, fileName));
-				if (blockBlob.Exists())
+				var blockBlob = container.GetBlobClient("{0:N}/{1}".FormatWith(id, fileName));
+
+				// Fetching the attributes reports a missing blob as a 404, so this single request
+				// establishes both whether the blob exists and its properties.
+				try
 				{
-					blockBlob.FetchAttributes();
+					properties = blockBlob.GetProperties().Value;
 				}
+				catch (RequestFailedException e) when (e.Status == (int)HttpStatusCode.NotFound)
+				{
+					properties = null;
+				}
+
 				return blockBlob;
 			}
 			return null;
@@ -686,10 +715,9 @@ namespace Adxstudio.Xrm.Notes
 			return string.IsNullOrWhiteSpace(body) ? new byte[] { } : Convert.FromBase64String(body);
 		}
 
-		public static CloudBlobContainer GetBlobContainer(CloudStorageAccount account, string containerName)
+		public static BlobContainerClient GetBlobContainer(BlobServiceClient account, string containerName)
 		{
-			var blobClient = account.CreateCloudBlobClient();
-			var container = blobClient.GetContainerReference(containerName);
+			var container = account.GetBlobContainerClient(containerName);
 			container.CreateIfNotExists();
 			return container;
 		}
@@ -894,19 +922,17 @@ namespace Adxstudio.Xrm.Notes
 
 			var azureFile = note.FileAttachment as AzureAnnotationFile;
 
-			if (azureFile == null || azureFile.BlockBlob == null || !azureFile.BlockBlob.Exists() || azureFile.BlockBlob.Properties.Length <= 0)
+			// An attachment whose attributes were never fetched reports a zero length, so this covers
+			// a missing blob as well as an empty one without a further request.
+			if (azureFile == null || azureFile.BlockBlob == null || azureFile.BlobProperties.ContentLength <= 0)
 			{
 				context.Response.StatusCode = (int)HttpStatusCode.NoContent;
 				return;
 			}
 
-			var accessSignature = azureFile.BlockBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy
-			{
-				Permissions = SharedAccessBlobPermissions.Read,
-				SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(55)
-			});
+			var downloadUri = azureFile.BlockBlob.GenerateSasUri(BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddMinutes(55));
 
-			context.Response.Redirect(azureFile.BlockBlob.Uri.AbsoluteUri + accessSignature, true);
+			context.Response.Redirect(downloadUri.AbsoluteUri, true);
 		}
 
 		private static bool IsNotModified(HttpContextBase context, string eTag, DateTime? modifiedOn)
@@ -1016,18 +1042,16 @@ namespace Adxstudio.Xrm.Notes
 
 			var azureFile = note.FileAttachment as AzureAnnotationFile;
 
-			if (azureFile == null || azureFile.BlockBlob == null || !azureFile.BlockBlob.Exists() || azureFile.BlockBlob.Properties.Length <= 0)
+			// An attachment whose attributes were never fetched reports a zero length, so this covers
+			// a missing blob as well as an empty one without a further request.
+			if (azureFile == null || azureFile.BlockBlob == null || azureFile.BlobProperties.ContentLength <= 0)
 			{
 				return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
 			}
 
-			var accessSignature = azureFile.BlockBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy
-			{
-				Permissions = SharedAccessBlobPermissions.Read,
-				SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(55)
-			});
+			var downloadUri = azureFile.BlockBlob.GenerateSasUri(BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddMinutes(55));
 
-			return new RedirectResult(azureFile.BlockBlob.Uri.AbsoluteUri + accessSignature, false);
+			return new RedirectResult(downloadUri.AbsoluteUri, false);
 		}
 
 		private static void AddCrossOriginAccessHeaders(HttpResponseBase response)
@@ -1036,14 +1060,20 @@ namespace Adxstudio.Xrm.Notes
 			response.Headers["Access-Control-Allow-Origin"] = "*";
 		}
 
-		private static CloudBlockBlob UploadBlob(IAnnotationFile file, CloudBlobContainer container, Guid noteId)
+		private static BlobClient UploadBlob(IAnnotationFile file, BlobContainerClient container, Guid noteId)
 		{
-			var blob = container.GetBlockBlobReference("{0:N}/{1}".FormatWith(noteId, file.FileName));
-			blob.DeleteIfExists();
-			blob.UploadFromStream(file.GetFileStream());
-			blob.Properties.ContentType = file.MimeType;
-			blob.SetProperties();
-			blob.FetchAttributes();
+			var blob = container.GetBlobClient("{0:N}/{1}".FormatWith(noteId, file.FileName));
+			using (var stream = file.GetFileStream())
+			{
+				blob.Upload(stream, new BlobUploadOptions
+				{
+					HttpHeaders = new BlobHttpHeaders { ContentType = file.MimeType },
+
+					// An empty set of conditions permits overwriting an existing blob, preserving the
+					// replace-in-place behaviour of the previous DeleteIfExists/upload sequence.
+					Conditions = new BlobRequestConditions()
+				});
+			}
 			return blob;
 		}
 
@@ -1067,9 +1097,12 @@ namespace Adxstudio.Xrm.Notes
 
 					var storageAccount = GetStorageAccount(context);
 					var container = GetBlobContainer(storageAccount, _containerName);
-					var toBlob = container.GetBlockBlobReference("{0:N}/{1}".FormatWith(newNoteId.ToString("N"), fileName));
+					var toBlob = container.GetBlobClient("{0:N}/{1}".FormatWith(newNoteId.ToString("N"), fileName));
 					toBlob.DeleteIfExists();
-					toBlob.StartCopy(fromBlob);
+
+					// Source and destination are in the same account, so the copy is authorized by the
+					// account's own credentials without minting a read SAS for the source.
+					toBlob.StartCopyFromUri(fromBlob.Uri).WaitForCompletion();
 					
 					var azureFile = note.FileAttachment as AzureAnnotationFile;
 

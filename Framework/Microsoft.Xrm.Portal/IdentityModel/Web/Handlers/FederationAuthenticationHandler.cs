@@ -8,9 +8,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
-using Microsoft.IdentityModel.Protocols.WSFederation;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.IdentityModel.Web;
+using System.IdentityModel.Tokens;
+using System.IdentityModel.Services;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Client.Collections.Generic;
 using Microsoft.Xrm.Client.Diagnostics;
@@ -151,12 +150,12 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Handlers
 
 		protected string EmailClaimType
 		{
-			get { return SelectRegistrationSetting(setting => setting.EmailClaimType, Microsoft.IdentityModel.Claims.ClaimTypes.Email); }
+			get { return SelectRegistrationSetting(setting => setting.EmailClaimType, System.Security.Claims.ClaimTypes.Email); }
 		}
 
 		protected string DisplayNameClaimType
 		{
-			get { return SelectRegistrationSetting(setting => setting.DisplayNameClaimType, Microsoft.IdentityModel.Claims.ClaimTypes.Name); }
+			get { return SelectRegistrationSetting(setting => setting.DisplayNameClaimType, System.Security.Claims.ClaimTypes.Name); }
 		}
 
 		private static string SelectSetting<T>(T setting, Func<T, string> selector, string defaultValue) where T : class
@@ -195,18 +194,18 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Web.Handlers
 		/// <param name="context">An <see cref="T:System.Web.HttpContext" /> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests. </param>
 		public virtual void ProcessRequest(HttpContext context)
 		{
-			var action = context.Request.QueryString[WSFederationConstants.Parameters.Action];
+			var action = context.Request.QueryString["wa"];
 			var fam = CreateFederationAuthenticationModule(context);
 
 			TraceInformation("ProcessRequest", "action={0}", action);
 
 			try
 			{
-				if (action == WSFederationConstants.Actions.SignOut)
+				if (action == "wsignout1.0")
 				{
 					SignOut(context, fam);
 				}
-				else if (fam.CanReadSignInResponse(context.Request, true))
+				else if (fam.CanReadSignInResponse(new HttpRequestWrapper(context.Request), true))
 				{
 					if (TryHandleSignInResponse(context, fam))
 					{

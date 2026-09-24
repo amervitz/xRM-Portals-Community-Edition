@@ -7,7 +7,7 @@ using System;
 using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using Microsoft.Practices.TransientFaultHandling;
+using Polly;
 using Microsoft.Xrm.Client.Diagnostics;
 
 namespace Adxstudio.Xrm.ServiceModel
@@ -25,14 +25,14 @@ namespace Adxstudio.Xrm.ServiceModel
 		}
 
 		/// <summary>
-		/// Initializes a <see cref="RetryPolicy"/> for transient fault handling.
+		/// Initializes a <see cref="ResiliencePipeline"/> for transient fault handling.
 		/// </summary>
-		protected ServiceHostContext(RetryPolicy retryPolicy)
+		protected ServiceHostContext(ResiliencePipeline retryPolicy)
 		{
 			_retryPolicy = retryPolicy;
 		}
 
-		private readonly RetryPolicy _retryPolicy;
+		private readonly ResiliencePipeline _retryPolicy;
 		private Lazy<ServiceHost> _host;
 
 		private ServiceHost OpenServiceHost(bool useSynchronizationContext)
@@ -49,7 +49,7 @@ namespace Adxstudio.Xrm.ServiceModel
 
 			if (_retryPolicy != null)
 			{
-				_retryPolicy.ExecuteAction(host.Open);
+				_retryPolicy.Execute(host.Open);
 			}
 			else
 			{

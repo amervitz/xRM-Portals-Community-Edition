@@ -6,7 +6,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data.Services.Client;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
@@ -25,6 +24,7 @@ using Adxstudio.Xrm.AspNet.Identity;
 using Adxstudio.Xrm.AspNet.Mvc;
 using Adxstudio.Xrm.Configuration;
 using Adxstudio.Xrm.Core.Flighting;
+using Adxstudio.Xrm.IdentityModel.ActiveDirectory;
 using Adxstudio.Xrm.Resources;
 using Adxstudio.Xrm.Services;
 using Adxstudio.Xrm.Web;
@@ -673,7 +673,7 @@ namespace Site.Areas.Account.Controllers
 				if (this.StartupSettingsManager.AzureAdOptions.AuthenticationType == authenticationType)
 				{
 					// this is an Azure AD sign-in
-					Microsoft.Azure.ActiveDirectory.GraphClient.IUser graphUser;
+					GraphUser graphUser;
 
 					try
 					{
@@ -712,18 +712,18 @@ namespace Site.Areas.Account.Controllers
 			return null;
 		}
 
-		private static string ToEmail(Microsoft.Azure.ActiveDirectory.GraphClient.IUser graphUser)
+		private static string ToEmail(GraphUser graphUser)
 		{
 			if (!string.IsNullOrWhiteSpace(graphUser.Mail)) return graphUser.Mail;
 
-			return graphUser.OtherMails != null ? graphUser.OtherMails.FirstOrDefault() : graphUser.UserPrincipalName;
+			return graphUser.OtherMails?.FirstOrDefault() ?? graphUser.UserPrincipalName;
 		}
 
 		private async Task<Enums.AzureADGraphAuthResults> DoAdditionalEssGraphWork(ExternalLoginInfo loginInfo)
 		{
 			var userCacheKey = $"{loginInfo.Login.ProviderKey}_graphUser";
 			var userAuthResultCacheKey = $"{loginInfo.Login.ProviderKey}_userAuthResult";
-			Microsoft.Azure.ActiveDirectory.GraphClient.IUser user = null;
+			GraphUser user = null;
 
 			// if the user's already gone through the Graph check, this will be set with the error that happened
 			if (HttpContext.Cache[userAuthResultCacheKey] != null)
@@ -743,7 +743,7 @@ namespace Site.Areas.Account.Controllers
 			}
 			else
 			{
-				user = (Microsoft.Azure.ActiveDirectory.GraphClient.IUser)HttpContext.Cache[userCacheKey];
+				user = (GraphUser)HttpContext.Cache[userCacheKey];
 			}
 
 			// if the user doesn't have an email address, try to use the UPN
@@ -777,7 +777,7 @@ namespace Site.Areas.Account.Controllers
 			return OutputGraphError(Enums.AzureADGraphAuthResults.NoValidLicense, userAuthResultCacheKey, loginInfo);
 		}
 
-		private async Task<Microsoft.Azure.ActiveDirectory.GraphClient.IUser> GetGraphUser(ExternalLoginInfo loginInfo)
+		private async Task<GraphUser> GetGraphUser(ExternalLoginInfo loginInfo)
 		{
 			var userCacheKey = $"{loginInfo.Login.ProviderKey}_graphUser";
 			var userAuthResultCacheKey = $"{loginInfo.Login.ProviderKey}_userAuthResult";
@@ -794,18 +794,16 @@ namespace Site.Areas.Account.Controllers
 				return await GetGraphUser(loginInfo, userCacheKey, userAuthResultCacheKey);
 			}
 
-			return (Microsoft.Azure.ActiveDirectory.GraphClient.IUser)HttpContext.Cache[userCacheKey];
+			return (GraphUser)HttpContext.Cache[userCacheKey];
 		}
 
-		private async Task<Microsoft.Azure.ActiveDirectory.GraphClient.IUser> GetGraphUser(ExternalLoginInfo loginInfo, string userCacheKey, string userAuthResultCacheKey)
+		private async Task<GraphUser> GetGraphUser(ExternalLoginInfo loginInfo, string userCacheKey, string userAuthResultCacheKey)
 		{
 			const int tokenRetryCount = 3;
 
-			var client = this.GetGraphClient(loginInfo,
-				PortalSettings.Instance.Graph.RootUrl,
-				PortalSettings.Instance.Authentication.TenantId);
+			var client = this.GetGraphClient(loginInfo);
 
-			Microsoft.Azure.ActiveDirectory.GraphClient.IUser user = null;
+			GraphUser user = null;
 
 			// retry tokenRetryCount times to retrieve the users. each time it fails, it will nullify the cache and try again
 			for (var x = 0; x < tokenRetryCount; x++)
@@ -815,36 +813,17 @@ namespace Site.Areas.Account.Controllers
 					ADXTrace.Instance.TraceInfo(TraceCategory.Application, "Attempting to retrieve user from Graph with UPN ");
 
 					// when we call this, the client will try to retrieve a token from GetAuthTokenTask()
-					user = await client.Me.ExecuteAsync();
+					user = await client.GetMeAsync();
 						
 					// if we get here then everything is alright. stop looping
 					break;
 				}
-				catch (AggregateException ex)
+				catch (GraphServiceException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
 				{
-					var handled = false;
+					ADXTrace.Instance.TraceInfo(TraceCategory.Application, "Current GraphClient auth token didn't seem to work. Discarding...");
 
-					foreach (var innerEx in ex.InnerExceptions)
-					{
-						if (innerEx.InnerException == null)
-						{
-							break;
-						}
-						var clientException = innerEx.InnerException as DataServiceClientException;
-						if (clientException?.StatusCode == (int)HttpStatusCode.Unauthorized)
-						{
-							ADXTrace.Instance.TraceInfo(TraceCategory.Application, "Current GraphClient auth token didn't seem to work. Discarding...");
-
-							// the token didn't seem to work. throw away cached token to retrieve new one
-							this.TokenManager.Reset();
-							handled = true;
-						}
-					}
-
-					if (!handled)
-					{
-						throw;
-					}
+					// the token didn't seem to work. throw away cached token to retrieve new one
+					this.TokenManager.Reset();
 				}
 			}
 
@@ -900,13 +879,13 @@ namespace Site.Areas.Account.Controllers
 
 		private ICrmTokenManager TokenManager => this.tokenManager.Value;
 
-		private Microsoft.Azure.ActiveDirectory.GraphClient.ActiveDirectoryClient GetGraphClient(ExternalLoginInfo loginInfo, string graphRoot, string tenantId) {
+		private PortalGraphClient GetGraphClient(ExternalLoginInfo loginInfo) {
 			var accessCodeClaim = loginInfo.ExternalIdentity.FindFirst("AccessCode");
 			var accessCode = accessCodeClaim?.Value;
 
-			return new Microsoft.Azure.ActiveDirectory.GraphClient.ActiveDirectoryClient(
-				new Uri(graphRoot + "/" + tenantId),
-				async () => await this.TokenManager.GetTokenAsync(accessCode));
+			return new PortalGraphClient(
+				PortalSettings.Instance.Graph.RootUrl,
+				() => this.TokenManager.GetTokenAsync(accessCode));
 		}
 
 		//

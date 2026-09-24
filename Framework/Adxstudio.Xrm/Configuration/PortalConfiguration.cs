@@ -90,11 +90,32 @@ namespace Adxstudio.Xrm.Configuration
 
 	public class GraphSettings : IGraphSettings
 	{
+		/// <summary>
+		/// The retired Azure AD Graph endpoint, which earlier configurations point at.
+		/// </summary>
+		private const string AzureADGraphRootUrl = "https://graph.windows.net";
+
+		/// <summary>
+		/// The Microsoft Graph endpoint that replaces Azure AD Graph.
+		/// </summary>
+		private const string MicrosoftGraphRootUrl = "https://graph.microsoft.com";
+
 		public string RootUrl { get; set; }
 
 		public GraphSettings()
 		{
-			this.RootUrl = "Azure.Graph.RootUrl".ResolveAppSetting();
+			this.RootUrl = ToMicrosoftGraph("Azure.Graph.RootUrl".ResolveAppSetting());
+		}
+
+		/// <summary>
+		/// Maps the retired Azure AD Graph endpoint to Microsoft Graph. Any other value, including none, is kept as it is,
+		/// because an unset root URL is what disables the Graph lookups made during Azure AD sign-in.
+		/// </summary>
+		private static string ToMicrosoftGraph(string rootUrl)
+		{
+			return !string.IsNullOrWhiteSpace(rootUrl) && string.Equals(rootUrl.Trim().TrimEnd('/'), AzureADGraphRootUrl, StringComparison.OrdinalIgnoreCase)
+				? MicrosoftGraphRootUrl
+				: rootUrl;
 		}
 	}
 

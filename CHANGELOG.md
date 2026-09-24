@@ -24,6 +24,16 @@ Code
 - Retargeted all projects to .NET Framework 4.8.1.
 - Updated CRM SDK dependencies and binding redirects for both clients, preserving the portal's connection and caching wrappers.
 - Made profile marketing lists optional through the `Profile/ShowMarketingListsPanel` site setting (defaults to `false`) because the `adx_website_list` relationship may not exist.
+- Updated NuGet packages to their latest compatible versions, including ASP.NET MVC 5.3, OWIN (Katana) 4.2.3, Microsoft.IdentityModel 8, MSAL 4.90, DotLiquid 2.3, FluentScheduler 6, HtmlAgilityPack 1.13, SharpZipLib 1.4.2, the 9.0.2.60 CRM SDK assemblies, and the Microsoft.Extensions and System.* packages the Dataverse client depends on. ADAL stays on 3.19.8, the version `CrmServiceClient` is built against. Binding redirects in `Web.config` now match the deployed assemblies.
+- Replaced the retired WindowsAzure.Storage and WindowsAzure.ServiceBus SDKs with Azure.Storage.Blobs and Azure.Messaging.ServiceBus for note attachments, cloud blob web files, and Service Bus cache invalidation.
+- Replaced the retired Azure AD Graph API with Microsoft Graph for the user lookups made during Azure AD sign-in, calling the `/me` endpoint directly instead of through an SDK. An `Azure.Graph.RootUrl` of `https://graph.windows.net` is treated as `https://graph.microsoft.com`; leaving the setting unset still turns the lookups off.
+- Replaced ADAL with MSAL for the portal's certificate-based Azure AD token acquisition.
+- Replaced Windows Identity Foundation 3.5 (`Microsoft.IdentityModel`) with the WS-Federation classes built into .NET Framework (`System.IdentityModel` and `System.IdentityModel.Services`). WS-Federation settings in a `microsoft.identityModel` section must move to the `system.identityModel` and `system.identityModel.services` sections, and `Microsoft.Xrm.Portal.IdentityModel.Extensions.OnServiceConfigurationCreated` is now `OnFederationConfigurationCreated`.
+- Replaced ITfoxtec.Saml2 with its successor, ITfoxtec.Identity.Saml2, for SAML 2.0 sign-in.
+- Replaced the Enterprise Library Transient Fault Handling Application Block with Polly, keeping the same retry counts and delays. The `retryStrategyName` setting of `CrmOnlineOrganizationService` is no longer supported and now raises a configuration error; use `retryCount` and `retryInterval`.
+- Replaced the AntiXSS library with the `AntiXssEncoder` built into ASP.NET.
+- Replaced Kentor.OwinCookieSaver with Katana's `SystemWebChunkingCookieManager`, which fixes the same lost-cookie problem, and marked `SameSite=None` authentication cookies `Secure` as browsers require.
+- Replaced BouncyCastle with BouncyCastle.Cryptography, Microsoft.Tpl.Dataflow with System.Threading.Tasks.Dataflow, Owin.Security.Providers with Owin.Security.Providers.LinkedIn and Owin.Security.Providers.Yahoo, and `CloudConfigurationManager` with `ConfigurationManager` app settings.
 
 Docs
 
@@ -41,13 +51,20 @@ Code
 - Fixed the previous blob not being removed when a note's Azure Blob Storage attachment is replaced. The blob was looked up under a hyphenated record id and under the stored file name, neither of which matches how the blob was written.
 - Fixed deleting a note throwing a `NullReferenceException` during content map refresh. A deleted record is retrieved as null, which the annotation relationship check dereferenced.
 - Fixed editing a note in the notes or timeline control throwing a `NullReferenceException` when the attachment is left unchanged. No file is posted in that case, so the check for whether a new attachment was supplied threw instead of reporting that there was none.
+- Fixed the application cookie's `returnUrlParameter` setting being applied as the cookie domain instead of the return URL parameter name.
+- Fixed an OpenID Connect sign-in failure without a protocol message throwing a `NullReferenceException` in the failure handler.
 
 ### Removed
+
+Build
+
+- Removed the build step that strong-named the unsigned Owin.Security.Providers and Kentor.OwinCookieSaver assemblies, and the unused `Adxstudio.Xrm.Build` targets, because every referenced package is now strong-named.
 
 Code
 
 - Removed legacy managed-code analysis, StyleCop analyzers, and shared ruleset configuration from all projects.
 - Removed the entity list OData feed endpoint (`/_odata`).
+- Removed the unused Bond, CommonServiceLocator, Unity, SafeNuGet, and Microsoft.AspNet.WebApi.Client packages, and the Microsoft.Data.OData, Microsoft.Data.Edm, Microsoft.Data.Services.Client, and System.Spatial packages that only the Azure AD Graph client needed.
 - Removed customer journey tracking, which posted portal interaction telemetry to a Microsoft internal Dynamics Customer Insights (DCI) hub provisioned only by Microsoft's portal hosting. This also removes the `FCB.CustomerJourneyTracking` feature flag and the `PortalTracking` and `PortalTracking.*` app settings.
 - Removed the Microsoft-internal IFx/MDM metrics pipeline (`AdxMetrics`, `MdmMetrics`, `IfxMetricsReporter`, and `MetricsReportingEvents`), which reported portal metrics to Microsoft's internal Geneva monitoring via IFx (the Microsoft Cloud Instrumentation Framework client API) into MDM (its multidimensional metrics backend), and was unreachable dead code because the framework package is not referenced by the project.
 - Removed the unused `FCB.Web2Case` and `FCB.Categories` feature flags, which had no remaining feature checks in the codebase.

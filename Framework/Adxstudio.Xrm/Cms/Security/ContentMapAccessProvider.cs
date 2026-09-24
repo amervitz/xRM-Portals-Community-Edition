@@ -10,7 +10,6 @@ namespace Adxstudio.Xrm.Cms.Security
 	using Adxstudio.Xrm.Configuration;
 	using Adxstudio.Xrm.Security;
 	using Adxstudio.Xrm.Web;
-	using Microsoft.Practices.EnterpriseLibrary.Common.Utility;
 	using Microsoft.Xrm.Client.Security;
 	using Microsoft.Xrm.Sdk;
 	using Microsoft.Xrm.Sdk.Client;
@@ -89,7 +88,11 @@ namespace Adxstudio.Xrm.Cms.Security
 		/// <param name="attributes"> The attributes. </param>
 		protected void AddDependencies(CrmEntityCacheDependencyTrace dependencies, Entity entity, string[] attributes)
 		{
-			attributes.ForEach(dependencies.AddEntitySetDependency);
+			foreach (var attribute in attributes)
+			{
+				dependencies.AddEntitySetDependency(attribute);
+			}
+
 			dependencies.AddEntityDependency(entity);
 		}
 	}

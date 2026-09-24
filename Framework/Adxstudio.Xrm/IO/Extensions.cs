@@ -6,8 +6,10 @@
 namespace Adxstudio.Xrm.IO
 {
 	using System;
+	using System.Collections.Generic;
 	using System.IO;
-	using Microsoft.Practices.TransientFaultHandling;
+	using Polly;
+	using Adxstudio.Xrm.Threading;
 
 	/// <summary>
 	/// Helpers related to <see cref="System.IO.File"/> and <see cref="System.IO.Directory"/>.
@@ -15,9 +17,9 @@ namespace Adxstudio.Xrm.IO
 	public static class Extensions
 	{
 		/// <summary>
-		/// A <see cref="ITransientErrorDetectionStrategy"/> for App_Data transient errors.
+		/// A <see cref="Func{Exception, bool}"/> for App_Data transient errors.
 		/// </summary>
-		private class AppDataTransientErrorDetectionStrategy : ITransientErrorDetectionStrategy
+		private class AppDataTransientErrorDetectionStrategy
 		{
 			/// <summary>
 			/// Flags transient errors.
@@ -32,14 +34,14 @@ namespace Adxstudio.Xrm.IO
 		}
 
 		/// <summary>
-		/// Creates a default <see cref="RetryPolicy"/>.
+		/// Creates a default <see cref="ResiliencePipeline"/>.
 		/// </summary>
 		/// <param name="retryStrategy">The retry strategy.</param>
 		/// <returns>The retry policy.</returns>
-		public static RetryPolicy CreateRetryPolicy(this RetryStrategy retryStrategy)
+		public static ResiliencePipeline CreateRetryPolicy(this IEnumerable<TimeSpan> retryStrategy)
 		{
 			var detectionStrategy = new AppDataTransientErrorDetectionStrategy();
-			return new RetryPolicy(detectionStrategy, retryStrategy);
+			return RetryPolicies.Create(detectionStrategy.IsTransient, retryStrategy);
 		}
 
 		/// <summary>
@@ -48,9 +50,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="path">The path.</param>
 		/// <returns>The watcher.</returns>
-		public static FileSystemWatcher CreateFileSystemWatcher(this RetryPolicy retryPolicy, string path)
+		public static FileSystemWatcher CreateFileSystemWatcher(this ResiliencePipeline retryPolicy, string path)
 		{
-			return retryPolicy.ExecuteAction(() => new FileSystemWatcher(path)
+			return retryPolicy.Execute(() => new FileSystemWatcher(path)
 			{
 				InternalBufferSize = 1024 * 64,
 				NotifyFilter = NotifyFilters.FileName,
@@ -65,9 +67,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="path">The path.</param>
 		/// <returns>The directory.</returns>
-		public static DirectoryInfo GetDirectory(this RetryPolicy retryPolicy, string path)
+		public static DirectoryInfo GetDirectory(this ResiliencePipeline retryPolicy, string path)
 		{
-			return retryPolicy.ExecuteAction(() => new DirectoryInfo(path));
+			return retryPolicy.Execute(() => new DirectoryInfo(path));
 		}
 
 		/// <summary>
@@ -76,9 +78,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="path">The path.</param>
 		/// <returns>'true' if the directory exists.</returns>
-		public static bool DirectoryExists(this RetryPolicy retryPolicy, string path)
+		public static bool DirectoryExists(this ResiliencePipeline retryPolicy, string path)
 		{
-			return retryPolicy.ExecuteAction(() => Directory.Exists(path));
+			return retryPolicy.Execute(() => Directory.Exists(path));
 		}
 
 		/// <summary>
@@ -87,9 +89,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="path">The path.</param>
 		/// <returns>The directory.</returns>
-		public static DirectoryInfo DirectoryCreate(this RetryPolicy retryPolicy, string path)
+		public static DirectoryInfo DirectoryCreate(this ResiliencePipeline retryPolicy, string path)
 		{
-			return retryPolicy.ExecuteAction(() => Directory.CreateDirectory(path));
+			return retryPolicy.Execute(() => Directory.CreateDirectory(path));
 		}
 
 		/// <summary>
@@ -98,9 +100,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="path">The path.</param>
 		/// <param name="recursive">The flag to delete subdirectories.</param>
-		public static void DirectoryDelete(this RetryPolicy retryPolicy, string path, bool recursive)
+		public static void DirectoryDelete(this ResiliencePipeline retryPolicy, string path, bool recursive)
 		{
-			retryPolicy.ExecuteAction(() => Directory.Delete(path, recursive));
+			retryPolicy.Execute(() => Directory.Delete(path, recursive));
 		}
 
 		/// <summary>
@@ -110,9 +112,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="directory">The directory.</param>
 		/// <param name="searchPattern">The filter.</param>
 		/// <returns>The directories.</returns>
-		public static DirectoryInfo[] GetDirectories(this RetryPolicy retryPolicy, DirectoryInfo directory, string searchPattern)
+		public static DirectoryInfo[] GetDirectories(this ResiliencePipeline retryPolicy, DirectoryInfo directory, string searchPattern)
 		{
-			return retryPolicy.ExecuteAction(() => directory.GetDirectories(searchPattern));
+			return retryPolicy.Execute(() => directory.GetDirectories(searchPattern));
 		}
 
 		/// <summary>
@@ -122,9 +124,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="directory">The directory.</param>
 		/// <param name="searchPattern">The filter.</param>
 		/// <returns>The files.</returns>
-		public static FileInfo[] GetFiles(this RetryPolicy retryPolicy, DirectoryInfo directory, string searchPattern)
+		public static FileInfo[] GetFiles(this ResiliencePipeline retryPolicy, DirectoryInfo directory, string searchPattern)
 		{
-			return retryPolicy.ExecuteAction(() => directory.GetFiles(searchPattern));
+			return retryPolicy.Execute(() => directory.GetFiles(searchPattern));
 		}
 
 		/// <summary>
@@ -133,9 +135,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="path">The path.</param>
 		/// <returns>'true' if the file exists.</returns>
-		public static bool FileExists(this RetryPolicy retryPolicy, string path)
+		public static bool FileExists(this ResiliencePipeline retryPolicy, string path)
 		{
-			return retryPolicy.ExecuteAction(() => File.Exists(path));
+			return retryPolicy.Execute(() => File.Exists(path));
 		}
 
 		/// <summary>
@@ -144,9 +146,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="sourceFileName">The source path.</param>
 		/// <param name="destFileName">The destination path.</param>
-		public static void FileMove(this RetryPolicy retryPolicy, string sourceFileName, string destFileName)
+		public static void FileMove(this ResiliencePipeline retryPolicy, string sourceFileName, string destFileName)
 		{
-			retryPolicy.ExecuteAction(() => File.Move(sourceFileName, destFileName));
+			retryPolicy.Execute(() => File.Move(sourceFileName, destFileName));
 		}
 
 		/// <summary>
@@ -154,9 +156,9 @@ namespace Adxstudio.Xrm.IO
 		/// </summary>
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="path">The path.</param>
-		public static void FileDelete(this RetryPolicy retryPolicy, string path)
+		public static void FileDelete(this ResiliencePipeline retryPolicy, string path)
 		{
-			retryPolicy.ExecuteAction(() => File.Delete(path));
+			retryPolicy.Execute(() => File.Delete(path));
 		}
 
 		/// <summary>
@@ -164,9 +166,9 @@ namespace Adxstudio.Xrm.IO
 		/// </summary>
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="file">The file.</param>
-		public static void FileDelete(this RetryPolicy retryPolicy, FileInfo file)
+		public static void FileDelete(this ResiliencePipeline retryPolicy, FileInfo file)
 		{
-			retryPolicy.ExecuteAction(file.Delete);
+			retryPolicy.Execute(file.Delete);
 		}
 
 		/// <summary>
@@ -176,9 +178,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="path">The path.</param>
 		/// <param name="mode">The access mode.</param>
 		/// <returns>The file stream.</returns>
-		public static FileStream Open(this RetryPolicy retryPolicy, string path, FileMode mode)
+		public static FileStream Open(this ResiliencePipeline retryPolicy, string path, FileMode mode)
 		{
-			return retryPolicy.ExecuteAction(() => File.Open(path, mode));
+			return retryPolicy.Execute(() => File.Open(path, mode));
 		}
 
 		/// <summary>
@@ -187,9 +189,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="path">The path.</param>
 		/// <returns>The file stream.</returns>
-		public static TextReader OpenText(this RetryPolicy retryPolicy, string path)
+		public static TextReader OpenText(this ResiliencePipeline retryPolicy, string path)
 		{
-			return retryPolicy.ExecuteAction(() => File.OpenText(path));
+			return retryPolicy.Execute(() => File.OpenText(path));
 		}
 
 		/// <summary>
@@ -198,9 +200,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="path">The path.</param>
 		/// <param name="bytes">The data.</param>
-		public static void WriteAllBytes(this RetryPolicy retryPolicy, string path, byte[] bytes)
+		public static void WriteAllBytes(this ResiliencePipeline retryPolicy, string path, byte[] bytes)
 		{
-			retryPolicy.ExecuteAction(() => File.WriteAllBytes(path, bytes));
+			retryPolicy.Execute(() => File.WriteAllBytes(path, bytes));
 		}
 
 		/// <summary>
@@ -209,9 +211,9 @@ namespace Adxstudio.Xrm.IO
 		/// <param name="retryPolicy">The retry policy.</param>
 		/// <param name="path">The path.</param>
 		/// <returns>The data.</returns>
-		public static byte[] ReadAllBytes(this RetryPolicy retryPolicy, string path)
+		public static byte[] ReadAllBytes(this ResiliencePipeline retryPolicy, string path)
 		{
-			return retryPolicy.ExecuteAction(() => File.ReadAllBytes(path));
+			return retryPolicy.Execute(() => File.ReadAllBytes(path));
 		}
 	}
 }

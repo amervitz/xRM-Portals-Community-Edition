@@ -13,7 +13,6 @@ namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 	using Adxstudio.Xrm.Web.Mvc.Html;
 	using DotLiquid;
 	using DotLiquid.Exceptions;
-	using DotLiquid.Util;
 
 	/// <summary>
 	/// The Liquid tag for rendering a CRM chart. {% chart id:"527B944C-E948-4012-BB10-F00A538F9903" %}
@@ -44,7 +43,7 @@ namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 			{
 				this.attributes = new Dictionary<string, string>(Template.NamingConvention.StringComparer);
 
-				R.Scan(markup, DotLiquid.Liquid.TagAttributes, (key, value) => this.attributes[key] = value);
+				TagSyntax.ScanAttributes(markup, (key, value) => this.attributes[key] = value);
 			}
 			else
 			{

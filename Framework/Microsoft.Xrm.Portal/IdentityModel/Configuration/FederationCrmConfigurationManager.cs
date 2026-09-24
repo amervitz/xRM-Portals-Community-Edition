@@ -20,7 +20,8 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 	/// <configuration>
 	/// 
 	///  <configSections>
-	///   <section name="microsoft.identityModel" type="Microsoft.IdentityModel.Configuration.MicrosoftIdentityModelSection, Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+	///   <section name="system.identityModel" type="System.IdentityModel.Configuration.SystemIdentityModelSection, System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	///   <section name="system.identityModel.services" type="System.IdentityModel.Services.Configuration.SystemIdentityModelServicesSection, System.IdentityModel.Services, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 	///   <section name="microsoft.xrm.portal.identityModel" type="Microsoft.Xrm.Portal.IdentityModel.Configuration.IdentityModelSection, Microsoft.Xrm.Portal"/>
 	///  </configSections>
 	/// 
@@ -32,7 +33,8 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 	/// 
 	///   <compilation>
 	///    <assemblies>
-	///     <add assembly="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" />
+	///     <add assembly="System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	///     <add assembly="System.IdentityModel.Services, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 	///    </assemblies>
 	///   </compilation>
 	/// 
@@ -41,25 +43,19 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 	///   <httpRuntime requestValidationType="Microsoft.Xrm.Portal.IdentityModel.Web.FederationRequestValidator, Microsoft.Xrm.Portal" />
 	/// 
 	///   <httpModules>
-	///     <add name="SessionAuthenticationModule" type="Microsoft.IdentityModel.Web.SessionAuthenticationModule, Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+	///     <add name="SessionAuthenticationModule" type="System.IdentityModel.Services.SessionAuthenticationModule, System.IdentityModel.Services, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 	///   </httpModules>
 	/// 
 	///   <httpHandlers>
 	///    <add path="Federation.axd" verb="*" type="Microsoft.Xrm.Portal.IdentityModel.Web.Handlers.FederationAuthenticationHandler, Microsoft.Xrm.Portal" />
 	///   </httpHandlers>
 	/// 
-	///   <pages>
-	///    <controls>
-	///     <add tagPrefix="wif" namespace="Microsoft.IdentityModel.Web.Controls" assembly="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"/>
-	///    </controls>
-	///   </pages>
-	/// 
 	///  </system.web>
 	/// 
 	///  <system.webServer>
 	/// 
 	///   <modules runAllManagedModulesForAllRequests="true">
-	///    <add name="SessionAuthenticationModule" type="Microsoft.IdentityModel.Web.SessionAuthenticationModule, Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" preCondition="managedHandler" />
+	///    <add name="SessionAuthenticationModule" type="System.IdentityModel.Services.SessionAuthenticationModule, System.IdentityModel.Services, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" preCondition="managedHandler" />
 	///   </modules>
 	/// 
 	///   <handlers>
@@ -68,46 +64,43 @@ namespace Microsoft.Xrm.Portal.IdentityModel.Configuration
 	/// 
 	///  </system.webServer>
 	/// 
-	///  <microsoft.identityModel>
-	///   <service>
+	///  <system.identityModel>
+	///   <identityConfiguration>
 	///    <audienceUris>
 	///     <add value="http://contoso.cloudapp.net/" />
 	///    </audienceUris>
-	///    <federatedAuthentication>
-	///     <wsFederation passiveRedirectEnabled="false" issuer="https://contoso.accesscontrol.windows.net/v2/wsfederation" realm="http://contoso.cloudapp.net/" requireHttps="false" />
-	///     <cookieHandler requireSsl="false" />
-	///    </federatedAuthentication>
-	///    <applicationService>
-	///     <claimTypeRequired>
-	///      <claimType type="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier" optional="true" />
-	///      <claimType type="http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider" optional="true" />
-	///     </claimTypeRequired>
-	///    </applicationService>
-	///    <issuerNameRegistry type="Microsoft.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry, Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+	///    <issuerNameRegistry type="System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry, System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
 	///     <trustedIssuers>
 	///      <add thumbprint="0000000000000000000000000000000000000000" name="https://contoso.accesscontrol.windows.net/" />
 	///     </trustedIssuers>
 	///    </issuerNameRegistry>
 	///    <certificateValidation certificateValidationMode="None" />
-	///    <serviceCertificate>
-	///     <certificateReference x509FindType="FindByThumbprint" findValue="0000000000000000000000000000000000000000"/>
-	///    </serviceCertificate>
 	///    <securityTokenHandlers>
-	///     <remove type="Microsoft.IdentityModel.Tokens.Saml11.Saml11SecurityTokenHandler, Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
-	///      <add type="Microsoft.IdentityModel.Tokens.Saml11.Saml11SecurityTokenHandler, Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+	///     <remove type="System.IdentityModel.Tokens.SamlSecurityTokenHandler, System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	///      <add type="System.IdentityModel.Tokens.SamlSecurityTokenHandler, System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
 	///       <samlSecurityTokenRequirement>
 	///        <nameClaimType value="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier" />
 	///       </samlSecurityTokenRequirement>
 	///      </add>
-	///      <remove type="Microsoft.IdentityModel.Tokens.Saml2.Saml2SecurityTokenHandler, Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
-	///      <add type="Microsoft.IdentityModel.Tokens.Saml2.Saml2SecurityTokenHandler, Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+	///      <remove type="System.IdentityModel.Tokens.Saml2SecurityTokenHandler, System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	///      <add type="System.IdentityModel.Tokens.Saml2SecurityTokenHandler, System.IdentityModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
 	///       <samlSecurityTokenRequirement>
 	///        <nameClaimType value="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier" />
 	///       </samlSecurityTokenRequirement>
 	///      </add>
 	///    </securityTokenHandlers>
-	///   </service>
-	///  </microsoft.identityModel>
+	///   </identityConfiguration>
+	///  </system.identityModel>
+	/// 
+	///  <system.identityModel.services>
+	///   <federationConfiguration>
+	///    <wsFederation passiveRedirectEnabled="false" issuer="https://contoso.accesscontrol.windows.net/v2/wsfederation" realm="http://contoso.cloudapp.net/" requireHttps="false" />
+	///    <cookieHandler requireSsl="false" />
+	///    <serviceCertificate>
+	///     <certificateReference x509FindType="FindByThumbprint" findValue="0000000000000000000000000000000000000000"/>
+	///    </serviceCertificate>
+	///   </federationConfiguration>
+	///  </system.identityModel.services>
 	/// 
 	///  <microsoft.xrm.portal.identityModel
 	///   sectionProviderType="Microsoft.Xrm.Portal.IdentityModel.Configuration.FederationCrmConfigurationProvider, Microsoft.Xrm.Portal">

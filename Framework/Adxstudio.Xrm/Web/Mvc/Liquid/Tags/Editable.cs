@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using DotLiquid;
 using DotLiquid.Exceptions;
-using DotLiquid.Util;
 
 namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 {
@@ -32,7 +31,7 @@ namespace Adxstudio.Xrm.Web.Mvc.Liquid.Tags
 
 				_attributes = new Dictionary<string, string>(Template.NamingConvention.StringComparer);
 
-				R.Scan(markup, DotLiquid.Liquid.TagAttributes, (key, value) => _attributes[key] = value);
+				TagSyntax.ScanAttributes(markup, (key, value) => _attributes[key] = value);
 			}
 			else
 			{

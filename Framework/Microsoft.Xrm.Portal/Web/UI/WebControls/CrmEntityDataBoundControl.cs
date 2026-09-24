@@ -11,7 +11,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Microsoft.Security.Application;
+using Encoder = System.Web.Security.AntiXss.AntiXssEncoder;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Portal.Configuration;
 using Microsoft.Xrm.Portal.Runtime;
@@ -232,7 +232,7 @@ namespace Microsoft.Xrm.Portal.Web.UI.WebControls
 
 			if (HtmlEncode)
 			{
-				textValue = Encoder.HtmlEncode(textValue);
+				textValue = Encoder.HtmlEncode(textValue, false);
 			}
 
 			PerformDataBindingOfCrmEntityProperty(entity, property.Name, textValue);
