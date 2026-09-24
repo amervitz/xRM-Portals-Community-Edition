@@ -68,11 +68,17 @@ namespace Adxstudio.Xrm.Search.Index
 			return new FetchXmlIndexer(Index, savedQuery.FetchXml, savedQuery.TitleAttributeLogicalName);
 		}
 
+		/// <remarks>
+		/// Power Pages' enhanced data model ships its own "Portal Search" views on mspp_* virtual tables, which this
+		/// portal doesn't serve and which lack attributes such as modifiedon that indexing requires. These views are
+		/// excluded by the table named in their FetchXML, such as &lt;entity name="mspp_webpage"&gt;.
+		/// </remarks>
 		protected virtual IQueryable<Entity> GetSavedQueries(OrganizationServiceContext dataContext)
 		{
 			return dataContext.CreateQuery("savedquery")
 				.Where(e => e.GetAttributeValue<string>("name") == SavedQueryName
-					&& e.GetAttributeValue<int?>("statecode") == 0);
+					&& e.GetAttributeValue<int?>("statecode") == 0
+					&& !e.GetAttributeValue<string>("fetchxml").Contains("<entity name=\"mspp_"));
 		}
 
 		private ICrmEntityIndexer[] GetIndexersForSavedQueries()
