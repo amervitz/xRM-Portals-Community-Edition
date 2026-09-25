@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    SharpZipLib versions before 1.3.3 have known vulnerabilities. The portal doesn't use SharpZipLib, so it isn't
+    referenced, but Lucene.Net 3.0.3 declares a dependency on SharpZipLib 0.86.0 or later. Installing, updating or
+    reinstalling Lucene.Net, or migrating a project to PackageReference, would bring back 0.86.0, because NuGet picks
+    the lowest version that satisfies a dependency. This fails the build if any version of SharpZipLib comes back, in
+    the importing project or in a project it references, whether in packages.config, obj\project.assets.json or the
+    assemblies the importing project deploys. To use SharpZipLib on purpose, remove the import of this file from
+    MasterPortal.csproj, delete this file, and reference version 1.4.2 or later.
+  -->
+  <PropertyGroup>
+    <MinimumSharpZipLibVersion>1.4.2</MinimumSharpZipLibVersion>
+    <_SharpZipLibRemoveCheck>To use it on purpose, remove the $(MSBuildThisFile) import from $(MSBuildProjectFullPath) and delete $(MSBuildThisFileFullPath).</_SharpZipLibRemoveCheck>
+  </PropertyGroup>
+  <Target Name="BlockSharpZipLib" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <_SharpZipLibProject Include="$(MSBuildProjectFullPath);@(ProjectReference->'%(FullPath)')" />
+      <_SharpZipLibSource Include="@(_SharpZipLibProject->'%(RootDir)%(Directory)packages.config')">
+        <Pattern>(?i)&lt;package\b(?=[^&gt;]*\bid="SharpZipLib")[^&gt;]*\bversion="([^"]+)"</Pattern>
+      </_SharpZipLibSource>
+      <_SharpZipLibSource Include="@(_SharpZipLibProject->'%(RootDir)%(Directory)obj\project.assets.json')">
+        <Pattern>(?i)"SharpZipLib/([^"]+)"</Pattern>
+      </_SharpZipLibSource>
+      <_SharpZipLibSource Remove="@(_SharpZipLibSource)" Condition="!Exists('%(FullPath)')" />
+      <_SharpZipLibSource>
+        <SharpZipLibVersion>$([System.Text.RegularExpressions.Regex]::Match($([System.IO.File]::ReadAllText('%(FullPath)')), '%(Pattern)').Groups[1].Value)</SharpZipLibVersion>
+      </_SharpZipLibSource>
+    </ItemGroup>
+    <Error Condition="'%(_SharpZipLibSource.SharpZipLibVersion)' != '' and $([MSBuild]::VersionLessThan('%(_SharpZipLibSource.SharpZipLibVersion)', '$(MinimumSharpZipLibVersion)'))" Text="%(_SharpZipLibSource.FullPath) lists SharpZipLib %(_SharpZipLibSource.SharpZipLibVersion), which has known vulnerabilities. It was probably brought back as a dependency of Lucene.Net. The portal doesn't use SharpZipLib, so remove it." />
+    <Error Condition="'%(_SharpZipLibSource.SharpZipLibVersion)' != '' and !$([MSBuild]::VersionLessThan('%(_SharpZipLibSource.SharpZipLibVersion)', '$(MinimumSharpZipLibVersion)'))" Text="%(_SharpZipLibSource.FullPath) lists SharpZipLib %(_SharpZipLibSource.SharpZipLibVersion). The portal doesn't use SharpZipLib, so it's blocked in case a vulnerable version comes back as a dependency of Lucene.Net. $(_SharpZipLibRemoveCheck)" />
+    <ItemGroup>
+      <_SharpZipLibAssembly Include="@(ReferencePath);@(ReferenceCopyLocalPaths)" Condition="'%(Filename)%(Extension)' == 'ICSharpCode.SharpZipLib.dll'" />
+    </ItemGroup>
+    <GetAssemblyIdentity Condition="'@(_SharpZipLibAssembly)' != ''" AssemblyFiles="@(_SharpZipLibAssembly->Distinct())">
+      <Output TaskParameter="Assemblies" ItemName="_SharpZipLibIdentity" />
+    </GetAssemblyIdentity>
+    <Error Condition="'@(_SharpZipLibIdentity)' != '' and $([MSBuild]::VersionLessThan('%(_SharpZipLibIdentity.Version)', '$(MinimumSharpZipLibVersion)'))" Text="The portal deploys ICSharpCode.SharpZipLib %(_SharpZipLibIdentity.Version), which has known vulnerabilities. It was probably brought back as a dependency of Lucene.Net. The portal doesn't use SharpZipLib, so remove it." />
+    <Error Condition="'@(_SharpZipLibIdentity)' != '' and !$([MSBuild]::VersionLessThan('%(_SharpZipLibIdentity.Version)', '$(MinimumSharpZipLibVersion)'))" Text="The portal deploys ICSharpCode.SharpZipLib %(_SharpZipLibIdentity.Version). The portal doesn't use SharpZipLib, so it's blocked in case a vulnerable version comes back as a dependency of Lucene.Net. $(_SharpZipLibRemoveCheck)" />
+  </Target>
+</Project>

@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Build
 
 - Added GitHub Actions Debug and Release build validation for pull requests and pushes to `dev`, with manual runs available for other branches.
+- Added a build check, `Build/BlockSharpZipLib.targets`, imported by the MasterPortal project, that fails if SharpZipLib comes back, in its own or a referenced project's `packages.config` or `obj\project.assets.json`, or among the assemblies the portal deploys. Versions before 1.3.3 have known vulnerabilities, and installing, updating or reinstalling Lucene.Net, or migrating a project to `PackageReference`, would otherwise bring back 0.86.0. To use SharpZipLib on purpose, remove the import, delete the file, and reference version 1.4.2 or later.
 
 Code
 
@@ -56,3 +57,4 @@ Code
 - Removed Azure Cloud Services (classic) hosting support, because Azure Cloud Services (classic) was retired on 1 September 2024.
 - Removed Windows Live ID Web Authentication, which targeted a long-decommissioned sign-in protocol.
 - Removed web page and web file tracking, matching Power Pages, where the feature is no longer available since version 9.3.4.x. Requests for web pages and web files with **Enable Tracking** set no longer create `adx_webpagelog` or `adx_webfilelog` records, and the field is no longer shown when editing either on the portal. This also removes the `asyncTrackingEnabled` attribute of the `adxstudio.xrm` configuration section, which must be deleted from any `Web.config` that sets it.
+- Removed SharpZipLib, a dependency of Lucene.Net that the portal never uses. Lucene.Net loads it only to compress or decompress stored field values, and the search index never stores compressed fields.
