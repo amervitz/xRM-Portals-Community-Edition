@@ -52,8 +52,7 @@ namespace Adxstudio.Xrm.Search
 		{
 			try
 			{
-				var response = context.Execute(new RetrieveEntityRequest { LogicalName = logicalName, EntityFilters = EntityFilters.Entity }) as RetrieveEntityResponse;
-				return response != null;
+				return Metadata.OrganizationServiceContextExtensions.EntityExists(context, logicalName);
 			}
 			catch (Exception e)
 			{

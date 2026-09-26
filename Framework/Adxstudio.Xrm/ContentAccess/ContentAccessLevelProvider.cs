@@ -108,6 +108,11 @@ namespace Adxstudio.Xrm.ContentAccess
             {
                 try
                 {
+                    if (!Metadata.OrganizationServiceContextExtensions.EntityExists(this.Portal.ServiceContext, "adx_contentaccesslevel"))
+                    {
+                        return false;
+                    }
+
                     this.calEntityMetadata = ContentAccessProvider.GetEntityMetadata(this.Portal.ServiceContext, "adx_contentaccesslevel", EntityFilters.Entity);
                 }
                 catch

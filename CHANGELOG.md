@@ -44,6 +44,7 @@ Code
 - Fixed deleting a note throwing a `NullReferenceException` during content map refresh. A deleted record is retrieved as null, which the annotation relationship check dereferenced.
 - Fixed editing a note in the notes or timeline control throwing a `NullReferenceException` when the attachment is left unchanged. No file is posted in that case, so the check for whether a new attachment was supplied threw instead of reporting that there was none.
 - Fixed building the search index failing in environments that also have the Power Pages enhanced data model. Its `mspp_*` virtual tables have their own "Portal Search" views, which the indexer picked up, and requesting `modifiedon` from them threw because virtual tables such as `mspp_webpage` don't have it. Views on `mspp_*` tables are now skipped.
+- Fixed a request to Dataverse, and a caught exception, each time content access levels were checked in environments without the `adx_contentaccesslevel` table, which happens for every search and for knowledge articles in search results, entity lists, lookups and Liquid `fetchxml` tags. The table was checked with a metadata request that throws when the table is missing, and the organization service cache doesn't keep faults. It's now checked with a request that returns no metadata for a missing table, which is cached until the next metadata change or publish. Building the search index checks the table the same way.
 
 ### Removed
 

@@ -83,6 +83,37 @@ namespace Adxstudio.Xrm.Metadata
 			return entityMetadata;
 		}
 
+		/// <summary>
+		/// Determines whether an entity exists.
+		/// </summary>
+		/// <param name="serviceContext"><see cref="OrganizationServiceContext" /></param>
+		/// <param name="logicalName">Logical name of the entity</param>
+		/// <returns>True if the entity exists</returns>
+		/// <remarks>
+		/// A <see cref="RetrieveEntityRequest"/> for a missing entity throws a fault, which the organization service cache doesn't
+		/// keep, so every check would go to Dataverse. <see cref="RetrieveMetadataChangesRequest"/> returns no metadata instead,
+		/// and its response is cached until the next metadata change or publish.
+		/// </remarks>
+		internal static bool EntityExists(this OrganizationServiceContext serviceContext, string logicalName)
+		{
+			if (serviceContext == null) throw new ArgumentNullException("serviceContext");
+			if (logicalName == null) throw new ArgumentNullException("logicalName");
+
+			var entityFilter = new MetadataFilterExpression(LogicalOperator.And);
+			entityFilter.Conditions.Add(new MetadataConditionExpression("LogicalName", MetadataConditionOperator.Equals, logicalName));
+
+			var response = (RetrieveMetadataChangesResponse)serviceContext.Execute(new RetrieveMetadataChangesRequest
+			{
+				Query = new EntityQueryExpression
+				{
+					Criteria = entityFilter,
+					Properties = new MetadataPropertiesExpression("LogicalName")
+				}
+			});
+
+			return response.EntityMetadata.Any();
+		}
+
 		internal static string GetEntityPrimaryName(this OrganizationServiceContext serviceContext, Entity entity)
 		{
 			if (serviceContext == null) throw new ArgumentNullException("serviceContext");
