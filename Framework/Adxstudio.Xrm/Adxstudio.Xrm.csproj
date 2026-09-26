@@ -101,10 +101,6 @@
       <HintPath>..\..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C5">
-      <HintPath>..\..\packages\C5.2.2.4822.42600\lib\portable-win+net40+sl40+wp+Xbox40\C5.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Common.Logging">
       <HintPath>..\..\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
       <Private>True</Private>
