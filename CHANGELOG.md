@@ -25,7 +25,11 @@ Code
 - Retargeted all projects to .NET Framework 4.8.1.
 - Updated CRM SDK dependencies and binding redirects for both clients, preserving the portal's connection and caching wrappers.
 - Made profile marketing lists optional through the `Profile/ShowMarketingListsPanel` site setting (defaults to `false`) because the `adx_website_list` relationship may not exist.
+
+Dependencies
+
 - Updated Common.Logging and Common.Logging.Core, dependencies of BoboBrowse.Net (the faceted search library built on Lucene.Net), from 3.0.0 to 3.4.1, with binding redirects from the 3.0.0.0 assemblies BoboBrowse.Net is compiled against.
+- Updated HtmlAgilityPack from 1.4.9 to 1.13.0.
 
 Docs
 
@@ -57,5 +61,8 @@ Code
 - Removed Azure Cloud Services (classic) hosting support, because Azure Cloud Services (classic) was retired on 1 September 2024.
 - Removed Windows Live ID Web Authentication, which targeted a long-decommissioned sign-in protocol.
 - Removed web page and web file tracking, matching Power Pages, where the feature is no longer available since version 9.3.4.x. Requests for web pages and web files with **Enable Tracking** set no longer create `adx_webpagelog` or `adx_webfilelog` records, and the field is no longer shown when editing either on the portal. This also removes the `asyncTrackingEnabled` attribute of the `adxstudio.xrm` configuration section, which must be deleted from any `Web.config` that sets it.
+
+Dependencies
+
 - Removed SharpZipLib, a dependency of Lucene.Net that the portal never uses. Lucene.Net loads it only to compress or decompress stored field values, and the search index never stores compressed fields.
 - Removed C5, a dependency of BoboBrowse.Net that the portal never uses. BoboBrowse.Net uses it only in its path and virtual facet handlers, and the portal's facets use neither.

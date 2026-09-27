@@ -120,9 +120,9 @@
       <HintPath>..\..\packages\FluentScheduler.5.0.0\lib\net40\FluentScheduler.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+    <Reference Include="HtmlAgilityPack, Version=1.13.0.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\..\packages\HtmlAgilityPack.1.13.0\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="ITfoxtec.Saml2, Version=1.2.3.0, Culture=neutral, PublicKeyToken=2dd6b1fbf7645f92, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ITfoxtec.Saml2.1.2.3\lib\net45\ITfoxtec.Saml2.dll</HintPath>
