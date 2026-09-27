@@ -66,3 +66,4 @@ Dependencies
 
 - Removed SharpZipLib, a dependency of Lucene.Net that the portal never uses. Lucene.Net loads it only to compress or decompress stored field values, and the search index never stores compressed fields.
 - Removed C5, a dependency of BoboBrowse.Net that the portal never uses. BoboBrowse.Net uses it only in its path and virtual facet handlers, and the portal's facets use neither.
+- Removed JetBrains.Annotations, which provides attributes read only by ReSharper and Rider code analysis. Its only use was two `[AssertionMethod]` attributes on `MarketingDataAdapter`, which had no effect without an `[AssertionCondition]` parameter.

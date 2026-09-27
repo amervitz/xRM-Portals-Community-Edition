@@ -4,7 +4,6 @@
 */
 
 using Adxstudio.Xrm.Cms;
-using JetBrains.Annotations;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Client.Messages;
 using Microsoft.Xrm.Sdk.Messages;
@@ -195,13 +194,11 @@ namespace Adxstudio.Xrm.Marketing
 			}
 		}
 		
-		[AssertionMethod]
 		private void Validate(string encodedEmail, string signature)
 		{
 			Validate(encodedEmail, string.Empty, signature);
 		}
 		
-		[AssertionMethod]
 		private void Validate(string encodedEmail, string encodedList, string signature)
 		{
 			var confirmation = ConstructSignature(encodedEmail, encodedList);
