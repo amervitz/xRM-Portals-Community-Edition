@@ -31,6 +31,7 @@ Dependencies
 - Updated Common.Logging and Common.Logging.Core, dependencies of BoboBrowse.Net (the faceted search library built on Lucene.Net), from 3.0.0 to 3.4.1, with binding redirects from the 3.0.0.0 assemblies BoboBrowse.Net is compiled against.
 - Updated HtmlAgilityPack from 1.4.9 to 1.13.0.
 - Updated ASP.NET MVC from 5.2.3 to 5.3.0, ASP.NET Razor and ASP.NET Web Pages from 3.2.3 to 3.3.0, and Microsoft.Web.Infrastructure from 1.0.0.0 to 2.0.1, with a binding redirect from the 1.0.0.0 assembly that MVC, Web Pages and System.Web.Optimization are compiled against.
+- Updated ASP.NET Identity Core and ASP.NET Identity Owin from 2.2.1 to 2.2.4.
 
 Docs
 
