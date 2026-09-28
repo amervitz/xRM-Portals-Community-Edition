@@ -146,7 +146,6 @@ namespace Site.Areas.Account.Controllers
 		[HttpGet]
 		[AllowAnonymous]
 		[LanguageActionFilter]
-		[OutputCache(CacheProfile = "UserShared")]
 		public ActionResult Login(string returnUrl, string invitationCode)
 		{
 			if (!string.IsNullOrWhiteSpace(ViewBag.Settings.LoginButtonAuthenticationType))
