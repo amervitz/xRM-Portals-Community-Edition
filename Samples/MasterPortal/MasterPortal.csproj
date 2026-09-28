@@ -103,7 +103,7 @@
     </Reference>
     <Reference Include="DotLiquid">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\DotLiquid.2.0.64\lib\net451\DotLiquid.dll</HintPath>
+      <HintPath>..\..\packages\DotLiquid.2.0.385\lib\net45\DotLiquid.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentScheduler">

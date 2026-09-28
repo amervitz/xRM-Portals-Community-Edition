@@ -87,6 +87,11 @@ namespace Adxstudio.Xrm.Web.Mvc.Html
 				get { return StringComparer.OrdinalIgnoreCase; }
 			}
 
+			public bool OperatorEquals(string testedOperator, string referenceOperator)
+			{
+				return StringComparer.Equals(testedOperator, referenceOperator);
+			}
+
 			public string GetMemberName(string name)
 			{				
 				return _regex2.Replace(_regex1.Replace(name, "$1_$2"), "$1_$2").ToLowerInvariant();
@@ -437,7 +442,7 @@ namespace Adxstudio.Xrm.Web.Mvc.Html
 			// also access the same custom ViewBag information like "ViewSupportsDonuts".
 			var registers = Hash.FromDictionary(environment.Registers);
 			registers["htmlHelper"] = html;
-			var context = new Context(new List<Hash> { localVariables }, new Hash(), registers, false);
+			var context = new Context(new List<Hash> { localVariables }, new Hash(), registers, ErrorsOutputMode.Display, 0, System.Globalization.CultureInfo.CurrentCulture, System.Threading.CancellationToken.None);
 
 			InternalRenderLiquid(source, sourceIdentifier, output, context);
 		}
@@ -475,7 +480,7 @@ namespace Adxstudio.Xrm.Web.Mvc.Html
 
 			using (PerformanceProfiler.Instance.StartMarker(PerformanceMarkerName.LiquidExtension, PerformanceMarkerArea.Liquid, PerformanceMarkerTagName.RenderLiquid))
 			{
-				template.Render(output, RenderParameters.FromContext(context));
+				template.Render(output, RenderParameters.FromContext(context, System.Globalization.CultureInfo.CurrentCulture));
 			}
 
 			foreach (var error in template.Errors)
