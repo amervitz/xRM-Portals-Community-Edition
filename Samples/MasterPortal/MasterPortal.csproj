@@ -71,22 +71,6 @@
       <HintPath>..\..\DllImports\AuthorizeNet.Helpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Bond">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Bond.Runtime.CSharp.3.0.6\lib\net45\Bond.dll</HintPath>
-    </Reference>
-    <Reference Include="Bond.Attributes">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Bond.Runtime.CSharp.3.0.6\lib\net45\Bond.Attributes.dll</HintPath>
-    </Reference>
-    <Reference Include="Bond.IO">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Bond.Runtime.CSharp.3.0.6\lib\net45\Bond.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="Bond.JSON">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Bond.Runtime.CSharp.3.0.6\lib\net45\Bond.JSON.dll</HintPath>
-    </Reference>
     <Reference Include="BouncyCastle.Crypto">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>

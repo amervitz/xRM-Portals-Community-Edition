@@ -27,7 +27,6 @@ these Third Party Materials.
 * emmet_min.js v.1.3.3 - Copyright (c) 2012 Sergey Chikuyonok
   <serge.che@gmail.com>
 * ASP.NET MVC Extensible Donut Caching - Copyright (c) 2011 Paul Hiles
-* Bond - Copyright (c) 2014 Microsoft
 * Bootstrap 3 Date/Time Picker (Eonasdan) - Copyright (c) 2015 Jonathan
   Peterson (@Eonasdan)
 * Bootstrap v.3.3.6 - Copyright (c) 2011-2015 Twitter, Inc

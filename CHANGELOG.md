@@ -72,3 +72,4 @@ Dependencies
 - Removed C5, a dependency of BoboBrowse.Net that the portal never uses. BoboBrowse.Net uses it only in its path and virtual facet handlers, and the portal's facets use neither.
 - Removed JetBrains.Annotations, which provides attributes read only by ReSharper and Rider code analysis. Its only use was two `[AssertionMethod]` attributes on `MarketingDataAdapter`, which had no effect without an `[AssertionCondition]` parameter.
 - Removed SafeNuGet and its build-time vulnerability check; NuGet 6.10+ provides vulnerability auditing for `packages.config`, and GitHub Dependabot provides alerts when enabled.
+- Removed Bond.CSharp and Bond.Runtime.CSharp, their assembly references, and build imports. The portal has no Bond schemas or code that uses Bond, and no other deployed assembly depends on it.
