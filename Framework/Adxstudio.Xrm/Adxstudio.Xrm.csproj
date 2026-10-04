@@ -2043,6 +2043,5 @@
     <Content Include="Liquid\faceted_search.html" />
   </ItemGroup>
   <Import Project="$(AdxstudioFrameworkPath)\Adxstudio.Xrm.Build\SetStrongName.targets" />
-  <Import Project="..\..\packages\SafeNuGet.1.0.10\build\SafeNuGet.targets" Condition="Exists('..\..\packages\SafeNuGet.1.0.10\build\SafeNuGet.targets')" />
   <Import Project="..\..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.targets" Condition="Exists('..\..\packages\Bond.CSharp.3.0.6\build\Bond.CSharp.targets')" />
 </Project>
