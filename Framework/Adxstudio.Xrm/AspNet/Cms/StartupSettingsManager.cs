@@ -9,12 +9,12 @@ namespace Adxstudio.Xrm.AspNet.Cms
 	using System.Collections.Generic;
 	using System.IdentityModel.Tokens;
 	using System.Linq;
-	using System.Net.Http;
 	using System.Security.Claims;
 	using System.Security.Cryptography.X509Certificates;
 	using System.Text.RegularExpressions;
 	using System.Threading;
 	using System.Threading.Tasks;
+	using System.Web;
 	using Adxstudio.Xrm.AspNet.Identity;
 	using Adxstudio.Xrm.Owin.Security.Saml2;
 	using ITfoxtec.Saml2.Util;
@@ -1295,7 +1295,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 			{
 				var issuerPath = notification.ProtocolMessage.IssuerAddress;
 				var issuerUri = new Uri(issuerPath);
-				var query = issuerUri.ParseQueryString();
+				var query = HttpUtility.ParseQueryString(issuerUri.Query);
 				notification.ProtocolMessage.Scope = OpenIdConnectScopes.OpenId;
 				notification.ProtocolMessage.ResponseType = OpenIdConnectResponseTypes.IdToken;
 				if (!string.IsNullOrWhiteSpace(options.DefaultPolicyId))
