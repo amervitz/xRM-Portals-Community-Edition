@@ -55,6 +55,10 @@ Code
 
 ### Removed
 
+Build
+
+- Removed the unused References.targets shared assembly-reference file, which no project or build target imports.
+
 Code
 
 - Removed legacy managed-code analysis, StyleCop analyzers, and shared ruleset configuration from all projects.
