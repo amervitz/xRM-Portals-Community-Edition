@@ -13,6 +13,7 @@ namespace Site.Areas.Chat.Controllers
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Formats.Asn1;
 	using System.IdentityModel.Tokens;
 	using System.IO;
 	using System.IO.Compression;
@@ -29,7 +30,6 @@ namespace Site.Areas.Chat.Controllers
 	using Models;
 	using Models.LivePerson;
 	using Newtonsoft.Json;
-	using Org.BouncyCastle.OpenSsl;
 
 	/// <summary>
 	///     The chat auth controller.
@@ -202,9 +202,32 @@ namespace Site.Areas.Chat.Controllers
 		private static void ExportPublicKey(RSACryptoServiceProvider csp, TextWriter outputStream)
 		{
 			var keyParams = csp.ExportParameters(false);
-			var publicKey = Org.BouncyCastle.Security.DotNetUtilities.GetRsaPublicKey(keyParams);
-			PemWriter pemWriter = new PemWriter(outputStream);
-			pemWriter.WriteObject(publicKey);
+			var rsaKey = new AsnWriter(AsnEncodingRules.DER);
+			using (rsaKey.PushSequence())
+			{
+				rsaKey.WriteIntegerUnsigned(keyParams.Modulus);
+				rsaKey.WriteIntegerUnsigned(keyParams.Exponent);
+			}
+
+			// SubjectPublicKeyInfo: rsaEncryption with NULL parameters, then the RSA public key.
+			var publicKey = new AsnWriter(AsnEncodingRules.DER);
+			using (publicKey.PushSequence())
+			{
+				using (publicKey.PushSequence())
+				{
+					publicKey.WriteObjectIdentifier("1.2.840.113549.1.1.1");
+					publicKey.WriteNull();
+				}
+				publicKey.WriteBitString(rsaKey.Encode());
+			}
+
+			outputStream.WriteLine("-----BEGIN PUBLIC KEY-----");
+			var base64 = Convert.ToBase64String(publicKey.Encode());
+			for (var offset = 0; offset < base64.Length; offset += 64)
+			{
+				outputStream.WriteLine(base64.Substring(offset, Math.Min(64, base64.Length - offset)));
+			}
+			outputStream.WriteLine("-----END PUBLIC KEY-----");
 		}
 
 		/// <summary>

@@ -18,6 +18,10 @@ Code
 - Added the `OrganizationServiceType` app setting to select the legacy `OrganizationServiceProxy`, Dataverse `ServiceClient`, or on-premises `CrmServiceClient`.
 - Added the `PortalBaseSolution` app setting for base-solution detection and schema version filtering. Supported values are `MicrosoftCrmPortalBase` (the default when unset) and `MicrosoftPortalBase` (for online environments using the legacy data model).
 
+Dependencies
+
+- Added System.Formats.Asn1 10.0.12 for chat authentication public-key export and the Dataverse client, with its required System.Memory 4.6.3, System.Buffers 4.6.1, System.Numerics.Vectors 4.6.1, System.Runtime.CompilerServices.Unsafe 6.1.2 and System.ValueTuple 4.6.2 dependencies and matching binding redirects.
+
 ### Changed
 
 Code
@@ -78,3 +82,4 @@ Dependencies
 - Removed SafeNuGet and its build-time vulnerability check; NuGet 6.10+ provides vulnerability auditing for `packages.config`, and GitHub Dependabot provides alerts when enabled.
 - Removed Bond.CSharp and Bond.Runtime.CSharp, their assembly references, and build imports. The portal has no Bond schemas or code that uses Bond, and no other deployed assembly depends on it.
 - Removed Microsoft.AspNet.WebApi.Client and its assembly references; Azure AD B2C policy redirects now parse issuer query strings with the built-in HttpUtility instead.
+- Removed BouncyCastle; its only code use, exporting the chat authentication public key, now uses System.Formats.Asn1 while preserving the PEM format consumed by the chat provider.

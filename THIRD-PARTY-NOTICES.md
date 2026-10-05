@@ -31,8 +31,6 @@ these Third Party Materials.
   Peterson (@Eonasdan)
 * Bootstrap v.3.3.6 - Copyright (c) 2011-2015 Twitter, Inc
 * bootstrap-calendar - Copyright (c) 2013 Sergey Romanov
-* Bouncy Castle Crypto API - Copyright (c) 2000 - 2016 The Legion of the
-  Bouncy Castle Inc. (https://www.bouncycastle.org)
 * Datejs v.1.0 Alpha-1 - Copyright (c) 2006-2010, Coolite Inc. All rights
   reserved.
 * es5-shim - Copyright 2009-2014 Kristopher Michael Kowal and contributors
