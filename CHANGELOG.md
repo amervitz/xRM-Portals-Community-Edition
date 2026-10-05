@@ -44,6 +44,7 @@ Docs
 - Organized CRM connection configuration under design documentation.
 - Updated build and runtime documentation for .NET Framework 4.8.1.
 - Updated migration guidance to refer to Microsoft Power Pages.
+- Updated the README with Visual Studio build prerequisites, CRM client selection, upgrade guidance for removed features, and current runtime requirements.
 
 ### Fixed
 

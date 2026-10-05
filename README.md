@@ -42,14 +42,18 @@ This project only contains the source code for the portal web application and it
 
 ## Building
 
-To build the project, ensure that you have [Git](https://git-scm.com/downloads) installed to obtain the source code, and [Visual Studio 2026](https://learn.microsoft.com/en-us/visualstudio/install/install-visual-studio) installed with the .NET Framework 4.8.1 Developer Pack to compile the source code.
+To build the project, install [Git](https://git-scm.com/downloads) and [Visual Studio 2026](https://learn.microsoft.com/en-us/visualstudio/install/install-visual-studio) with the **ASP.NET and web development** workload and the [.NET Framework 4.8.1 development tools](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net481).
 
-- Clone the repository using Git:
-  ```sh
-  git clone https://github.com/amervitz/xRM-Portals-Community-Edition.git
-  ```
-- Open the `Solutions\Portals\Portals.sln` solution file in Visual Studio
-- Build the `Portals` solution or the `MasterPortal` project in Visual Studio
+For the current development version, clone the `dev` branch:
+
+```sh
+git clone --branch dev https://github.com/amervitz/xRM-Portals-Community-Edition.git
+cd xRM-Portals-Community-Edition
+```
+
+Open `Solutions\Portals\Portals.sln` in Visual Studio, restore NuGet packages, and build the `Portals` solution or the `MasterPortal` project.
+
+[GitHub Actions](.github/workflows/build.yml) restores packages and builds Debug and Release for pull requests and pushes to `dev`. Runtime validation requires a configured portal and CRM environment.
 
 ## Deployment
 
@@ -59,15 +63,32 @@ The `MasterPortal` web application  deployment is dependent upon schema (solutio
 
 A full description of the deployment process is described in the file `Self-hosted_Installation_Guide_for_Portals.pdf` available for download on the [Microsoft Download Center](https://www.microsoft.com/en-us/download/details.aspx?id=55789).
 
+## Upgrading an existing deployment
+
+The original installation guide describes the 8.3 release. When deploying the current `dev` branch, use the build, connection and runtime requirements in this README and review the [Unreleased changelog](CHANGELOG.md#unreleased) for changes that affect existing deployments.
+
+The following legacy features have been removed to bring the project closer to the current Power Pages feature set, reduce reliance on obsolete components, and improve security and migration compatibility:
+
+- The entity list OData feed (`/_odata`) has been removed to align with Power Pages' data access features. Integrations that call it need an alternative data access path.
+- Web page and web file tracking has been removed to match Power Pages behavior. The **Enable Tracking** fields no longer cause the portal to create tracking records. Remove the `asyncTrackingEnabled` attribute from the `adxstudio.xrm` configuration section if it is present in your existing `Web.config`.
+- Windows Live ID Web Authentication has been removed as an obsolete authentication integration. Existing deployments using it need to configure another provider compatible with their Power Pages migration plans.
+- Azure Cloud Services (classic) hosting support has been removed as a retired hosting model. Use IIS or Azure App Service to host the web application.
+
 ## CRM connection configuration
+
+Set the `OrganizationServiceType` app setting in `Web.config` to `ServiceClient` to connect through the Dataverse client, or `CrmServiceClient` for Dynamics 365 on-premises. An omitted or blank setting retains the legacy `OrganizationServiceProxy` client. Supply an `Xrm` connection string for the selected client and choose the base portal solution with the `PortalBaseSolution` app setting.
 
 [Read the CRM connection configuration guide](docs/design/connection-configuration.md) for the `OrganizationServiceType` and `PortalBaseSolution` app settings and the `Xrm` connection string.
 
 ## System Requirements
 
-The following system requirements are additional to those listed in `Self-hosted_Installation_Guide_for_Portals.pdf`:
+The following requirements apply to the current `dev` branch and supersede older runtime and operating-system requirements in `Self-hosted_Installation_Guide_for_Portals.pdf`:
 
-- .NET Framework 4.8.1 must be installed ([download](https://www.microsoft.com/net/download/dotnet-framework-runtime/net481), [system requirements](https://docs.microsoft.com/en-us/dotnet/framework/get-started/system-requirements)).
+- Use x64 Windows Server 2022 or 2025 for server hosting, or Windows 11 for local development, with a release and edition still supported by Microsoft. .NET Framework 4.8.1 must be installed; it is included with Windows Server 2025 and Windows 11 version 22H2 and later. Windows 10 versions 20H2 through 22H2 are also compatible with .NET Framework 4.8.1, but should only be used while the installed edition remains covered by Microsoft support or Extended Security Updates ([download](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net481), [system requirements](https://learn.microsoft.com/en-us/dotnet/framework/get-started/system-requirements)).
+
+- For IIS hosting, enable the operating system's IIS 10.0 web server and ASP.NET 4.x features. These Windows versions provide a newer IIS version than the installation guide's IIS 7.5 prerequisite.
+
+- TLS 1.2 must remain enabled for outbound connections to Dataverse and authentication services. It is supported and enabled by default on the Windows versions above, so the older Windows 7 / Windows Server 2008 R2 enablement instructions are no longer needed ([Windows TLS support](https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-)).
 
 - The website must be set to run in 64-bit mode:
 
@@ -78,10 +99,6 @@ The following system requirements are additional to those listed in `Self-hosted
   Azure Web App:
    
   ![image](https://user-images.githubusercontent.com/10599498/30821633-468576ae-a1e3-11e7-8b45-e55df1742629.png)
-
-- IIS 7.5 (Windows 7 or Windows Server 2008 R2) requires the installation of the [IIS Application Initialization module](https://www.iis.net/downloads/microsoft/application-initialization). Use the `x64` download link at the [bottom of the page](https://www.iis.net/downloads/microsoft/application-initialization#additionalDownloads).
-
-- TLS 1.2 needs to be enabled on older operating systems when connecting to Dynamics 365 CE Online 9.0. Refer to the [Enable TLS 1.2 and 1.1 support on older operating systems](https://github.com/amervitz/xRM-Portals-Community-Edition/wiki/Enable-TLS-1.2-and-1.1-support-on-older-operating-systems) wiki page for full instructions.
 
 - File system permissions need to be set for general functionality and search indexing to work. Refer to the [File System Permissions](https://github.com/amervitz/xRM-Portals-Community-Edition/wiki/File-System-Permissions) wiki page for full instructions.
 
@@ -101,7 +118,3 @@ This project accepts community contributions through GitHub, following the [inbo
 > Whenever you make a contribution to a repository containing notice of a license, you license your contribution under the same terms, and you agree that you have the right to license your contribution under those terms.
 
 Please submit one pull request per issue so that we can easily identify and review the changes.
-
-### Acceptable Bug fixes
-
-Bug fixes will only be accepted for bugs that are **not** reproducable in the online portals version. In other words, if a bug exists in this project and in online portals, it must first be fixed in the online version before a fix will be included in this project. Pull requests for bug fixes can be made, but will be left open until the bug is confirmed to be fixed in online portals. This position is necessary because a bug fix that introduces a behavioral difference with online portals would effectively become a breaking change and compromise the migration path for users of this project to the online version, because users would become depend on the fixed behavior in this project that would then stop working after migrating.
