@@ -45,6 +45,7 @@ Docs
 - Updated build and runtime documentation for .NET Framework 4.8.1.
 - Updated migration guidance to refer to Microsoft Power Pages.
 - Updated the README with Visual Studio build prerequisites, CRM client selection, upgrade guidance for removed features, and current runtime requirements.
+- Added a project wiki under `docs/wiki` covering setup, configuration, deployment, portal administration, feature guides, Liquid references, site settings, the portal data model, extensibility and contributing, and linked it from the README.
 
 ### Fixed
 

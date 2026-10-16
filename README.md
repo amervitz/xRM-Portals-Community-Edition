@@ -104,6 +104,20 @@ The following requirements apply to the current `dev` branch and supersede older
 
 - A machine key should be added to the web.config file to ensure cryptographic operations always use the same settings rather than using auto-generated encryption keys (e.g. when hosted a web farm or after application restarts). This can be accomplished using IIS Manager as described in the MSDN blog post [Easiest way to generate MachineKey](https://blogs.msdn.microsoft.com/amb/2012/07/31/easiest-way-to-generate-machinekey/). Adxstudio Portals 7.x used the validation method `SHA1` and the encryption method `AES`.
 
+## Documentation
+
+Full documentation, for both end users and developers, lives in the [project wiki](docs/wiki/Home.md). It covers:
+
+- [Project Overview](docs/wiki/Project-Overview.md) — history, scope and support status
+- [Architecture](docs/wiki/Architecture.md) — projects, layers and the request pipeline
+- [Getting Started: Build](docs/wiki/Getting-Started-Build.md) and [Deployment](docs/wiki/Deployment.md)
+- [Configuration Reference](docs/wiki/Configuration-Reference.md) and [CRM Connection](docs/wiki/CRM-Connection.md)
+- [Portal Administration](docs/wiki/Portal-Administration.md) and the feature guides, including [Web Templates and Liquid](docs/wiki/Web-Templates-and-Liquid.md)
+- [Site Settings Reference](docs/wiki/Site-Settings-Reference.md) and [Portal Data Model](docs/wiki/Portal-Data-Model.md)
+- [Extensibility](docs/wiki/Extensibility.md) and [Contributing](docs/wiki/Contributing.md)
+
+On GitHub, the same pages can be published to the repository wiki by copying the contents of `docs/wiki`.
+
 ## Support
 
 Contact me on [LinkedIn](https://www.linkedin.com/in/alanmervitz/).
