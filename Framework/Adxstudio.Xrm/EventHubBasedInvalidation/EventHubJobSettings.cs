@@ -26,11 +26,6 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		public int JobInterval { get; set; }
 
 		/// <summary>
-		/// Allows overlapping jobs to run in parallel.
-		/// </summary>
-		public bool Reentrant { get; set; }
-
-		/// <summary>
 		/// The subscription settings. For search we create one instance per webapp and for cache we create one subscription per instance of the webapp.
 		/// </summary>
 		public SubscriptionDescription Subscription { get; set; }

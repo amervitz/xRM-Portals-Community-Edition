@@ -92,7 +92,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentScheduler">
-      <HintPath>..\..\packages\FluentScheduler.5.0.0\lib\net40\FluentScheduler.dll</HintPath>
+      <HintPath>..\..\packages\FluentScheduler.6.0.0\lib\net48\FluentScheduler.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.13.0.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">

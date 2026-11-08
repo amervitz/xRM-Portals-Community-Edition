@@ -19,11 +19,6 @@ namespace Adxstudio.Xrm.EventHubBasedInvalidation
 		public int JobInterval { get; set; }
 
 		/// <summary>
-		/// Allows overlapping jobs to run in parallel.
-		/// </summary>
-		public bool Reentrant { get; set; }
-
-		/// <summary>
 		/// The application startup timestamp.
 		/// </summary>
 		public DateTimeOffset StartedOn { get; private set; }

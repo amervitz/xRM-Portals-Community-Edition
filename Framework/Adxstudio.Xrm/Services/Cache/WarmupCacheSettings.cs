@@ -30,11 +30,6 @@ namespace Adxstudio.Xrm.Services.Cache
 		public int JobInterval { get; set; }
 
 		/// <summary>
-		/// Allows overlapping jobs to run in parallel.
-		/// </summary>
-		public bool Reentrant { get; set; }
-
-		/// <summary>
 		/// A flag for enabling the persist cache feature.
 		/// </summary>
 		public bool IsEnabled { get; set; }

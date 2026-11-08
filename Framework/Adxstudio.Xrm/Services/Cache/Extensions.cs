@@ -56,19 +56,17 @@ namespace Adxstudio.Xrm.Services.Cache
 				ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("Subscription = '{0}' Topic = '{1}'", cacheManager.Subscription.Name, cacheManager.Subscription.TopicPath));
 			}
 
-			var registry = new Registry();
-
-			registry.Schedule(
+			Schedule schedule = null;
+			schedule = new Schedule(
 				() =>
 				{
+					if (schedule.NextRun <= DateTime.Now) return;
+
 					new EventHubJob(cacheManager).Execute();
 					new EventHubJob(searchManager).Execute();
 					new CacheInvalidationJob(cacheInvalidationJobSettings, createContext(), websiteId).Execute();
-				})
-				.Reentrant(cacheEventHubJobSettings.Reentrant)
-				.ToRunNow().AndEvery(cacheEventHubJobSettings.JobInterval).Seconds();
-
-			JobManager.Initialize(registry);
+				}, run => run.Now().AndEvery(cacheEventHubJobSettings.JobInterval).Seconds());
+			schedule.Start();
 
 			app.CreatePerOwinContext(() => cacheManager);
 
@@ -93,12 +91,9 @@ namespace Adxstudio.Xrm.Services.Cache
 				if (settings.AsyncWarmupEnabled)
 				{
 					// run warmup job as a scheduled job
-					var registry = new Registry();
-
-					registry.Schedule(() => { new WarmupCacheJob(createContext(), settings).Execute(); })
-						.ToRunOnceIn(settings.AsyncWarmupDelay).Seconds();
-
-					JobManager.Initialize(registry);
+					var schedule = new Schedule(() => new WarmupCacheJob(createContext(), settings).Execute(),
+						run => run.OnceIn(settings.AsyncWarmupDelay).Seconds());
+					schedule.Start();
 				}
 				else
 				{
@@ -130,13 +125,14 @@ namespace Adxstudio.Xrm.Services.Cache
 
 				if (settings.PersistOnSchedule)
 				{
-					var registry = new Registry();
+					Schedule schedule = null;
+					schedule = new Schedule(() =>
+					{
+						if (schedule.NextRun <= DateTime.Now) return;
 
-					registry.Schedule(() => { new PersistCachedRequestsJob(GetCache("Xrm"), settings).Execute(); })
-						.Reentrant(settings.Reentrant)
-						.ToRunNow().AndEvery(settings.JobInterval).Seconds();
-
-					JobManager.Initialize(registry);
+						new PersistCachedRequestsJob(GetCache("Xrm"), settings).Execute();
+					}, run => run.Now().AndEvery(settings.JobInterval).Seconds());
+					schedule.Start();
 				}
 			}
 		}
@@ -155,17 +151,6 @@ namespace Adxstudio.Xrm.Services.Cache
 			{
 				WebEventSource.Log.GenericErrorException(e);
 			}
-		}
-
-		/// <summary>
-		/// Helper for applying the reentrant setting to a schedule.
-		/// </summary>
-		/// <param name="schedule">The schedule.</param>
-		/// <param name="reentrant">The setting.</param>
-		/// <returns>The chained schedule.</returns>
-		private static Schedule Reentrant(this Schedule schedule, bool reentrant)
-		{
-			return reentrant ? schedule : schedule.NonReentrant();
 		}
 
 		/// <summary>

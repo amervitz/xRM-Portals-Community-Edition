@@ -37,6 +37,7 @@ Dependencies
 - Updated ASP.NET MVC from 5.2.3 to 5.3.0, ASP.NET Razor and ASP.NET Web Pages from 3.2.3 to 3.3.0, and Microsoft.Web.Infrastructure from 1.0.0.0 to 2.0.1, with a binding redirect from the 1.0.0.0 assembly that MVC, Web Pages and System.Web.Optimization are compiled against.
 - Updated ASP.NET Identity Core and ASP.NET Identity Owin from 2.2.1 to 2.2.4.
 - Updated DotLiquid from 2.0.64 to 2.0.385, a best guess at the version Power Pages uses, to match its Liquid behavior.
+- Updated FluentScheduler from 5.0.0 to 6.0.0, using its native non-overlapping schedules and discarding stale recurring executions while running the latest due occurrence, with a single inline `NextRun` check. Removed the unsupported `Reentrant` property from cache warmup, Event Hub job and cache invalidation settings.
 
 Docs
 
