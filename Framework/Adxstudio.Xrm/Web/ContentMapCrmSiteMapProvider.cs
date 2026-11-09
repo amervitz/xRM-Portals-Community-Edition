@@ -105,7 +105,7 @@ namespace Adxstudio.Xrm.Web
 				if (mappingResult.Node != null && mappingResult.IsUnique)
 				{
 					ADXTrace.Instance.TraceInfo(TraceCategory.Monitoring, "FindSiteMapNode: (4)FOUND PAGE");
-					return GetAccessibleNodeOrAccessDeniedNode(map, mappingResult.Node, urlProvider, excludeFromSecurityValidation);
+					return GetAccessibleNodeOrAccessDeniedNode(map, site, mappingResult.Node, urlProvider, excludeFromSecurityValidation);
 				}
 				else if (!mappingResult.IsUnique)
 				{
@@ -118,7 +118,7 @@ namespace Adxstudio.Xrm.Web
 				if (file != null)
 				{
 					ADXTrace.Instance.TraceInfo(TraceCategory.Monitoring, "FindSiteMapNode: (5)FOUND FILE");
-					return GetAccessibleNodeOrAccessDeniedNode(map, file, urlProvider, excludeFromSecurityValidation);
+					return GetAccessibleNodeOrAccessDeniedNode(map, site, file, urlProvider, excludeFromSecurityValidation);
 				}
 
 				// If there is a pageid Guid on the querystring, try to look up a web page by
@@ -132,7 +132,7 @@ namespace Adxstudio.Xrm.Web
 					if (map.TryGetValue(new EntityReference("adx_webpage", pageid), out pageById))
 					{
 						ADXTrace.Instance.TraceInfo(TraceCategory.Monitoring, "FindSiteMapNode: (6)FOUND pageID");
-						return GetAccessibleNodeOrAccessDeniedNode(map, pageById, urlProvider, excludeFromSecurityValidation);
+						return GetAccessibleNodeOrAccessDeniedNode(map, site, pageById, urlProvider, excludeFromSecurityValidation);
 					}
 				}
 
@@ -365,7 +365,7 @@ namespace Adxstudio.Xrm.Web
 							throw new InvalidOperationException("Website {0} must have a web page with the site marker Home.".FormatWith(site.Name));
 						}
 
-						return GetAccessibleNodeOrAccessDeniedNode(map, homePage, urlProvider);
+						return GetAccessibleNodeOrAccessDeniedNode(map, site, homePage, urlProvider);
 					}
 
 					return base.GetRootNodeCore();
@@ -373,27 +373,23 @@ namespace Adxstudio.Xrm.Web
 			});
 		}
 
-		protected CrmSiteMapNode GetAccessibleNodeOrAccessDeniedNode(ContentMap map, WebPageNode page, IContentMapEntityUrlProvider provider, bool excludeFromSecurityValidation = false)
+		protected CrmSiteMapNode GetAccessibleNodeOrAccessDeniedNode(ContentMap map, WebsiteNode site, WebPageNode page, IContentMapEntityUrlProvider provider, bool excludeFromSecurityValidation = false)
 		{
 			if (excludeFromSecurityValidation)
 			{
-				return GetNode(map, page, provider) ?? GetAccessDeniedNodeInternal();
+				return GetNode(map, page, provider) ?? GetAccessDeniedNodeInternal(map, site, provider);
 			}
 
-			return ReturnNodeIfAccessible(GetNode(map, page, provider), GetAccessDeniedNodeInternal);
+			return ReturnNodeIfAccessible(GetNode(map, page, provider), () => GetAccessDeniedNodeInternal(map, site, provider));
 		}
 
-		protected CrmSiteMapNode GetAccessDeniedNodeInternal()
+		protected CrmSiteMapNode GetAccessDeniedNodeInternal(ContentMap map, WebsiteNode site, IContentMapEntityUrlProvider provider)
 		{
-			var portalContext = this.PortalContext;
-			var serviceContext = portalContext.ServiceContext;
-			var website = portalContext.Website;
+			var page = site.SiteMarkers.FirstOrDefault(sm => sm.Name == AccessDeniedPageSiteMarkerName)?.WebPage;
 
-			var siteMarker = serviceContext.GetPageBySiteMarkerName(website, AccessDeniedPageSiteMarkerName);
-
-			return siteMarker != null
-				  ? this.GetWebPageNodeWithReturnUrl(serviceContext, siteMarker, HttpStatusCode.Forbidden)
-				  : this.GetNotFoundNode();
+			return page != null && !page.IsReference
+				? GetNode(map, page, HttpStatusCode.Forbidden, provider, includeReturnUrl: true)
+				: GetNotFoundNode();
 		}
 
 
@@ -502,14 +498,14 @@ namespace Adxstudio.Xrm.Web
 			return node;
 		}
 
-		protected CrmSiteMapNode GetAccessibleNodeOrAccessDeniedNode(ContentMap map, WebFileNode file, IContentMapEntityUrlProvider provider, bool excludeFromSecurityValidation = false)
+		protected CrmSiteMapNode GetAccessibleNodeOrAccessDeniedNode(ContentMap map, WebsiteNode site, WebFileNode file, IContentMapEntityUrlProvider provider, bool excludeFromSecurityValidation = false)
 		{
 			if (excludeFromSecurityValidation)
 			{
-				return GetNode(map, file, provider) ?? GetAccessDeniedNodeInternal();
+				return GetNode(map, file, provider) ?? GetAccessDeniedNodeInternal(map, site, provider);
 			}
 
-			return ReturnNodeIfAccessible(GetNode(map, file, provider), GetAccessDeniedNodeInternal);
+			return ReturnNodeIfAccessible(GetNode(map, file, provider), () => GetAccessDeniedNodeInternal(map, site, provider));
 		}
 
 		protected virtual CrmSiteMapNode GetNode(ContentMap map, WebFileNode file, IContentMapEntityUrlProvider provider)
