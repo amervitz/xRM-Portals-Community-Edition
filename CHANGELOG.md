@@ -59,6 +59,8 @@ Code
 - Fixed building the search index failing in environments that also have the Power Pages enhanced data model. Its `mspp_*` virtual tables have their own "Portal Search" views, which the indexer picked up, and requesting `modifiedon` from them threw because virtual tables such as `mspp_webpage` don't have it. Views on `mspp_*` tables are now skipped.
 - Fixed sign-in sometimes failing with `The anti-forgery cookie token and form field token do not match.` or `The required anti-forgery cookie "__RequestVerificationToken" is not present.`. When a visitor who already had the anti-forgery cookie loaded the sign-in page, the response didn't include the `__RequestVerificationToken` cookie, so it was output cached and shown to later visitors, who then got that visitor's anti-forgery token and no cookie. The sign-in page is no longer output cached.
 - Fixed protected pages failing with an empty virtual path when the Access Denied page uses a Web Template, preventing anonymous visitors from being redirected to sign-in.
+- Fixed the `Authentication/ApplicationCookie/ReturnUrlParameter` site setting overwriting the authentication cookie domain instead of setting the return URL query parameter name used by OWIN's cookie authentication middleware and the portal's `SiteMapAuthenticationMiddleware`.
+- Fixed visitors not returning to the originally requested page after local or external sign-in when `Authentication/ApplicationCookie/ReturnUrlParameter` specifies a custom parameter name. The login controller now reads the configured parameter when no `returnUrl` is supplied. The default `ReturnUrl` behavior is unchanged.
 
 ### Removed
 

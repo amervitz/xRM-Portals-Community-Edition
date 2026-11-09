@@ -507,7 +507,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 			if (cookieSecure != null) options.CookieSecure = cookieSecure.GetValueOrDefault();
 			if (slidingExpiration != null) options.SlidingExpiration = slidingExpiration.GetValueOrDefault();
 			if (logoutPath != null) options.LogoutPath = logoutPath.GetValueOrDefault();
-			if (!string.IsNullOrWhiteSpace(returnUrlParameter)) options.CookieDomain = returnUrlParameter;
+			if (!string.IsNullOrWhiteSpace(returnUrlParameter)) options.ReturnUrlParameter = returnUrlParameter;
 
 			options.ExpireTimeSpan = expireTimeSpan.GetValueOrDefault(TimeSpan.FromDays(1));
 

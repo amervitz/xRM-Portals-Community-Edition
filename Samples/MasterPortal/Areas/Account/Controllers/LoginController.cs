@@ -148,6 +148,8 @@ namespace Site.Areas.Account.Controllers
 		[LanguageActionFilter]
 		public ActionResult Login(string returnUrl, string invitationCode)
 		{
+			returnUrl = ResolveReturnUrl(returnUrl);
+
 			if (!string.IsNullOrWhiteSpace(ViewBag.Settings.LoginButtonAuthenticationType))
 			{
 				return RedirectToAction("ExternalLogin", "Login", new { returnUrl, area = "Account", provider = ViewBag.Settings.LoginButtonAuthenticationType });
@@ -200,6 +202,8 @@ namespace Site.Areas.Account.Controllers
 		[Throttle(Name= "LoginThrottle")]
 		public async Task<ActionResult> Login(LoginViewModel model, string returnUrl, string invitationCode)
 		{
+			returnUrl = ResolveReturnUrl(returnUrl);
+
 			ViewBag.LoginSuccessful = false;
 
 			if (ViewBag.Locked == true)
@@ -495,6 +499,8 @@ namespace Site.Areas.Account.Controllers
 		[ExternalLogin]
 		public ActionResult ExternalLogin(string provider, string returnUrl, string invitationCode)
 		{
+			returnUrl = ResolveReturnUrl(returnUrl);
+
 			//StartupSettingsManager.AzureAdOptions.Notifications.AuthorizationCodeReceived
 			// Request a redirect to the external login provider
 			return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Login", new { ReturnUrl = returnUrl, InvitationCode = invitationCode, Provider = provider }));
@@ -1537,6 +1543,13 @@ namespace Site.Areas.Account.Controllers
 			var query = !string.IsNullOrWhiteSpace(returnUrl) ? new NameValueCollection { { "ReturnUrl", returnUrl } } : null;
 
 			return new RedirectToSiteMarkerResult("Profile", query);
+		}
+
+		private string ResolveReturnUrl(string returnUrl)
+		{
+			return !string.IsNullOrEmpty(returnUrl)
+				? returnUrl
+				: Request.QueryString[StartupSettingsManager.ApplicationCookie.ReturnUrlParameter];
 		}
 
 		private ActionResult RedirectToLocal(string returnUrl)
