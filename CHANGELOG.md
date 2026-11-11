@@ -38,6 +38,7 @@ Dependencies
 - Updated ASP.NET Identity Core and ASP.NET Identity Owin from 2.2.1 to 2.2.4.
 - Updated DotLiquid from 2.0.64 to 2.0.385, a best guess at the version Power Pages uses, to match its Liquid behavior.
 - Updated FluentScheduler from 5.0.0 to 6.0.0, using its native non-overlapping schedules and discarding stale recurring executions while running the latest due occurrence, with a single inline `NextRun` check. Removed the unsupported `Reentrant` property from cache warmup, Event Hub job and cache invalidation settings.
+- Updated Newtonsoft.Json from 13.0.1 to 13.0.4; existing binding redirects remain valid because the assembly version stays 13.0.0.0.
 
 Docs
 
