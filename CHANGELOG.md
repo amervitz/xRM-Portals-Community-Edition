@@ -61,6 +61,7 @@ Code
 - Fixed protected pages failing with an empty virtual path when the Access Denied page uses a Web Template, preventing anonymous visitors from being redirected to sign-in.
 - Fixed the `Authentication/ApplicationCookie/ReturnUrlParameter` site setting overwriting the authentication cookie domain instead of setting the return URL query parameter name used by OWIN's cookie authentication middleware and the portal's `SiteMapAuthenticationMiddleware`.
 - Fixed visitors not returning to the originally requested page after local or external sign-in when `Authentication/ApplicationCookie/ReturnUrlParameter` specifies a custom parameter name. The login controller now reads the configured parameter when no `returnUrl` is supplied. The default `ReturnUrl` behavior is unchanged.
+- Added a defensive null check in the OpenID Connect authentication failure handler to preserve the failure-page redirect if no protocol message is supplied. This condition has not been observed in a real authentication flow.
 
 ### Removed
 

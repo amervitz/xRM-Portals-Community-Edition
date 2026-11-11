@@ -1202,12 +1202,13 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var errorHandlerPath = _externalAuthenticationFailedPath;
 			var errorHandlerUrl = errorHandlerPath.ToString();
+			var errorDescription = notification.ProtocolMessage?.ErrorDescription;
 			
-			if (notification.ProtocolMessage.ErrorDescription != null && notification.ProtocolMessage.ErrorDescription.Contains(AzureADB2CPasswordResetPolicyErrorCode))
+			if (errorDescription != null && errorDescription.Contains(AzureADB2CPasswordResetPolicyErrorCode))
 			{
 				// Handle the error code that Azure AD B2C throws when trying to reset a password from the login page because password reset is not supported by a "sign-up or sign-in policy"
 
-				ADXTrace.Instance.TraceInfo(TraceCategory.Application, $"User requested Password Reset. Error Description: {notification.ProtocolMessage?.ErrorDescription}");
+				ADXTrace.Instance.TraceInfo(TraceCategory.Application, $"User requested Password Reset. Error Description: {errorDescription}");
 
 				var passwordResetUrl = new UrlBuilder(_externalPasswordResetPath.ToString());
 
@@ -1225,11 +1226,11 @@ namespace Adxstudio.Xrm.AspNet.Cms
 				
 				notification.Response.Redirect(passwordResetUrl.PathWithQueryString);
 			}
-			else if (notification.ProtocolMessage.ErrorDescription != null && notification.ProtocolMessage.ErrorDescription.Contains(AzureADB2CUserCancelledErrorCode))
+			else if (errorDescription != null && errorDescription.Contains(AzureADB2CUserCancelledErrorCode))
 			{
 				// Handle the error code that AD B2C emits when a users cancels sign-up or cancels password reset or cancels profile edit
 
-				ADXTrace.Instance.TraceInfo(TraceCategory.Application, $"Sign-up or Password Reset or Profile Edit cancelled. Error Description: {notification.ProtocolMessage?.ErrorDescription}");
+				ADXTrace.Instance.TraceInfo(TraceCategory.Application, $"Sign-up or Password Reset or Profile Edit cancelled. Error Description: {errorDescription}");
 
 				if (notification.Request.User?.Identity != null && notification.Request.User.Identity.IsAuthenticated)
 				{
@@ -1246,11 +1247,11 @@ namespace Adxstudio.Xrm.AspNet.Cms
 				{
 					errorHandlerUrl = errorHandlerPath.Add(new QueryString(MessageQueryStringParameter, OwinAuthenticationFailedAccessDeniedMsg));
 
-					ADXTrace.Instance.TraceInfo(TraceCategory.Application, $"Access Denied Exception during OpenIdConnect or Azure Authentication in {notification.Exception.Source}: {notification.Exception.Message}; Error Description: {notification.ProtocolMessage?.ErrorDescription}");
+					ADXTrace.Instance.TraceInfo(TraceCategory.Application, $"Access Denied Exception during OpenIdConnect or Azure Authentication in {notification.Exception.Source}: {notification.Exception.Message}; Error Description: {errorDescription}");
 				}
 				else
 				{
-					ADXTrace.Instance.TraceError(TraceCategory.Application, $"Exception during OpenIdConnect or Azure Authentication in {notification.Exception.Source}: {notification.Exception.Message}; Error Description: {notification.ProtocolMessage?.ErrorDescription}");
+					ADXTrace.Instance.TraceError(TraceCategory.Application, $"Exception during OpenIdConnect or Azure Authentication in {notification.Exception.Source}: {notification.Exception.Message}; Error Description: {errorDescription}");
 				}
 
 				notification.Response.Redirect(errorHandlerUrl);
