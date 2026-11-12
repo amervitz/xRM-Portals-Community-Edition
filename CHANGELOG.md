@@ -21,6 +21,7 @@ Code
 Dependencies
 
 - Added System.Formats.Asn1 10.0.12 for chat authentication public-key export and the Dataverse client, with its required System.Memory 4.6.3, System.Buffers 4.6.1, System.Numerics.Vectors 4.6.1, System.Runtime.CompilerServices.Unsafe 6.1.2 and System.ValueTuple 4.6.2 dependencies and matching binding redirects.
+- Added System.IO.Pipelines 10.0.12, required by System.Text.Json 10.0.12.
 
 ### Changed
 
@@ -41,6 +42,12 @@ Dependencies
 - Updated Newtonsoft.Json from 13.0.1 to 13.0.4; existing binding redirects remain valid because the assembly version stays 13.0.0.0.
 - Updated Microsoft.CrmSdk.CoreAssemblies from 9.0.2.51 and Microsoft.CrmSdk.Workflow from 9.0.2.42 to 9.0.2.60. Microsoft.Xrm.Sdk.dll and Microsoft.Crm.Sdk.Proxy.dll continue to come from Microsoft.PowerPlatform.Dataverse.Client 1.2.27; removed unused Workflow binding redirects.
 - Updated Microsoft.CrmSdk.XrmTooling.CoreAssembly from 9.1.1.65 to 9.1.1.103 for the CrmServiceClient connection option.
+- Updated Microsoft.Identity.Client and Microsoft.Identity.Client.Extensions.Msal to 4.90.0, and Microsoft.IdentityModel.Abstractions to 8.23.0.
+- Updated Microsoft.Extensions.Caching.Abstractions, Microsoft.Extensions.Caching.Memory, Microsoft.Extensions.Configuration, Microsoft.Extensions.Configuration.Abstractions, Microsoft.Extensions.Configuration.Binder, Microsoft.Extensions.DependencyInjection, Microsoft.Extensions.DependencyInjection.Abstractions, Microsoft.Extensions.Http, Microsoft.Extensions.Logging, Microsoft.Extensions.Logging.Abstractions, Microsoft.Extensions.Options and Microsoft.Extensions.Primitives to 10.0.12.
+- Updated Microsoft.Bcl.AsyncInterfaces, System.Diagnostics.DiagnosticSource, System.Security.Cryptography.ProtectedData, System.Text.Encodings.Web and System.Text.Json to 10.0.12.
+- Updated System.ComponentModel.Annotations to 5.0.0, System.Security.AccessControl to 6.0.1 and System.Threading.Tasks.Extensions to 4.6.3.
+- Updated System.ServiceModel.Http and System.ServiceModel.Primitives to 10.0.652802 (assembly version 10.0.0.0); removed their unused 4.10.3.0 binding redirects.
+- Updated binding redirects for the upgraded Dataverse client dependencies.
 
 Docs
 
