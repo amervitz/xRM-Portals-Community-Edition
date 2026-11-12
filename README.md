@@ -8,7 +8,7 @@ The code in this repo requires substantial updates to be considered up to date a
 
 The `dev` branch is used for active development and is undergoing substantial modernization to improve usability, adopt current standards, and replace insecure libraries. Test coverage will vary, and the branch is not guaranteed to compile or run without errors.
 
-Information in this README.md will be updated as the maturity level of the codebase increases.
+See [Modernization progress](#modernization-progress) for completed milestones and remaining work.
 
 AI coding tools will be used extensively, with human oversight.
 
@@ -28,7 +28,23 @@ New portal implementations should use [Microsoft Power Pages](https://learn.micr
 
 Additional scenarios for using this project may emerge in the future as the renewed development initiative matures.
 
-## TODO
+## Modernization progress
+
+Modernization is underway on `dev`. The work so far establishes a newer build baseline, updates dependencies incrementally, and fixes compatibility and runtime issues while retaining the existing ASP.NET MVC application.
+
+Completed milestones:
+
+- **Build baseline:** All projects target .NET Framework 4.8.1, with GitHub Actions configured to restore and build the solution in Debug and Release.
+- **CRM connectivity:** Added Dataverse `ServiceClient` and on-premises `CrmServiceClient` connection options, updated CRM SDK dependencies, and documented client and base-solution selection.
+- **Dependency updates:** Updated ASP.NET MVC, Razor, Web Pages, ASP.NET Identity, Newtonsoft.Json, HtmlAgilityPack, DotLiquid and FluentScheduler, among others. Removed unused dependencies, including SharpZipLib and Bond, replaced BouncyCastle's sole use with System.Formats.Asn1 for chat authentication public-key export, and added a build check to prevent SharpZipLib from being reintroduced accidentally.
+- **Legacy cleanup:** Removed the entity list OData feed, Windows Live ID authentication, Azure Cloud Services (classic) hosting, page/file tracking and Microsoft-internal telemetry integrations. See [upgrade guidance](#upgrading-an-existing-deployment) for deployment impacts.
+- **Runtime fixes:** Addressed sign-in page output caching and return URL issues, Azure Blob Storage attachment handling, and search indexing in environments that also contain Power Pages enhanced-model tables.
+
+Modernization is ongoing, and the scope and direction may evolve as work progresses. Compatibility, stability and readiness for broader use are still being assessed.
+
+See the [Unreleased changelog](CHANGELOG.md#unreleased) for individual changes.
+
+### Analyzer work remaining
 
 - [ ] Add modern .NET analyzers to replace the removed legacy FxCop analysis.
 - [ ] Replace the removed StyleCop rules with `.editorconfig` conventions and actively maintained analyzers where needed.
