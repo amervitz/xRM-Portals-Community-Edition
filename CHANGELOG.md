@@ -48,6 +48,7 @@ Dependencies
 - Updated System.ComponentModel.Annotations to 5.0.0, System.Security.AccessControl to 6.0.1 and System.Threading.Tasks.Extensions to 4.6.3.
 - Updated System.ServiceModel.Http and System.ServiceModel.Primitives to 10.0.652802 (assembly version 10.0.0.0); removed their unused 4.10.3.0 binding redirects.
 - Updated binding redirects for the upgraded Dataverse client dependencies.
+- Replaced Microsoft.Tpl.Dataflow 4.5.24 with System.Threading.Tasks.Dataflow 10.0.12.
 
 Docs
 
