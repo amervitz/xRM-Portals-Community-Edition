@@ -12,7 +12,7 @@ using Microsoft.Xrm.Portal.Cms;
 using Microsoft.Xrm.Portal.Configuration;
 using Microsoft.Xrm.Portal.Runtime;
 using Microsoft.Xrm.Portal.Web.Providers;
-using Microsoft.Security.Application;
+using System.Web.Security.AntiXss;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Sdk.Client;
@@ -226,7 +226,7 @@ namespace Microsoft.Xrm.Portal.Web
 				return "{0}?pageid={1}&ReturnUrl={2}".FormatWith(
 					pageTemplate.GetAttributeValue<string>("adx_rewriteurl"),
 					webPageID,
-					Encoder.UrlEncode(HttpContext.Current.Request.Url.PathAndQuery));
+					AntiXssEncoder.UrlEncode(HttpContext.Current.Request.Url.PathAndQuery));
 			});
 		}
 

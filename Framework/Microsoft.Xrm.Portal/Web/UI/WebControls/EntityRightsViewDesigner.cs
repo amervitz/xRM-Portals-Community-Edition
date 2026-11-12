@@ -13,7 +13,7 @@ using System.Text;
 using System.Web.UI;
 using System.Web.UI.Design;
 using System.Web;
-using Microsoft.Security.Application;
+using System.Web.Security.AntiXss;
 using Microsoft.Xrm.Client;
 
 namespace Microsoft.Xrm.Portal.Web.UI.WebControls
@@ -67,8 +67,8 @@ namespace Microsoft.Xrm.Portal.Web.UI.WebControls
 				{ 
 					ColorTranslator.ToHtml(SystemColors.ControlText), 
 					ColorTranslator.ToHtml(SystemColors.Control), 
-					Microsoft.Security.Application.Encoder.HtmlEncode(_entityRightsView.ID ?? "EntityRightsView"), 
-					Microsoft.Security.Application.Encoder.HtmlAttributeEncode(DesignerRegion.DesignerRegionAttributeName), 
+					AntiXssEncoder.HtmlEncode(_entityRightsView.ID ?? "EntityRightsView", false),
+					HttpUtility.HtmlAttributeEncode(DesignerRegion.DesignerRegionAttributeName),
 					string.Empty 
 				}));
 

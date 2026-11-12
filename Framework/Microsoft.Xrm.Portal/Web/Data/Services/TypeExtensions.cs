@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Security.Application;
+using System.Web.Security.AntiXss;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Client.Caching;
 using Microsoft.Xrm.Client.Metadata;
@@ -218,7 +218,7 @@ namespace Microsoft.Xrm.Portal.Web.Data.Services
 
 		private static string UrlEncode(string s)
 		{
-			return Encoder.UrlEncode(s);
+			return AntiXssEncoder.UrlEncode(s);
 		}
 
 		private static string GetCmsServiceBaseUri(string portalName = null)

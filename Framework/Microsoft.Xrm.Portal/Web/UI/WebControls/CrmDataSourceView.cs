@@ -18,7 +18,7 @@ using Microsoft.Xrm.Client.Caching;
 using Microsoft.Xrm.Client.Diagnostics;
 using Microsoft.Xrm.Client.Runtime.Serialization;
 using Microsoft.Xrm.Client.Services;
-using Microsoft.Security.Application;
+using System.Web.Security.AntiXss;
 using System.Globalization;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
@@ -930,7 +930,7 @@ namespace Microsoft.Xrm.Portal.Web.UI.WebControls
 
 						if (Owner.EncodeParametersEnabled)
 						{
-							value = Encoder.XmlEncode(value);
+							value = AntiXssEncoder.XmlEncode(value);
 						}
 
 						fetchXml = Regex.Replace(fetchXml, key, value, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);

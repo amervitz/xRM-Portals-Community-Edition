@@ -4,7 +4,7 @@
 */
 
 using System;
-using Microsoft.Security.Application;
+using System.Web.Security.AntiXss;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Client.Metadata;
 using Microsoft.Xrm.Portal.Configuration;
@@ -163,7 +163,7 @@ namespace Microsoft.Xrm.Portal.Web.Data.Services
 
 		private static string UrlEncode(string s)
 		{
-			return Encoder.UrlEncode(s);
+			return AntiXssEncoder.UrlEncode(s);
 		}
 
 		private class EntityDataServiceUriInfo

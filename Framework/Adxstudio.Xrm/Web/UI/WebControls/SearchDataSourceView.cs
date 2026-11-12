@@ -16,7 +16,6 @@ using Microsoft.Xrm.Client.Diagnostics;
 using Microsoft.Xrm.Portal.Configuration;
 using Adxstudio.Xrm.AspNet.Cms;
 using Adxstudio.Xrm.Cms;
-using Microsoft.Security.Application;
 
 namespace Adxstudio.Xrm.Web.UI.WebControls
 {

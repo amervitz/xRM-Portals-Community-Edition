@@ -100,3 +100,4 @@ Dependencies
 - Removed Bond.CSharp and Bond.Runtime.CSharp, their assembly references, and build imports. The portal has no Bond schemas or code that uses Bond, and no other deployed assembly depends on it.
 - Removed Microsoft.AspNet.WebApi.Client and its assembly references; Azure AD B2C policy redirects now parse issuer query strings with the built-in HttpUtility instead.
 - Removed BouncyCastle; its only code use, exporting the chat authentication public key, now uses System.Formats.Asn1 while preserving the PEM format consumed by the chat provider.
+- Removed AntiXSS and its unused HTML sanitization library; URL, XML and HTML encoding now use ASP.NET's built-in encoders. Removed the obsolete AntiXssLibrary binding redirects.

@@ -62,10 +62,6 @@
     <LangVersion>default</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AntiXssLibrary">
-      <HintPath>..\..\packages\AntiXSS.4.3.0\lib\net40\AntiXssLibrary.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Condition="Exists('..\..\DllImports\AuthorizeNet.dll')" Include="AuthorizeNet">
       <HintPath>..\..\DllImports\AuthorizeNet.dll</HintPath>
     </Reference>

@@ -50,14 +50,6 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AntiXssLibrary">
-      <HintPath>..\..\packages\AntiXSS.4.3.0\lib\net40\AntiXssLibrary.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="HtmlSanitizationLibrary">
-      <HintPath>..\..\packages\AntiXSS.4.3.0\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Crm.Sdk.Proxy">
       <HintPath>..\..\packages\Microsoft.PowerPlatform.Dataverse.Client.1.2.27\lib\net48\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
       <Private>True</Private>
