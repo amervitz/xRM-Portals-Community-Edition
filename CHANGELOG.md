@@ -39,6 +39,8 @@ Dependencies
 - Updated DotLiquid from 2.0.64 to 2.0.385, a best guess at the version Power Pages uses, to match its Liquid behavior.
 - Updated FluentScheduler from 5.0.0 to 6.0.0, using its native non-overlapping schedules and discarding stale recurring executions while running the latest due occurrence, with a single inline `NextRun` check. Removed the unsupported `Reentrant` property from cache warmup, Event Hub job and cache invalidation settings.
 - Updated Newtonsoft.Json from 13.0.1 to 13.0.4; existing binding redirects remain valid because the assembly version stays 13.0.0.0.
+- Updated Microsoft.CrmSdk.CoreAssemblies from 9.0.2.51 and Microsoft.CrmSdk.Workflow from 9.0.2.42 to 9.0.2.60. Microsoft.Xrm.Sdk.dll and Microsoft.Crm.Sdk.Proxy.dll continue to come from Microsoft.PowerPlatform.Dataverse.Client 1.2.27; removed unused Workflow binding redirects.
+- Updated Microsoft.CrmSdk.XrmTooling.CoreAssembly from 9.1.1.65 to 9.1.1.103 for the CrmServiceClient connection option.
 
 Docs
 

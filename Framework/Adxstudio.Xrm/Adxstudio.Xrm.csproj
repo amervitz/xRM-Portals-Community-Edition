@@ -298,7 +298,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk.Workflow">
-      <HintPath>..\..\packages\Microsoft.CrmSdk.Workflow.9.0.2.42\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.CrmSdk.Workflow.9.0.2.60\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

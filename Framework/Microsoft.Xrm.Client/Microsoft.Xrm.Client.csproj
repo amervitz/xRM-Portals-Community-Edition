@@ -53,11 +53,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk.Workflow">
-      <HintPath>..\..\packages\Microsoft.CrmSdk.Workflow.9.0.2.42\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.CrmSdk.Workflow.9.0.2.60\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Xrm.Tooling.Connector">
-      <HintPath>..\..\packages\Microsoft.CrmSdk.XrmTooling.CoreAssembly.9.1.1.65\lib\net462\Microsoft.Xrm.Tooling.Connector.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.CrmSdk.XrmTooling.CoreAssembly.9.1.1.103\lib\net462\Microsoft.Xrm.Tooling.Connector.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.Caching.Abstractions">
