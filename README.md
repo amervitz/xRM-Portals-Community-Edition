@@ -44,11 +44,12 @@ Modernization is ongoing, and the scope and direction may evolve as work progres
 
 See the [Unreleased changelog](CHANGELOG.md#unreleased) for individual changes.
 
-### Analyzer work remaining
+### Remaining modernization work
 
 - [ ] Add modern .NET analyzers to replace the removed legacy FxCop analysis.
 - [ ] Replace the removed StyleCop rules with `.editorconfig` conventions and actively maintained analyzers where needed.
 - [ ] Establish an analyzer warning baseline and enforce it in continuous integration.
+- [ ] Validate Windows authentication and portal document operations against an on-premises SharePoint Server environment.
 
 ## Disclaimers
 
@@ -68,6 +69,17 @@ cd xRM-Portals-Community-Edition
 ```
 
 Open `Solutions\Portals\Portals.sln` in Visual Studio, restore NuGet packages, and build the `Portals` solution or the `MasterPortal` project.
+
+For a command-line build, open Developer PowerShell for Visual Studio with `nuget.exe` on your PATH. From the repository root, restore the packages and build the solution.
+
+```powershell
+nuget restore Solutions/Portals/Portals.sln -NonInteractive -ConfigFile Solutions/Portals/.nuget/NuGet.Config
+msbuild Solutions/Portals/Portals.sln /m /nologo /v:minimal /p:Configuration=Debug '/p:Platform=Any CPU'
+```
+
+Use `/p:Configuration=Release` for a Release build. Add `/t:Rebuild` to force a full rebuild.
+
+`MasterPortal` requires `Microsoft.WebApplication.targets` from the Visual Studio web development workload. The .NET SDK does not include these targets, so `dotnet build` and `dotnet msbuild` can fail with `MSB4019` during project evaluation.
 
 [GitHub Actions](.github/workflows/build.yml) restores packages and builds Debug and Release for pull requests and pushes to `dev`. Runtime validation requires a configured portal and CRM environment.
 
@@ -89,12 +101,17 @@ The following legacy features have been removed to bring the project closer to t
 - Web page and web file tracking has been removed to match Power Pages behavior. The **Enable Tracking** fields no longer cause the portal to create tracking records. Remove the `asyncTrackingEnabled` attribute from the `adxstudio.xrm` configuration section if it is present in your existing `Web.config`.
 - Windows Live ID Web Authentication has been removed as an obsolete authentication integration. Existing deployments using it need to configure another provider compatible with their Power Pages migration plans.
 - Azure Cloud Services (classic) hosting support has been removed as a retired hosting model. Use IIS or Azure App Service to host the web application.
+- Removed legacy `Federation.axd` authentication. To enable external sign-in, configure an identity provider in the portal's site settings, such as AD FS with WS-Federation or Microsoft Entra ID with OpenID Connect.
 
 ## CRM connection configuration
 
 Set the `OrganizationServiceType` app setting in `Web.config` to `ServiceClient` to connect through the Dataverse client, or `CrmServiceClient` for Dynamics 365 on-premises. An omitted or blank setting retains the legacy `OrganizationServiceProxy` client. Supply an `Xrm` connection string for the selected client and choose the base portal solution with the `PortalBaseSolution` app setting.
 
 [Read the CRM connection configuration guide](docs/design/connection-configuration.md) for the `OrganizationServiceType` and `PortalBaseSolution` app settings and the `Xrm` connection string.
+
+## SharePoint connection configuration
+
+Add a connection string named `SharePoint` to the `<connectionStrings>` section of the portal's `Web.config`. It identifies the SharePoint site that the portal uses for document integration. See the [SharePoint connection configuration guide](docs/design/sharepoint-connection-configuration.md) for authentication settings and examples for SharePoint Online and on-premises SharePoint Server.
 
 ## System Requirements
 

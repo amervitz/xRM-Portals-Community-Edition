@@ -51,7 +51,7 @@ namespace Adxstudio.Xrm.SharePoint.Handlers
 			{
 				var spConnection = new SharePointConnection("SharePoint");
 				var factory = new ClientFactory();
-				var request = factory.CreateHttpWebRequest(spConnection, SharePointFileUrl) as HttpWebRequest;
+				var request = factory.CreateFileDownloadRequest(spConnection, SharePointFileUrl);
 
 				// make sure SharePoint receives the cache control headers from the browser
 
@@ -100,8 +100,15 @@ namespace Adxstudio.Xrm.SharePoint.Handlers
 					return;
 				}
 
-				using (var stream = response.GetResponseStream())
+				using (var httpResponse = (HttpWebResponse)response)
+				using (var stream = httpResponse.GetResponseStream())
 				{
+					if ((int)httpResponse.StatusCode >= 300)
+					{
+						context.Response.StatusCode = (int)HttpStatusCode.BadGateway;
+						return;
+					}
+
 					// forward SharePoint response headers back to the browser
 
 					var responseHeaders = _headersToRespond

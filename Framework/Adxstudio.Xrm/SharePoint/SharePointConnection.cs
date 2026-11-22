@@ -22,13 +22,27 @@ namespace Adxstudio.SharePoint
 	/// </summary>
 	/// <remarks>
 	/// <example>
-	/// An example configuration. The connection values should be in the <see cref="DbConnectionStringBuilder"/> format.
+	/// SharePoint Online with Microsoft Entra app-only authentication.
 	/// <code>
 	/// <![CDATA[
 	/// <configuration>
-	///  <connectionStrings>
-	///   <add name="SharePoint" connectionString="Url=hostname; Domain=domain; UserName=username; Password=password; ApplicationName=application name; AuthenticationMode=Default|FormsAuthentication|Anonymous; RequestTimeout=milliseconds; ValidateOnClient=false|true;"/>
-	///  </connectionStrings>
+	///   <connectionStrings>
+	///     <add name="SharePoint"
+	///          connectionString="Url=https://contoso.sharepoint.com/sites/Portal;TenantId=TENANT-GUID;ClientId=APP-GUID;CertificateThumbprint=CERTIFICATE-THUMBPRINT;" />
+	///   </connectionStrings>
+	/// </configuration>
+	/// ]]>
+	/// </code>
+	/// </example>
+	/// <example>
+	/// On-premises SharePoint Server with Windows authentication.
+	/// <code>
+	/// <![CDATA[
+	/// <configuration>
+	///   <connectionStrings>
+	///     <add name="SharePoint"
+	///          connectionString="Url=https://sharepoint.contoso.com/sites/Portal;Domain=CONTOSO;UserName=portal-service;Password=YOUR_PASSWORD;" />
+	///   </connectionStrings>
 	/// </configuration>
 	/// ]]>
 	/// </code>
@@ -55,9 +69,21 @@ namespace Adxstudio.SharePoint
 		public string ApplicationName { get; set; }
 
 		/// <summary>
-		/// Gets or sets the authentication mode for the client context.
+		/// Uses Entra application authentication for SharePoint requests when enabled.
 		/// </summary>
-		public ClientAuthenticationMode? AuthenticationMode { get; set; }
+		public bool UseEntraAppOnly { get; set; }
+
+		/// <summary>The Entra tenant ID for app-only authentication.</summary>
+		public string TenantId { get; set; }
+
+		/// <summary>The Entra application ID for app-only authentication.</summary>
+		public string ClientId { get; set; }
+
+		/// <summary>The Entra cloud base URL. Defaults to the public cloud.</summary>
+		public string Authority { get; set; }
+
+		/// <summary>The app certificate thumbprint in the local machine personal store.</summary>
+		public string CertificateThumbprint { get; set; }
 
 		/// <summary>
 		/// Gets or sets the authentication information for the client context.
@@ -79,11 +105,6 @@ namespace Adxstudio.SharePoint
 		/// </summary>
 		public Uri Url { get; set; }
 
-		/// <summary>
-		/// The time offset prior to the cookie expiration when the cookies should be refreshed.
-		/// </summary>
-		public TimeSpan? CookieExpiryWindow { get; set; }
-
 		public SharePointConnection()
 			: this("SharePoint")
 		{
@@ -95,40 +116,42 @@ namespace Adxstudio.SharePoint
 		}
 
 		public SharePointConnection(ConnectionStringSettings connectionString)
-			: this(SharePointConfigurationManager.CreateConnectionDictionary(connectionString))
+			: this(SharePointConfigurationManager.CreateConnectionDictionary(connectionString),
+				readEntraSettings: !string.Equals(connectionString.Name, "Xrm", StringComparison.OrdinalIgnoreCase))
 		{
 		}
 
-		private SharePointConnection(IDictionary<string, string> connection)
+		private SharePointConnection(IDictionary<string, string> connection, bool readEntraSettings = true)
 			: this(
 				connection.FirstNotNullOrEmpty("Url"),
 				connection.FirstNotNullOrEmpty("Domain"),
 				connection.FirstNotNullOrEmpty("UserName", "User Name", "UserId", "User Id"),
 				connection.FirstNotNullOrEmpty("Password"),
 				connection.FirstNotNullOrEmpty("ApplicationName", "Application Name"),
-				connection.FirstNotNullOrEmpty("AuthenticationMode", "Authentication Mode"),
 				connection.FirstNotNullOrEmpty("RequestTimeout", "Request Timeout", "Timeout"),
-				connection.FirstNotNullOrEmpty("ValidateOnClient", "Validate On Client"),
-				connection.FirstNotNullOrEmpty("CookieExpiryWindow", "Cookie Expiry Window"))
+				connection.FirstNotNullOrEmpty("ValidateOnClient", "Validate On Client"))
 		{
+			// The Xrm fallback may carry Entra keys for CRM itself.
+			if (readEntraSettings)
+			{
+				UseEntraAppOnly = connection.ContainsKey("TenantId") || connection.ContainsKey("ClientId")
+					|| connection.ContainsKey("CertificateThumbprint") || connection.ContainsKey("Authority");
+				TenantId = connection.FirstNotNullOrEmpty("TenantId");
+				ClientId = connection.FirstNotNullOrEmpty("ClientId");
+				Authority = connection.FirstNotNullOrEmpty("Authority");
+				CertificateThumbprint = connection.FirstNotNullOrEmpty("CertificateThumbprint");
+			}
 		}
 
 		private SharePointConnection(
 			string url,
 			string domain, string userName, string password,
 			string applicationName,
-			string authenticationMode,
 			string requestTimeout,
-			string validateOnClient,
-			string cookieExpiryWindow)
+			string validateOnClient)
 		{
 			Url = new Uri(url);
 			ApplicationName = applicationName;
-
-			if (!string.IsNullOrWhiteSpace(authenticationMode))
-			{
-				AuthenticationMode = authenticationMode.ToEnum<ClientAuthenticationMode>();
-			}
 
 			if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
 			{
@@ -148,8 +171,6 @@ namespace Adxstudio.SharePoint
 			{
 				ValidateOnClient = bool.Parse(validateOnClient);
 			}
-
-			CookieExpiryWindow = !string.IsNullOrWhiteSpace(cookieExpiryWindow) ? TimeSpan.Parse(cookieExpiryWindow) as TimeSpan? : null;
 		}
 
 		private static ConnectionStringSettings GetConnectionStringSettings(string connectionStringName)
@@ -196,16 +217,21 @@ namespace Adxstudio.SharePoint
 		/// <returns></returns>
 		public ClientContext CreateClientContext()
 		{
+			return UseEntraAppOnly ? new ClientFactory().CreateClientContext(this) : CreateClientContext(useConnectionCredentials: true);
+		}
+
+		internal ClientContext CreateClientContext(bool useConnectionCredentials)
+		{
 			var context = new ClientContext(Url);
 
 			if (ApplicationName != null) context.ApplicationName = ApplicationName;
-			if (AuthenticationMode != null) context.AuthenticationMode = AuthenticationMode.Value;
-			if (Credentials != null) context.Credentials = Credentials;
+			context.AuthenticationMode = useConnectionCredentials ? ClientAuthenticationMode.Default : ClientAuthenticationMode.Anonymous;
+			if (useConnectionCredentials && Credentials != null) context.Credentials = Credentials;
 			if (RequestTimeout != null) context.RequestTimeout = RequestTimeout.Value;
 			if (ValidateOnClient != null) context.ValidateOnClient = ValidateOnClient.Value;
 
-			// if this context is using default Windows authentication add a WebRequest Header to stop forms auth from potentially interfering.
-			if (context.AuthenticationMode == ClientAuthenticationMode.Default)
+			// Tell SharePoint to use Windows authentication rather than redirecting to a sign-in form.
+			if (useConnectionCredentials)
 			{
 				context.ExecutingWebRequest += ClientContext_ExecutingWebRequest;
 			}
@@ -219,29 +245,6 @@ namespace Adxstudio.SharePoint
 		private static void ClientContext_ExecutingWebRequest(object sender, WebRequestEventArgs e)
 		{
 			e.WebRequestExecutor.WebRequest.Headers.Add("X-FORMS_BASED_AUTH_ACCEPTED", "f");
-		}
-
-		/// <summary>
-		/// Builds a text value that is unique to the connection values.
-		/// </summary>
-		/// <returns></returns>
-		public string GetConnectionId()
-		{
-			var username = GetUserName(Credentials);
-			var text = "Url={0};UserName={1};ApplicationName={2};AuthenticationMode={3};RequestTimeout={4};ValidateOnClient={5};CookieExpiryWindow={6};".FormatWith(
-				Url, username, ApplicationName, AuthenticationMode, RequestTimeout, ValidateOnClient, CookieExpiryWindow);
-			return text;
-		}
-
-		private string GetUserName(ICredentials credentials)
-		{
-			if (credentials == null) return null;
-
-			var authType = AuthenticationMode != null ? AuthenticationMode.Value : ClientAuthenticationMode.Default;
-			var nc = credentials.GetCredential(Url, authType.ToString());
-
-			if (nc == null) return null;
-			return nc.Domain + (!string.IsNullOrWhiteSpace(nc.Domain) ? @"\" : string.Empty) + nc.UserName;
 		}
 	}
 }

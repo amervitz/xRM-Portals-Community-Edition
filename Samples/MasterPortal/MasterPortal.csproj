@@ -151,9 +151,8 @@
     <Reference Include="Microsoft.Data.Services.Client, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Data.Services.Client.5.8.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.IdentityModel.6.1.7600.16394\lib\net35\Microsoft.IdentityModel.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Abstractions">
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Abstractions.8.23.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
@@ -219,7 +218,7 @@
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DllImports\Microsoft.SharePoint.Client.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.SharePointOnline.CSOM.16.1.27814.12015\lib\net45\Microsoft.SharePoint.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ServiceBus.dll">
@@ -229,7 +228,7 @@
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client.Runtime">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DllImports\Microsoft.SharePoint.Client.Runtime.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.SharePointOnline.CSOM.16.1.27814.12015\lib\net45\Microsoft.SharePoint.Client.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure">

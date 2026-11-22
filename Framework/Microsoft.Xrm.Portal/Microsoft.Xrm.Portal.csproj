@@ -54,10 +54,6 @@
       <HintPath>..\..\packages\Microsoft.PowerPlatform.Dataverse.Client.1.2.27\lib\net48\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.IdentityModel.6.1.7600.16394\lib\net35\Microsoft.IdentityModel.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Xrm.Sdk">
       <HintPath>..\..\packages\Microsoft.PowerPlatform.Dataverse.Client.1.2.27\lib\net48\Microsoft.Xrm.Sdk.dll</HintPath>
       <Private>True</Private>
@@ -70,7 +66,6 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -113,23 +108,7 @@
     <Compile Include="Core\OrganizationServiceContextExtensions.cs" />
     <Compile Include="Core\PriceListExtensions.cs" />
     <Compile Include="Data\EnumerableExtensions.cs" />
-    <Compile Include="IdentityModel\Configuration\IdentityModelSectionCreatedEventArgs.cs" />
-    <Compile Include="IdentityModel\Configuration\FederationCrmConfigurationManager.cs" />
-    <Compile Include="IdentityModel\Configuration\FederationCrmConfigurationProvider.cs" />
-    <Compile Include="IdentityModel\Configuration\IdentityModelSection.cs" />
-    <Compile Include="IdentityModel\Configuration\IUserRegistrationSettings.cs" />
     <Compile Include="Configuration\IUserResolutionSettings.cs" />
-    <Compile Include="IdentityModel\Configuration\SignUpAttributeElement.cs" />
-    <Compile Include="IdentityModel\Configuration\SignUpAttributeElementCollection.cs" />
-    <Compile Include="IdentityModel\Configuration\UserRegistrationElement.cs" />
-    <Compile Include="IdentityModel\Extensions.cs" />
-    <Compile Include="IdentityModel\Web\ErrorDetails.cs" />
-    <Compile Include="IdentityModel\Web\Extensions.cs" />
-    <Compile Include="IdentityModel\Web\FederationRequestValidator.cs" />
-    <Compile Include="IdentityModel\Web\Handlers\FederationAuthenticationException.cs" />
-    <Compile Include="IdentityModel\Web\Handlers\FederationAuthenticationHandler.cs" />
-    <Compile Include="IdentityModel\Web\Modules\CrmFederationAuthenticationModule.cs" />
-    <Compile Include="IdentityModel\Web\Modules\WSFederationAuthenticationModuleExtensions.cs" />
     <Compile Include="IPortalContext.cs" />
     <Compile Include="OrganizationServiceContextFactory.cs" />
     <Compile Include="PortalContext.cs" />

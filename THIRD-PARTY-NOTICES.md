@@ -199,8 +199,7 @@ which Microsoft distributes these Third Party Materials.
 * Microsoft.Owin.Security.WsFederation
 * Microsoft SafeHtml (osafehtm.dll)
 * DocumentFormat.OpenXml.dll
-* Microsoft.SharePoint.Client.dll
-* Microsoft.SharePoint.Client.Runtime.dll
+* Microsoft.SharePointOnline.CSOM (Microsoft.SharePoint.Client.dll and Microsoft.SharePoint.Client.Runtime.dll)
 * Microsoft.Xrm.Tooling.Connector.dll
 
 ---

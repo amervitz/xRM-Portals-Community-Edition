@@ -30,6 +30,7 @@ Code
 - Retargeted all projects to .NET Framework 4.8.1.
 - Updated CRM SDK dependencies and binding redirects for both clients, preserving the portal's connection and caching wrappers.
 - Made profile marketing lists optional through the `Profile/ShowMarketingListsPanel` site setting (defaults to `false`) because the `adx_website_list` relationship may not exist.
+- Switched SharePoint Online document operations to certificate-based Microsoft Entra app authentication.
 
 Dependencies
 
@@ -49,6 +50,7 @@ Dependencies
 - Updated System.ServiceModel.Http and System.ServiceModel.Primitives to 10.0.652802 (assembly version 10.0.0.0); removed their unused 4.10.3.0 binding redirects.
 - Updated binding redirects for the upgraded Dataverse client dependencies.
 - Replaced Microsoft.Tpl.Dataflow 4.5.24 with System.Threading.Tasks.Dataflow 10.0.12.
+- Replaced the bundled SharePoint client DLLs with Microsoft.SharePointOnline.CSOM 16.1.27814.12015 using its .NET Framework assemblies.
 
 Docs
 
@@ -56,7 +58,10 @@ Docs
 - Organized CRM connection configuration under design documentation.
 - Updated build and runtime documentation for .NET Framework 4.8.1.
 - Updated migration guidance to refer to Microsoft Power Pages.
-- Updated the README with Visual Studio build prerequisites, CRM client selection, upgrade guidance for removed features, and current runtime requirements.
+- Updated the README with Visual Studio prerequisites, NuGet restore and MSBuild commands, CRM client selection, removed features, and runtime requirements.
+- Added a dedicated SharePoint connection guide with setup examples and connection keys labeled by authentication method.
+- Documented the Visual Studio MSBuild command for building MasterPortal and resolving the missing web targets error.
+- Documented SharePoint Online app registration, certificate creation, and site-scoped access for MasterPortal, with PowerShell commands for each setup step.
 
 ### Fixed
 
@@ -90,6 +95,7 @@ Code
 - Removed Azure Cloud Services (classic) hosting support, because Azure Cloud Services (classic) was retired on 1 September 2024.
 - Removed Windows Live ID Web Authentication, which targeted a long-decommissioned sign-in protocol.
 - Removed web page and web file tracking, matching Power Pages, where the feature is no longer available since version 9.3.4.x. Requests for web pages and web files with **Enable Tracking** set no longer create `adx_webpagelog` or `adx_webfilelog` records, and the field is no longer shown when editing either on the portal. This also removes the `asyncTrackingEnabled` attribute of the `adxstudio.xrm` configuration section, which must be deleted from any `Web.config` that sets it.
+- Removed the unused `Federation.axd` authentication subsystem and its `Microsoft.Xrm.Portal.IdentityModel` APIs. To enable external sign-in, configure an identity provider in the portal's site settings, such as AD FS with WS-Federation or Microsoft Entra ID with OpenID Connect.
 
 Dependencies
 
@@ -101,3 +107,4 @@ Dependencies
 - Removed Microsoft.AspNet.WebApi.Client and its assembly references; Azure AD B2C policy redirects now parse issuer query strings with the built-in HttpUtility instead.
 - Removed BouncyCastle; its only code use, exporting the chat authentication public key, now uses System.Formats.Asn1 while preserving the PEM format consumed by the chat provider.
 - Removed AntiXSS and its unused HTML sanitization library; URL, XML and HTML encoding now use ASP.NET's built-in encoders. Removed the obsolete AntiXssLibrary binding redirects.
+- Removed the Microsoft.IdentityModel (WIF 3.5) package and assembly references from all four projects.
