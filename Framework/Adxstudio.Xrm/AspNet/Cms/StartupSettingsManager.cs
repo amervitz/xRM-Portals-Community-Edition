@@ -7,7 +7,6 @@ namespace Adxstudio.Xrm.AspNet.Cms
 {
 	using System;
 	using System.Collections.Generic;
-	using System.IdentityModel.Tokens;
 	using System.Linq;
 	using System.Security.Claims;
 	using System.Security.Cryptography.X509Certificates;
@@ -17,10 +16,12 @@ namespace Adxstudio.Xrm.AspNet.Cms
 	using System.Web;
 	using Adxstudio.Xrm.AspNet.Identity;
 	using Adxstudio.Xrm.Owin.Security.Saml2;
-	using ITfoxtec.Saml2.Util;
+	using ITfoxtec.Identity.Saml2.Util;
 	using Microsoft.AspNet.Identity;
 	using Microsoft.AspNet.Identity.Owin;
-	using Microsoft.IdentityModel.Protocols;
+	using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+	using Microsoft.IdentityModel.Protocols.WsFederation;
+	using Microsoft.IdentityModel.Tokens;
 	using Microsoft.Owin;
 	using Microsoft.Owin.Security;
 	using Microsoft.Owin.Security.Cookies;
@@ -1297,8 +1298,8 @@ namespace Adxstudio.Xrm.AspNet.Cms
 				var issuerPath = notification.ProtocolMessage.IssuerAddress;
 				var issuerUri = new Uri(issuerPath);
 				var query = HttpUtility.ParseQueryString(issuerUri.Query);
-				notification.ProtocolMessage.Scope = OpenIdConnectScopes.OpenId;
-				notification.ProtocolMessage.ResponseType = OpenIdConnectResponseTypes.IdToken;
+				notification.ProtocolMessage.Scope = OpenIdConnectScope.OpenId;
+				notification.ProtocolMessage.ResponseType = OpenIdConnectResponseType.IdToken;
 				if (!string.IsNullOrWhiteSpace(options.DefaultPolicyId))
 				{
 					notification.ProtocolMessage.IssuerAddress = Regex.Replace(notification.ProtocolMessage.IssuerAddress, options.DefaultPolicyId, policy, RegexOptions.IgnoreCase);

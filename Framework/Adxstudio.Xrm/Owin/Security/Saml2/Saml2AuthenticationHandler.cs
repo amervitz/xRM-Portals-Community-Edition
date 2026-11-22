@@ -5,22 +5,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Protocols.WSTrust;
-using System.IdentityModel.Selectors;
-using System.IdentityModel.Tokens;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
-using System.ServiceModel;
-using System.ServiceModel.Security;
 using System.Threading.Tasks;
 using System.Web;
-using ITfoxtec.Saml2;
-using ITfoxtec.Saml2.Bindings;
-using ITfoxtec.Saml2.Schemas;
-using ITfoxtec.Saml2.Tokens;
-using Microsoft.IdentityModel.Protocols;
+using ITfoxtec.Identity.Saml2;
+using ITfoxtec.Identity.Saml2.Schemas;
+using ITfoxtec.Identity.Saml2.Tokens;
+using Microsoft.IdentityModel.Protocols.WsFederation;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
@@ -34,27 +29,6 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 	/// </summary>
 	public class Saml2AuthenticationHandler : WsFederationAuthenticationHandler
 	{
-		private class InternalSaml2AuthnResponse : Saml2AuthnResponse
-		{
-			public InternalSaml2AuthnResponse(Saml2SecurityTokenHandler saml2SecurityTokenHandler)
-			{
-				Saml2SecurityTokenHandler = saml2SecurityTokenHandler;
-			}
-		}
-
-		private class Saml2ResponseIssuerNameRegistry : IssuerNameRegistry
-		{
-			public override string GetIssuerName(SecurityToken securityToken, string requestedIssuerName)
-			{
-				return requestedIssuerName;
-			}
-
-			public override string GetIssuerName(SecurityToken securityToken)
-			{
-				throw new InvalidOperationException();
-			}
-		}
-
 		private const string _relayStateReturnUrl = "ReturnUrl";
 		private const string _relayStateWctx = "Saml2OwinState";
 		private const string _relayStateRedirectUri = "RedirectUri";
@@ -125,12 +99,13 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 
 			var binding = new Saml2RedirectBinding();
 			binding.SetRelayStateQuery(state);
+			var saml2Configuration = GetSaml2Configuration(options, _configuration);
 
-			var redirectBinding = binding.Bind(new Saml2LogoutRequest
+			var redirectBinding = binding.Bind(new Saml2LogoutRequest(saml2Configuration)
 			{
-				Issuer = new EndpointReference(issuer),
-				Destination = new EndpointAddress(destination)
-			}, options.SigningCertificate);
+				Issuer = issuer,
+				Destination = new Uri(destination)
+			});
 
 			var redirectLocation = redirectBinding.RedirectLocation.AbsoluteUri;
 
@@ -164,12 +139,13 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 			{
 				var binding = new Saml2PostBinding();
 				Saml2LogoutResponse response = null;
+				var saml2Configuration = GetSaml2Configuration(options, _configuration, signingKey.Certificate);
 
 				try
 				{
-					response = binding.Unbind(request, new Saml2LogoutResponse(), signingKey.Certificate) as Saml2LogoutResponse;
+					response = binding.Unbind(ToSaml2HttpRequest(request), new Saml2LogoutResponse(saml2Configuration)) as Saml2LogoutResponse;
 				}
-				catch (Saml2ResponseException)
+				catch (Exception e) when (IsSamlValidationException(e))
 				{
 				}
 
@@ -217,15 +193,16 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 				Saml2StatusCodes status;
 
 				var requestBinding = new Saml2PostBinding();
-				var logoutRequest = new Saml2LogoutRequest();
+				var saml2Configuration = GetSaml2Configuration(options, _configuration, signingKey.Certificate);
+				var logoutRequest = new Saml2LogoutRequest(saml2Configuration);
 
 				try
 				{
 					try
 					{
-						requestBinding.Unbind(request, logoutRequest, signingKey.Certificate);
+						requestBinding.Unbind(ToSaml2HttpRequest(request), logoutRequest);
 					}
-					catch (Saml2ResponseException)
+					catch (Exception e) when (IsSamlValidationException(e))
 					{
 						continue;
 					}
@@ -240,17 +217,17 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 
 				var responsebinding = new Saml2RedirectBinding { RelayState = requestBinding.RelayState };
 
-				var saml2LogoutResponse = new Saml2LogoutResponse
+				var saml2LogoutResponse = new Saml2LogoutResponse(saml2Configuration)
 				{
 					InResponseTo = logoutRequest.Id,
 					Status = status,
-					Issuer = new EndpointReference(issuer),
-					Destination = new EndpointAddress(destination)
+					Issuer = issuer,
+					Destination = new Uri(destination)
 				};
 
 				Context.Authentication.SignOut();
 
-				var redirectBinding = responsebinding.Bind(saml2LogoutResponse, options.SigningCertificate);
+				var redirectBinding = responsebinding.Bind(saml2LogoutResponse);
 				var redirectLocation = redirectBinding.RedirectLocation.AbsoluteUri;
 
 				if (!Uri.IsWellFormedUriString(redirectLocation, UriKind.Absolute))
@@ -312,8 +289,9 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 
 			var binding = new Saml2RedirectBinding();
 			binding.SetRelayStateQuery(state);
+			var saml2Configuration = GetSaml2Configuration(options, _configuration);
 
-			var redirectBinding = binding.Bind(new Saml2AuthnRequest
+			var redirectBinding = binding.Bind(new Saml2AuthnRequest(saml2Configuration)
 			{
 				ForceAuthn = options.ForceAuthn,
 				NameIdPolicy = options.NameIdPolicy,
@@ -324,9 +302,9 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 					AuthnContextClassRef = options.AuthnContextClassRef,
 				},
 
-				Issuer = new EndpointReference(issuer),
-				Destination = new EndpointAddress(destination),
-				AssertionConsumerServiceUrl = new EndpointAddress(assertionConsumerServiceUrl)
+				Issuer = issuer,
+				Destination = new Uri(destination),
+				AssertionConsumerServiceUrl = new Uri(assertionConsumerServiceUrl)
 			});
 
 			var redirectLocation = redirectBinding.RedirectLocation.AbsoluteUri;
@@ -380,12 +358,13 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 					keyIndex++;
 					var binding = new Saml2PostBinding();
 					Saml2AuthnResponse response = null;
+					var saml2Configuration = GetSaml2Configuration(options, _configuration, signingKey.Certificate);
 
 					try
 					{
-						response = binding.Unbind(request, GetSaml2AuthnResponse(options), signingKey.Certificate) as Saml2AuthnResponse;
+						response = binding.Unbind(ToSaml2HttpRequest(request), new Saml2AuthnResponse(saml2Configuration)) as Saml2AuthnResponse;
 					}
-					catch (Saml2ResponseException saml2ResponseException)
+					catch (Exception saml2ResponseException) when (IsSamlValidationException(saml2ResponseException))
 					{
 						WebEventSource.Log.GenericWarningException(saml2ResponseException);
 					}
@@ -470,51 +449,71 @@ namespace Adxstudio.Xrm.Owin.Security.Saml2
 			return httpRequestBase;
 		}
 
-		private static Saml2AuthnResponse GetSaml2AuthnResponse(Saml2AuthenticationOptions options)
+		private static Saml2Configuration GetSaml2Configuration(
+			Saml2AuthenticationOptions options,
+			WsFederationConfiguration federationConfiguration,
+			X509Certificate2 signatureValidationCertificate = null)
 		{
-			var handler = new Saml2ResponseSecurityTokenHandler
+			var configuration = new Saml2Configuration
 			{
-				Configuration = new SecurityTokenHandlerConfiguration
-				{
-					SaveBootstrapContext = false,
-					AudienceRestriction = GetAudienceRestriction(options),
-					IssuerNameRegistry = new Saml2ResponseIssuerNameRegistry(),
-					CertificateValidationMode = X509CertificateValidationMode.None,
-					RevocationMode = X509RevocationMode.NoCheck,
-					CertificateValidator = options.TokenValidationParameters.CertificateValidator ?? X509CertificateValidator.None,
-					DetectReplayedTokens = false,
-				},
-				SamlSecurityTokenRequirement = { NameClaimType = ClaimTypes.NameIdentifier }
+				Issuer = options.Wtrealm,
+				AllowedIssuer = federationConfiguration.Issuer,
+				SingleSignOnDestination = new Uri(federationConfiguration.TokenEndpoint),
+				SingleLogoutDestination = new Uri(federationConfiguration.TokenEndpoint),
+				SigningCertificate = options.SigningCertificate,
+				SignAuthnRequest = options.SigningCertificate != null,
+				CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.None,
+				RevocationMode = X509RevocationMode.NoCheck,
+				CustomCertificateValidator = System.IdentityModel.Selectors.X509CertificateValidator.None,
+				SaveBootstrapContext = false,
+				DetectReplayedTokens = false,
+				AudienceRestricted = options.TokenValidationParameters.ValidateAudience
 			};
 
-			return new InternalSaml2AuthnResponse(handler);
-		}
-
-		private static AudienceRestriction GetAudienceRestriction(Saml2AuthenticationOptions options)
-		{
-			if (!options.TokenValidationParameters.ValidateAudience) return new AudienceRestriction(AudienceUriMode.Never);
-
-			var audienceRestriction = new AudienceRestriction(AudienceUriMode.Always);
+			if (signatureValidationCertificate != null)
+			{
+				configuration.SignatureValidationCertificates.Add(signatureValidationCertificate);
+			}
 
 			if (!string.IsNullOrWhiteSpace(options.Wtrealm))
 			{
-				audienceRestriction.AllowedAudienceUris.Add(new Uri(options.Wtrealm));
+				configuration.AllowedAudienceUris.Add(options.Wtrealm);
 			}
 
 			if (!string.IsNullOrWhiteSpace(options.TokenValidationParameters.ValidAudience))
 			{
-				audienceRestriction.AllowedAudienceUris.Add(new Uri(options.TokenValidationParameters.ValidAudience));
+				configuration.AllowedAudienceUris.Add(options.TokenValidationParameters.ValidAudience);
 			}
 
 			if (options.TokenValidationParameters.ValidAudiences != null)
 			{
 				foreach (var audience in options.TokenValidationParameters.ValidAudiences)
 				{
-					audienceRestriction.AllowedAudienceUris.Add(new Uri(audience));
+					configuration.AllowedAudienceUris.Add(audience);
 				}
 			}
 
-			return audienceRestriction;
+			return configuration;
+		}
+
+		private static ITfoxtec.Identity.Saml2.Http.HttpRequest ToSaml2HttpRequest(HttpRequestBase request)
+		{
+			return new ITfoxtec.Identity.Saml2.Http.HttpRequest
+			{
+				Method = request.HttpMethod,
+				QueryString = request.Url != null ? request.Url.Query : null,
+				Query = request.QueryString,
+				Form = request.Form
+			};
+		}
+
+		private static bool IsSamlValidationException(Exception exception)
+		{
+			return exception is Saml2BindingException
+				|| exception is InvalidSaml2BindingException
+				|| exception is Saml2RequestException
+				|| exception is ITfoxtec.Identity.Saml2.Cryptography.InvalidSignatureException
+				|| exception is System.IdentityModel.Tokens.SecurityTokenException;
 		}
 
 		private static string GetRedirectUri(Saml2Binding binding, Saml2AuthenticationOptions options)

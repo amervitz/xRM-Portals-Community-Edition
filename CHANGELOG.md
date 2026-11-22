@@ -52,6 +52,8 @@ Dependencies
 - Replaced Microsoft.Tpl.Dataflow 4.5.24 with System.Threading.Tasks.Dataflow 10.0.12.
 - Replaced the bundled SharePoint client DLLs with Microsoft.SharePointOnline.CSOM 16.1.27814.12015 using its .NET Framework assemblies.
 - Replaced Owin.Security.Providers 1.24 with the signed LinkedIn and Yahoo provider packages at 2.26.0.
+- Updated Katana/OWIN from 3.1.0 to 4.2.3 and the IdentityModel/JWT stack to 8.23.0, removing the obsolete Microsoft.IdentityModel.Protocol.Extensions package and adding the required Microsoft.Bcl.Cryptography and Microsoft.Bcl.TimeProvider 10.0.12 dependencies.
+- Replaced ITfoxtec.Saml2 1.2.3 with ITfoxtec.Identity.Saml2 4.22.3 and migrated the portal's SAML request, response and token-validation integration to its current API.
 
 Docs
 

@@ -107,7 +107,7 @@ informational/attribution purposes only and are not the license terms under
 which Microsoft distributes these Third Party Materials.
 
 * ANTLR 3 Runtime - Copyright (c) 2010 Terence Parr. All rights reserved.
-* ITfoxtec SAML 2.0 - Copyright (c) 2014, ITfoxtec
+* ITfoxtec Identity SAML 2.0 - Copyright (c) 2014, ITfoxtec
 * Ace.js v.1.1.3 - Copyright (c) 2010, Ajax.org B.V.
 * YUI Library Project - Copyright 2013, Yahoo! Inc. All rights reserved. 
 

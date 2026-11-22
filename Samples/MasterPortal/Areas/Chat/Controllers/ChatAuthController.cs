@@ -14,7 +14,7 @@ namespace Site.Areas.Chat.Controllers
 	using System;
 	using System.Collections.Generic;
 	using System.Formats.Asn1;
-	using System.IdentityModel.Tokens;
+	using System.IdentityModel.Tokens.Jwt;
 	using System.IO;
 	using System.IO.Compression;
 	using System.Linq;
@@ -25,6 +25,7 @@ namespace Site.Areas.Chat.Controllers
 	using System.Web.Mvc;
 	using Adxstudio.Xrm;
 	using Adxstudio.Xrm.Configuration;
+	using Microsoft.IdentityModel.Tokens;
 	using Microsoft.Xrm.Portal.Configuration;
 	using Microsoft.Xrm.Sdk;
 	using Models;
