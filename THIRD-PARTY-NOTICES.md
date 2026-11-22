@@ -62,7 +62,8 @@ these Third Party Materials.
 * Modernizr.js  - Copyright (c) Modernizr contributors
 * moment.js  v. 2.18.1 - Copyright (c) 2011-2015 Tim Wood, Iskren Chernev,
   Moment.js contributors
-* Owin.Security.Providers - Copyright (c) 2014, 2015 Jerrie Pelser
+* Owin Security Providers for LinkedIn and Yahoo - Copyright (c) 2013-2016
+  Jerrie Pelser, Tommy Parnell and contributors
 * Respond.js  - Copyright (c) 2014 Scott Jehl
 * The C5 Generic Collection Library for C# and CLI - Copyright (c) 2003-2016
   Niels Kokholm, Peter Sestoft, and Rasmus Lystrom

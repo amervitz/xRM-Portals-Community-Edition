@@ -51,6 +51,7 @@ Dependencies
 - Updated binding redirects for the upgraded Dataverse client dependencies.
 - Replaced Microsoft.Tpl.Dataflow 4.5.24 with System.Threading.Tasks.Dataflow 10.0.12.
 - Replaced the bundled SharePoint client DLLs with Microsoft.SharePointOnline.CSOM 16.1.27814.12015 using its .NET Framework assemblies.
+- Replaced Owin.Security.Providers 1.24 with the signed LinkedIn and Yahoo provider packages at 2.26.0.
 
 Docs
 

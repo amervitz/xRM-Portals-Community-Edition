@@ -308,8 +308,12 @@
     <Reference Include="Owin">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Owin.Security.Providers, Version=1.24.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Owin.Security.Providers.1.24\lib\net45\Owin.Security.Providers.dll</HintPath>
+    <Reference Include="Owin.Security.Providers.LinkedIn, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Owin.Security.Providers.LinkedIn.2.26.0\lib\net45\Owin.Security.Providers.LinkedIn.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Yahoo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Owin.Security.Providers.Yahoo.2.26.0\lib\net45\Owin.Security.Providers.Yahoo.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System">
@@ -1985,9 +1989,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- specify the assemblies that are known to lack a strong name -->
-    <UnstrongName Include="Owin.Security.Providers.dll">
-      <Visible>false</Visible>
-    </UnstrongName>
     <UnstrongName Include="Kentor.OwinCookieSaver.dll">
       <Visible>false</Visible>
     </UnstrongName>

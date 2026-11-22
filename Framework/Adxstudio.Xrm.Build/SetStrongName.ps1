@@ -3,7 +3,7 @@
 Builds the Adxstudio Portals MSI.
 
 .EXAMPLE
-C:\PS> .\SetStrongName.ps1 'C:\adtfs\AdxstudioXrm\Crm5\Stable\Framework\Adxstudio.Xrm\' 'C:\Windows\Microsoft.NET\Framework\v4.0.30319' 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\' 'C:\adtfs\AdxstudioXrm\Crm5\Stable\Framework\Adxstudio.Xrm\*.snk' '..\packages\Microsoft.AspNet.Identity.Core.2.2.0\lib\net45\Microsoft.AspNet.Identity.Core.dll;..\packages\Microsoft.AspNet.Identity.Owin.2.2.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll;..\packages\Microsoft.CrmSdk.CoreAssemblies.6.1.1\lib\net45\Microsoft.Crm.Sdk.Proxy.dll' 'Owin.Security.Providers.dll;System.Net.Http.Primitives.dll'"
+C:\PS> .\SetStrongName.ps1 'C:\adtfs\AdxstudioXrm\Crm5\Stable\Framework\Adxstudio.Xrm\' 'C:\Windows\Microsoft.NET\Framework\v4.0.30319' 'C:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\' 'C:\adtfs\AdxstudioXrm\Crm5\Stable\Framework\Adxstudio.Xrm\*.snk' '..\packages\Microsoft.AspNet.Identity.Core.2.2.0\lib\net45\Microsoft.AspNet.Identity.Core.dll;..\packages\Microsoft.AspNet.Identity.Owin.2.2.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll;..\packages\Microsoft.CrmSdk.CoreAssemblies.6.1.1\lib\net45\Microsoft.Crm.Sdk.Proxy.dll' 'Kentor.OwinCookieSaver.dll'"
 
   <Target Name="BeforeBuild">
     <GetFrameworkPath>
@@ -11,7 +11,7 @@ C:\PS> .\SetStrongName.ps1 'C:\adtfs\AdxstudioXrm\Crm5\Stable\Framework\Adxstudi
     </GetFrameworkPath>
     <ItemGroup>
       <!-- specify the assemblies that are known to lack a strong name -->
-      <UnstrongName Include="Owin.Security.Providers.dll" />
+      <UnstrongName Include="Kentor.OwinCookieSaver.dll" />
       <UnstrongName Include="....dll" />
     </ItemGroup>
     <PropertyGroup>
