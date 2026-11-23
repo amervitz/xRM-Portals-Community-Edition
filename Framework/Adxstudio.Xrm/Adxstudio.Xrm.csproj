@@ -99,10 +99,6 @@
       <HintPath>..\..\packages\ITfoxtec.Identity.Saml2.4.22.3\lib\net48\ITfoxtec.Identity.Saml2.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Kentor.OwinCookieSaver, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Kentor.OwinCookieSaver.1.1.0\lib\net45\Kentor.OwinCookieSaver.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
@@ -461,6 +457,7 @@
     <Compile Include="Activity\PortalComment.cs" />
     <Compile Include="Activity\PortalTimeline.cs" />
     <Compile Include="AspNet\Cms\ApplicationRestartPluginMessageMiddleware.cs" />
+    <Compile Include="AspNet\Cms\AuthenticationCookieManager.cs" />
     <Compile Include="AspNet\Cms\StrictTransportSecurityMiddleware.cs" />
     <Compile Include="AspNet\Cms\StrictTransportSecurityOptions.cs" />
     <Compile Include="Configuration\CertificateExtensions.cs" />
@@ -2014,21 +2011,12 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup>
-    <AdxstudioFrameworkPath>..\</AdxstudioFrameworkPath>
-  </PropertyGroup>
   <PropertyGroup Condition="Exists('..\..\DllImports\AuthorizeNet.dll') And Exists('..\..\DllImports\AuthorizeNet.Helpers.dll')">
     <DefineConstants>$(DefineConstants);AUTHORIZENET;SELFHOSTED</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="Exists('..\..\DllImports\Telerik.Web.UI.dll')">
     <DefineConstants>$(DefineConstants);TELERIKWEBUI;SELFHOSTED</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- specify the assemblies that are known to lack a strong name -->
-    <UnstrongName Include="Kentor.OwinCookieSaver.dll">
-      <Visible>false</Visible>
-    </UnstrongName>
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Adxstudio.Xrm.Resources\Adxstudio.Xrm.Resources\Adxstudio.Xrm.Resources.csproj">
       <Project>{13affb25-eb0d-429e-b21d-ab40d7a19d51}</Project>
@@ -2050,5 +2038,4 @@
   <ItemGroup>
     <Content Include="Liquid\faceted_search.html" />
   </ItemGroup>
-  <Import Project="$(AdxstudioFrameworkPath)\Adxstudio.Xrm.Build\SetStrongName.targets" />
 </Project>

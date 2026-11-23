@@ -449,6 +449,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 				return new OpenIdConnectAuthenticationOptionsExtended
 				{
+					CookieManager = new AuthenticationCookieManager(),
 					AuthenticationType = authority.AbsoluteUri,
 					AuthenticationMode = AuthenticationMode.Passive,
 					Authority = authority.AbsoluteUri,
@@ -491,6 +492,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var options = new CookieAuthenticationOptions
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				AuthenticationType = authenticationType ?? DefaultAuthenticationTypes.ApplicationCookie,
 				LoginPath = loginPath ?? _loginPath,
 				Provider = new CookieAuthenticationProvider
@@ -836,6 +838,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var microsoft = new MicrosoftAccountAuthenticationOptionsExtended
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				ClientId = options.Id,
 				ClientSecret = options.Secret,
 				ExternalLogoutEnabled = options.ExternalLogoutEnabled,
@@ -872,6 +875,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var twitter = new TwitterAuthenticationOptionsExtended
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				ConsumerKey = options.Id,
 				ConsumerSecret = options.Secret,
 				BackchannelCertificateValidator = new CertificateSubjectKeyIdentifierValidator(new[]
@@ -909,6 +913,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var facebook = new FacebookAuthenticationOptionsExtended
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				AppId = options.Id,
 				AppSecret = options.Secret,
 				ExternalLogoutEnabled = options.ExternalLogoutEnabled,
@@ -949,6 +954,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var google = new GoogleOAuth2AuthenticationOptionsExtended
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				ClientId = options.Id,
 				ClientSecret = options.Secret,
 				ExternalLogoutEnabled = options.ExternalLogoutEnabled,
@@ -1145,6 +1151,7 @@ namespace Adxstudio.Xrm.AspNet.Cms
 
 			var options = new OpenIdConnectAuthenticationOptionsExtended
 			{
+				CookieManager = new AuthenticationCookieManager(),
 				ClientId = clientId,
 				MetadataAddress = metadataAddress,
 				Authority = authority,

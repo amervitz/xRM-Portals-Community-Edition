@@ -5,12 +5,15 @@
 
 namespace Site
 {
+	using System;
 	using System.Web;
 	using System.Web.Mvc;
 	using Adxstudio.Xrm.AspNet.Cms;
 	using Adxstudio.Xrm.AspNet.Identity;
 	using Microsoft.AspNet.Identity;
 	using Microsoft.Owin;
+	using Microsoft.Owin.Security;
+	using Microsoft.Owin.Security.Cookies;
 	using Owin;
 	using Site.Areas.Account.Models;
 
@@ -42,21 +45,40 @@ namespace Site
 			// Enable the application to use a cookie to store information for the signed in user
 			// and to use a cookie to temporarily store information about a user logging in with a third party login provider
 			// Configure the sign in cookie
-			app.UseKentorOwinCookieSaver();
 			app.UseCookieAuthentication(settingsManager.ApplicationCookie);
-			app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+			app.SetDefaultSignInAsAuthenticationType(DefaultAuthenticationTypes.ExternalCookie);
+			app.UseCookieAuthentication(PassiveCookieOptions(DefaultAuthenticationTypes.ExternalCookie, TimeSpan.FromMinutes(5)));
 
 			app.CreatePerOwinContext<CrmUser>(ApplicationUser.Create);
 
 			// Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
-			app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, settingsManager.TwoFactorCookie.ExpireTimeSpan);
+			app.UseCookieAuthentication(PassiveCookieOptions(DefaultAuthenticationTypes.TwoFactorCookie, settingsManager.TwoFactorCookie.ExpireTimeSpan));
 
 			// Enables the application to remember the second login verification factor such as phone or email.
 			// Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
 			// This is similar to the RememberMe option when you log in.
-			app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+			app.UseCookieAuthentication(PassiveCookieOptions(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie, null));
 
 			app.UsePortalsAuthentication(settingsManager);
+		}
+
+		/// <summary>
+		/// The options that ASP.NET Identity's UseExternalSignInCookie, UseTwoFactorSignInCookie and
+		/// UseTwoFactorRememberBrowserCookie use, with the portal's authentication cookie manager.
+		/// </summary>
+		private static CookieAuthenticationOptions PassiveCookieOptions(string authenticationType, TimeSpan? expireTimeSpan)
+		{
+			var options = new CookieAuthenticationOptions
+			{
+				AuthenticationType = authenticationType,
+				AuthenticationMode = AuthenticationMode.Passive,
+				CookieName = ".AspNet." + authenticationType,
+				CookieManager = new AuthenticationCookieManager(),
+			};
+
+			if (expireTimeSpan != null) options.ExpireTimeSpan = expireTimeSpan.Value;
+
+			return options;
 		}
 	}
 }

@@ -58,7 +58,6 @@ these Third Party Materials.
 * Timeago v.0.10.0 - Copyright (c) 2008-2015 Ryan McGeary
 * Json.NET - Copyright (c) 2007 James Newton-King
 * lightbox2 v.2.6 - Copyright (c) 2015 Lokesh Dhakar
-* Kentor.OwinCookieSaver - Copyright (c) 2014 Kentor and Contributors
 * Modernizr.js  - Copyright (c) Modernizr contributors
 * moment.js  v. 2.18.1 - Copyright (c) 2011-2015 Tim Wood, Iskren Chernev,
   Moment.js contributors

@@ -99,11 +99,6 @@
       <HintPath>..\..\packages\ITfoxtec.Identity.Saml2.4.22.3\lib\net48\ITfoxtec.Identity.Saml2.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Kentor.OwinCookieSaver">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kentor.OwinCookieSaver.1.1.0\lib\net45\Kentor.OwinCookieSaver.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Lucene.Net">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>

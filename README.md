@@ -50,6 +50,7 @@ See the [Unreleased changelog](CHANGELOG.md#unreleased) for individual changes.
 - [ ] Replace the removed StyleCop rules with `.editorconfig` conventions and actively maintained analyzers where needed.
 - [ ] Establish an analyzer warning baseline and enforce it in continuous integration.
 - [ ] Validate Windows authentication and portal document operations against an on-premises SharePoint Server environment.
+- [ ] Check the LinkedIn and Yahoo sign-in providers against Power Pages, then update or remove them. Both use older sign-in APIs that new LinkedIn and Yahoo apps may not support, and Power Pages no longer lists Yahoo as a provider.
 
 ## Disclaimers
 

@@ -31,6 +31,7 @@ Code
 - Updated CRM SDK dependencies and binding redirects for both clients, preserving the portal's connection and caching wrappers.
 - Made profile marketing lists optional through the `Profile/ShowMarketingListsPanel` site setting (defaults to `false`) because the `adx_website_list` relationship may not exist.
 - Switched SharePoint Online document operations to certificate-based Microsoft Entra app authentication.
+- OWIN authentication cookies are written through ASP.NET's response cookie collection by a new `AuthenticationCookieManager`, used by the application, external sign-in and two-factor cookies and by the OpenID Connect, Microsoft, Google, Facebook and Twitter providers. It always marks `SameSite=None` cookies, such as Katana's correlation and nonce cookies, `Secure`, so browsers accept them when the portal is behind a TLS-terminating proxy or runs on `http://localhost`.
 
 Dependencies
 
@@ -87,6 +88,7 @@ Code
 Build
 
 - Removed the unused References.targets shared assembly-reference file, which no project or build target imports.
+- Removed the `SetStrongName` build step and the `Framework/Adxstudio.Xrm.Build` folder. It re-signed unsigned package assemblies before each Adxstudio.Xrm build, and all referenced package assemblies are now signed.
 
 Code
 
@@ -111,3 +113,4 @@ Dependencies
 - Removed BouncyCastle; its only code use, exporting the chat authentication public key, now uses System.Formats.Asn1 while preserving the PEM format consumed by the chat provider.
 - Removed AntiXSS and its unused HTML sanitization library; URL, XML and HTML encoding now use ASP.NET's built-in encoders. Removed the obsolete AntiXssLibrary binding redirects.
 - Removed the Microsoft.IdentityModel (WIF 3.5) package and assembly references from all four projects.
+- Removed Kentor.OwinCookieSaver, which copied OWIN response cookies into ASP.NET's cookie collection so that ASP.NET couldn't overwrite them. The authentication middleware now writes them there directly through a cookie manager.
