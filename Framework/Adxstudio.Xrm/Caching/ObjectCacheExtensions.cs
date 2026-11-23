@@ -17,7 +17,6 @@ namespace Adxstudio.Xrm.Caching
 	using Adxstudio.Xrm.Json;
 	using Adxstudio.Xrm.ServiceModel;
 	using Adxstudio.Xrm.Services;
-	using Microsoft.Practices.EnterpriseLibrary.Common.Utility;
 	using Microsoft.Xrm.Client.Caching;
 	using Microsoft.Xrm.Sdk;
 	using Microsoft.Xrm.Client.Runtime.Serialization;
@@ -649,7 +648,10 @@ namespace Adxstudio.Xrm.Caching
 				}
 			}
 
-			entitiesDictionary.Values.ForEach(v => retval.Add(v));
+			foreach (var value in entitiesDictionary.Values)
+			{
+				retval.Add(value);
+			}
 			return retval;
 		}
 

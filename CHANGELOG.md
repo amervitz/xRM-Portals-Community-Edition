@@ -32,6 +32,7 @@ Code
 - Made profile marketing lists optional through the `Profile/ShowMarketingListsPanel` site setting (defaults to `false`) because the `adx_website_list` relationship may not exist.
 - Switched SharePoint Online document operations to certificate-based Microsoft Entra app authentication.
 - OWIN authentication cookies are written through ASP.NET's response cookie collection by a new `AuthenticationCookieManager`, used by the application, external sign-in and two-factor cookies and by the OpenID Connect, Microsoft, Google, Facebook and Twitter providers. It always marks `SameSite=None` cookies, such as Katana's correlation and nonce cookies, `Secure`, so browsers accept them when the portal is behind a TLS-terminating proxy or runs on `http://localhost`.
+- Replaced Enterprise Library retry policies with Polly resilience pipelines for App_Data, search indexing, cache invalidation and Dataverse calls. Existing retry counts, transient-error filters and immediate first retries are retained. Named `retryStrategyName` configurations are no longer supported; use `retryCount` and `retryInterval` instead. Public retry-policy APIs now use Polly types.
 
 Dependencies
 
@@ -55,6 +56,7 @@ Dependencies
 - Replaced Owin.Security.Providers 1.24 with the signed LinkedIn and Yahoo provider packages at 2.26.0.
 - Updated Katana/OWIN from 3.1.0 to 4.2.3 and the IdentityModel/JWT stack to 8.23.0, removing the obsolete Microsoft.IdentityModel.Protocol.Extensions package and adding the required Microsoft.Bcl.Cryptography and Microsoft.Bcl.TimeProvider 10.0.12 dependencies.
 - Replaced ITfoxtec.Saml2 1.2.3 with ITfoxtec.Identity.Saml2 4.22.3 and migrated the portal's SAML request, response and token-validation integration to its current API.
+- Replaced Enterprise Library Transient Fault Handling, Unity and CommonServiceLocator with Polly.Core 8.8.0.
 
 Docs
 

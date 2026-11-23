@@ -22,7 +22,6 @@ namespace Adxstudio.Xrm.Activity
 	using Microsoft.Xrm.Sdk.Metadata;
 	using Microsoft.Xrm.Sdk.Query;
 	using Adxstudio.Xrm.Text;
-	using Microsoft.Practices.ObjectBuilder2;
 	using Filter = Adxstudio.Xrm.Services.Query.Filter;
 
 	/// <summary>
@@ -237,14 +236,14 @@ namespace Adxstudio.Xrm.Activity
 				var acceptExtensionTypes = AnnotationDataAdapter.GetAcceptRegex(portalComment.AttachmentSettings.AcceptExtensionTypes);
 				if (portalComment.FileAttachments != null)
 				{
-					portalComment.FileAttachments.ForEach(attachment =>
+					foreach (var attachment in portalComment.FileAttachments)
 					{
 						if (!(acceptExtensionTypes.IsMatch(Path.GetExtension(attachment.FileName).ToLower()) ||
 								acceptMimeTypes.IsMatch(attachment.MimeType)))
 						{
 							throw new AnnotationException(portalComment.AttachmentSettings.RestrictMimeTypesErrorMessage);
 						}
-					});
+					}
 				}
 
 				var owner = portalComment.To?.GetAttributeValue<EntityReference>("partyid");

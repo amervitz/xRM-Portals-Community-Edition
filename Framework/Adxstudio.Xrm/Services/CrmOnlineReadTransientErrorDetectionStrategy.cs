@@ -10,12 +10,11 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.ServiceModel;
-using Microsoft.Practices.TransientFaultHandling;
 using Microsoft.Xrm.Sdk;
 
 namespace Adxstudio.Xrm.Services
 {
-	public class CrmOnlineReadTransientErrorDetectionStrategy : ITransientErrorDetectionStrategy
+	public class CrmOnlineReadTransientErrorDetectionStrategy
 	{
 		private static readonly IEnumerable<string> _transientWebExceptions = new[]
 		{

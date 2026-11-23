@@ -107,6 +107,7 @@ which Microsoft distributes these Third Party Materials.
 
 * ANTLR 3 Runtime - Copyright (c) 2010 Terence Parr. All rights reserved.
 * ITfoxtec Identity SAML 2.0 - Copyright (c) 2014, ITfoxtec
+* Polly.Core - Copyright (c) 2015-2025, App vNext
 * Ace.js v.1.1.3 - Copyright (c) 2010, Ajax.org B.V.
 * YUI Library Project - Copyright 2013, Yahoo! Inc. All rights reserved. 
 
@@ -160,7 +161,6 @@ which Microsoft distributes these Third Party Materials.
 * NuGet - Copyright (c) .NET Foundation. All rights reserved.
 * Open XML SDK - Copyright 2014 Microsoft Open Technologies, Inc.
 * owin-hosting - Copyright 2012 Louis DeJardin; Copyright 2012 Chris Ross
-* Unity Container - Copyright (c) Microsoft. All rights reserved.
 * WebGrease - Copyright (c) Microsoft Corporation
 
 ---

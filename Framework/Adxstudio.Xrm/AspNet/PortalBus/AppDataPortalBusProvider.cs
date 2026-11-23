@@ -17,7 +17,7 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 	using global::Owin;
 	using Microsoft.Owin;
 	using Microsoft.Owin.BuilderProperties;
-	using Microsoft.Practices.TransientFaultHandling;
+	using Polly;
 	using Newtonsoft.Json;
 
 	/// <summary>
@@ -29,16 +29,14 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 		public string AppDataPath { get; set; }
 		public string InstanceId { get; set; }
 		public TimeSpan Timeout { get; set; }
-		public RetryPolicy RetryPolicy { get; set; }
+		public ResiliencePipeline RetryPolicy { get; set; }
 
 		public AppDataPortalBusOptions(WebAppSettings webAppSettings)
 		{
-			var retryStrategy = new Incremental(5, new TimeSpan(0, 0, 1), new TimeSpan(0, 0, 1));
-
 			this.AppDataPath = "~/App_Data/Adxstudio.Xrm.AspNet.PortalBus/" + typeof(TMessage).Name;
 			this.InstanceId = webAppSettings.InstanceId;
 			this.Timeout = TimeSpan.FromMinutes(5);
-			this.RetryPolicy = retryStrategy.CreateRetryPolicy();
+			this.RetryPolicy = Adxstudio.Xrm.IO.Extensions.CreateRetryPolicy();
 		}
 	}
 
@@ -250,7 +248,7 @@ namespace Adxstudio.Xrm.AspNet.PortalBus
 			this.Options.RetryPolicy.FileMove(tempPath, messagePath);
 
 			ADXTrace.Instance.TraceInfo(TraceCategory.Application, string.Format("messagePath={0}", messagePath));
-			
+
 			return Task.FromResult(0);
 		}
 
