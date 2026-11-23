@@ -36,6 +36,7 @@ Completed milestones:
 
 - **Build baseline:** All projects target .NET Framework 4.8.1, with GitHub Actions configured to restore and build the solution in Debug and Release.
 - **CRM connectivity:** Added Dataverse `ServiceClient` and on-premises `CrmServiceClient` connection options, updated CRM SDK dependencies, and documented client and base-solution selection.
+- **SharePoint connectivity:** Updated SharePoint Online document operations to use certificate-based Microsoft Entra app authentication, replaced bundled client DLLs with the SharePoint Online CSOM package, and documented Online and on-premises connection settings.
 - **Dependency updates:** Updated ASP.NET MVC, Razor, Web Pages, ASP.NET Identity, Newtonsoft.Json, HtmlAgilityPack, DotLiquid and FluentScheduler, among others. Removed unused dependencies, including SharpZipLib and Bond, replaced BouncyCastle's sole use with System.Formats.Asn1 for chat authentication public-key export, and added a build check to prevent SharpZipLib from being reintroduced accidentally.
 - **Legacy cleanup:** Removed the entity list OData feed, Windows Live ID authentication, Azure Cloud Services (classic) hosting, page/file tracking and Microsoft-internal telemetry integrations. See [upgrade guidance](#upgrading-an-existing-deployment) for deployment impacts.
 - **Runtime fixes:** Addressed sign-in page output caching and return URL issues, Azure Blob Storage attachment handling, and search indexing in environments that also contain Power Pages enhanced-model tables.
